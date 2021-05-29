@@ -32,26 +32,37 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 Route::group(['middleware'=>'auth:sanctum'],function(){
-    Route::resource('roles', App\Http\Controllers\RoleController::class);
-    Route::resource('permissions', App\Http\Controllers\PermissionController::class);
-    Route::resource('users', App\Http\Controllers\UserController::class);
-    Route::resource('gn-divisions', App\Http\Controllers\GnOfficeController::class);
-    Route::resource('dsd-divisions', App\Http\Controllers\DsOfficeController::class);
-    Route::resource('house-hold-families', App\Http\Controllers\LivelihoodFamilyController::class);
-    Route::resource('resourse-people', App\Http\Controllers\ResoursePersonController::class);
-    Route::group(['prefix'=>'activities'], function(){
-        Route::resource('livelihood-support', App\Http\Controllers\ImproveLivilyhoodController::class);
-        Route::resource('business-developmemt', App\Http\Controllers\BusinessDevelopmentController::class);
-        Route::resource('idea-generation', App\Http\Controllers\IdeaGenerationController::class);
-        Route::resource('marketing-linkages', App\Http\Controllers\MarketingLinkageController::class);
-        Route::resource('insurances', App\Http\Controllers\InsuranceController::class);
-        Route::resource('awaraness-sgbv', App\Http\Controllers\AwarnessSGBVController::class);
+    Route::group(['middleware'=>'password.confirm'],function(){
+        Route::resource('roles', App\Http\Controllers\RoleController::class);
+        Route::resource('permissions', App\Http\Controllers\PermissionController::class);
+        Route::resource('users', App\Http\Controllers\UserController::class);
     });
+        Route::resource('gn-divisions', App\Http\Controllers\GnOfficeController::class);
+        Route::resource('dsd-divisions', App\Http\Controllers\DsOfficeController::class);
+        Route::resource('house-hold-families', App\Http\Controllers\LivelihoodFamilyController::class);
+        Route::resource('resourse-people', App\Http\Controllers\ResoursePersonController::class);
+        Route::group(['prefix'=>'activities'], function(){
+            Route::resource('livelihood-support', App\Http\Controllers\ImproveLivilyhoodController::class);
+            Route::resource('business-developmemt', App\Http\Controllers\BusinessDevelopmentController::class);
+            Route::resource('idea-generation', App\Http\Controllers\IdeaGenerationController::class);
+            Route::resource('marketing-linkages', App\Http\Controllers\MarketingLinkageController::class);
+            Route::resource('insurances', App\Http\Controllers\InsuranceController::class);
+            Route::resource('awaraness-sgbv', App\Http\Controllers\AwarnessSGBVController::class);
+        });
 
-    Route::group(['prefix'=>'bss'], function(){
-        Route::resource('students', App\Http\Controllers\bss\StudentController::class);
-        Route::get('ol-results', [App\Http\Controllers\bss\StudentController::class, 'ol'])->name('ol');
-        Route::get('al-results', [App\Http\Controllers\bss\StudentController::class, 'al'])->name('al');
-        Route::get('students-edit', [App\Http\Controllers\bss\StudentController::class, 'editStudent'])->name('edit-student');
-    });
+        Route::group(['prefix'=>'bss'], function(){
+            Route::view('dashboard', 'dashboard-bss');
+            Route::resource('students', App\Http\Controllers\bss\StudentController::class);
+            Route::get('ol-results', [App\Http\Controllers\bss\StudentController::class, 'ol'])->name('ol');
+            Route::get('al-results', [App\Http\Controllers\bss\StudentController::class, 'al'])->name('al');
+            Route::get('students-edit', [App\Http\Controllers\bss\StudentController::class, 'editStudent'])->name('edit-student');
+        });
+
+        Route::group(['prefix'=>'skill-development'], function(){
+            Route::resource('courses', App\Http\Controllers\skill\CourseController::class);
+            Route::resource('institutes', App\Http\Controllers\skill\InstituteController::class);
+            Route::resource('employers', App\Http\Controllers\skill\EmployerController::class);
+            Route::resource('vacancies', App\Http\Controllers\skill\VacancyController::class);
+        });
+
 });

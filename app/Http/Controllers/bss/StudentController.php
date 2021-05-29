@@ -5,7 +5,7 @@ namespace App\Http\Controllers\bss;
 use App\Models\bss\Student;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use Auth;
 class StudentController extends Controller
 {
     /**

@@ -5,6 +5,18 @@
     </a>
 </li>
 <li class="nav-item">
+    <a href="{{ route('gn-divisions.index') }}" class="nav-link {{ Request::is('gn-divisions*') ? 'active' : '' }}">
+        <i class="fa fa-atlas nav-icon"></i>
+        <p>GN-Divisions</p>
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{{ route('dsd-divisions.index') }}" class="nav-link {{ Request::is('dsd-divisions*') ? 'active' : '' }}">
+        <i class="fa fa-city nav-icon"></i>
+        <p>DSD-Divisions</p>
+    </a>
+</li>
+<li class="nav-item">
     <a href="" class="nav-link">
         <i class="fa fa-folder-open nav-icon"></i>
         <p>
@@ -25,7 +37,6 @@
                 <p>Add a BSS Student</p>
             </a>
         </li>
-
         <li class="nav-item">
             <a href="{{ route('edit-student') }}" class="nav-link {{ Request::is('bss/students-edit') ? 'active' : '' }}">
                 <i class="fa fa-edit nav-icon"></i>

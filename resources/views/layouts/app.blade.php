@@ -37,12 +37,12 @@
         [x-cloak] {
             display: none;
         }
-        
+
         [type="checkbox"] {
             box-sizing: border-box;
             padding: 0;
         }
-        
+
         .form-checkbox,
         .form-radio {
             -webkit-appearance: none;
@@ -65,15 +65,15 @@
             height: 1.4em;
             width: 1.4em;
         }
-        
+
         .form-checkbox {
             border-radius: 0.25rem;
         }
-        
+
         .form-radio {
             border-radius: 50%;
         }
-        
+
         .form-checkbox:checked {
             background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e");
             border-color: transparent;
@@ -82,7 +82,7 @@
             background-position: center;
             background-repeat: no-repeat;
         }
-        
+
         .form-radio:checked {
             background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");
             border-color: transparent;
@@ -101,7 +101,7 @@
 
 <body class="font-sans antialiased hold-transition sidebar-mini layout-fixed">
     <x-jet-banner />
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light" >
         <!-- Left navbar links -->
         <ul class="navbar-nav">
             <li class="nav-item">

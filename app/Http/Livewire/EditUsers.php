@@ -2,8 +2,11 @@
 
 namespace App\Http\Livewire;
 use Auth;
+use App\Actions\textbiz;
 use App\Models\User;
 use Livewire\Component;
+use App\Notifications\UserActivated;
+use textbiz as GlobalTextbiz;
 
 class EditUsers extends Component
 {
@@ -40,7 +43,14 @@ class EditUsers extends Component
         $userCollection = User::find($this->user->id);
         $userCollection->active = $this->isActive;
         $userCollection->save();
+
+
         if($this->isActive==1){
+            //send sms
+            $to = $userCollection->phone;
+            $message = "Hi ".$userCollection->name. " Your account is activated. Please log in to continue. -BDS MIS-";
+            $textbiz = (new textbiz);
+            $textbiz->sendsms($message,$to);
             session()->flash('message', 'User successfully Activated.');
         }
         else{

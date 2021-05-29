@@ -114,3 +114,46 @@
 
     </ul>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('students.index') }}" class="nav-link {{ Request::is('bss/students') ? 'active' : '' }}">
+        <i class="fa fa-user-graduate nav-icon"></i>
+        <p>BSS Database</p>
+    </a>
+</li>
+{{--skill developmenmt--}}
+<li class="nav-item">
+    <a href="" class="nav-link">
+        <i class="fa fa-house-damage nav-icon"></i>
+        <p>
+            Skill Development
+            <i class="right fas fa-angle-left"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('courses.index') }}" class="nav-link {{ Request::is('skill-development/courses*') ? 'active' : '' }}">
+                <i class="fas fa-graduation-cap nav-icon"></i>
+                <p>Courses</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('institutes.index') }}" class="nav-link {{ Request::is('skill-development/institutes*') ? 'active' : '' }}">
+                <i class="fa fa-school nav-icon"></i>
+                <p>Institutes</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('employers.index') }}" class="nav-link {{ Request::is('skill-development/employers*') ? 'active' : '' }}">
+                <i class="fas fa-building nav-icon"></i>
+                <p>Employers</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('vacancies.index') }}" class="nav-link {{ Request::is('skill-development/vacancies*') ? 'active' : '' }}">
+                <i class="fas fa-briefcase nav-icon"></i>
+                <p>Vacancies</p>
+            </a>
+        </li>
+    </ul>
+</li>

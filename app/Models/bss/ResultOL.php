@@ -3,6 +3,7 @@
 namespace App\Models\bss;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -29,7 +30,23 @@ class ResultOL extends Model
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
+    use LogsActivity;
 
+
+    protected static $logAttributes = [
+        'OL_A',
+        'OL_B',
+        'OL_C',
+        'OL_S',
+        'OL_W',
+        'Maths_Result',
+        'Exam_Year',
+        'Medium',
+        'student_id',
+        'user_id'
+    ];
+
+    protected static $logOnlyDirty = true;
 
     public $fillable = [
         'OL_A',

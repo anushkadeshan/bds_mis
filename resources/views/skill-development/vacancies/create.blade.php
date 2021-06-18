@@ -1,4 +1,5 @@
 <x-app-layout>
+    @section('title',"Create Vacancy")
     <div>
         <div class="max-w-9xl mx-auto py-6 sm:px-2 lg:px-4">
             <section class="content-header">
@@ -15,7 +16,7 @@
             </section>
             <div class="content px-3">
                 <section class="p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
-                    <livewire:skill.employers.edit-employers">
+                    <livewire:skill.vacancies.create-vacancy/>
                 </section>
 
             </div>

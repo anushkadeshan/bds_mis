@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\bss;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -28,6 +29,28 @@ class Pyament extends Model
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
+    use LogsActivity;
+
+
+    protected static $logAttributes = [
+        'scholar_amount',
+        'payment_start_year',
+        'payment_start_month',
+        'renewal_document',
+        'reason_for_dropouts',
+        'p_status',
+        'finished_year',
+        'student_id',
+        'user_id',
+        'payment_end_month',
+        'bank_name',
+        'bank_account_holder',
+        'bank_account_number',
+        'branch_name',
+        'branch_code',
+    ];
+
+    protected static $logOnlyDirty = true;
 
 
     public $fillable = [
@@ -39,7 +62,14 @@ class Pyament extends Model
         'p_status',
         'finished_year',
         'student_id',
-        'user_id'
+        'user_id',
+        'payment_end_month',
+        'bank_name',
+        'bank_account_holder',
+        'bank_account_number',
+        'branch_name',
+        'branch_code',
+
     ];
 
     /**
@@ -77,7 +107,11 @@ class Pyament extends Model
         'user_id' => 'required|integer',
         'created_at' => 'nullable',
         'updated_at' => 'nullable',
-        'deleted_at' => 'nullable'
+        'deleted_at' => 'nullable',
+        'payment_end_month' => 'nullable|string',
+        'bank_name' => 'nullable|string',
+        'bank_account_holder' => 'nullable|string',
+        'bank_account_number' => 'nullable|string'
     ];
 
 

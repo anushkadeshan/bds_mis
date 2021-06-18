@@ -17,7 +17,7 @@ class InstituteTable extends LivewireDatatable
         return [
             NumberColumn::name('id'),
             Column::name('name')->searchable()->editable(),
-            Column::name('location')->searchable()->editable(),
+            Column::name('phone')->searchable()->editable(),
             Column::name('contact_person')->searchable()->editable(),
             Column::name('phone')->searchable(),
             Column::name('email')->searchable()->editable(),

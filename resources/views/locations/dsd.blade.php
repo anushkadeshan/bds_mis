@@ -1,13 +1,13 @@
 
 <x-app-layout>
-
+    @section('title','DSD Divisions')
     <div >
         <div class="max-w-9xl mx-auto py-10 sm:px-6 lg:px-8">
             <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>DSD Divisions</h1>
+                            <h1>DS Divisions</h1>
                         </div>
                         <div class="col-sm-6">
                             <button

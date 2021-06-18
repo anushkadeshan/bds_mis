@@ -7,15 +7,13 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Users-Edit</h1> 
+                            <h1>Users-Edit</h1>
                         </div>
                     </div>
                 </div>
             </section>
             <div class="content px-3">
-                
                <livewire:edit-users :user="$user" :branches="$branches" :roles="$roles" :permissions="$permissions">
-                
         </div>
     </div>
 

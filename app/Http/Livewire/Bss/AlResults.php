@@ -50,8 +50,28 @@ class AlResults extends Component
     ];
     public function saveData(){
         $this->validate();
-
-        if($this->al_results_available){
+        if($this->attempt==2){
+            $data = ResultAL::create([
+                'stream' => $this->stream,
+                'school' => $this->school,
+                'year' => $this->year,
+                'index_no' => $this->index_no,
+                'AL_A' => $this->AL_A,
+                'AL_B' => $this->AL_B,
+                'AL_C' => $this->AL_C,
+                'AL_S' => $this->AL_S,
+                'AL_W' => $this->AL_W,
+                'pass_fail' => $this->pass_fail,
+                'student_id' => $this->student_id,
+                'attempt' => $this->attempt,
+                'z_score' => $this->z_score,
+                'district_rank' => $this->district_rank,
+                'island_rank' => $this->island_rank,
+                'user_id' => Auth::user()->id
+            ]);
+            session()->flash('message', 'A/L reuslts added Successfully '.$this->student_name);
+        }
+        elseif($this->al_results_available && $this->attempt==1){
             $al = ResultAL::where('student_id',$this->student_id)->first();
             $al->stream = $this->stream;
             $al->school = $this->school;
@@ -69,7 +89,7 @@ class AlResults extends Component
             $al->island_rank = $this->island_rank;
             $al->user_id = Auth::user()->id;
             $al->save();
-            session()->flash('message', 'A/L reuslts updated Successfully.');
+            session()->flash('message', 'A/L reuslts updated Successfully of '.$this->student_name);
         }
         else{
             $data = ResultAL::create([
@@ -90,7 +110,7 @@ class AlResults extends Component
                 'island_rank' => $this->island_rank,
                 'user_id' => Auth::user()->id
             ]);
-            session()->flash('message', 'A/L reuslts added Successfully.');
+            session()->flash('message', 'A/L reuslts added Successfully '.$this->student_name);
         }
     }
 
@@ -126,6 +146,7 @@ class AlResults extends Component
     public function getData(){
         $this->clearForm();
         $al_results = ResultAL::where('student_id',$this->student_id)->first();
+        //dd($al_results);
         $student = Student::select('name','id')->where('id',$this->student_id)->first();
         //dd($student,$this->student_id,session('student_id'));
         $this->student_name = $student->name;

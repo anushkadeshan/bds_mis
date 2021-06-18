@@ -13,7 +13,7 @@
                                 <div class="mt-1">
                                         <div class="flex space-x-2 items-center">
                                             <div class="text-2xl">
-                                                6,500
+                                                {{number_format($total)}}
                                             </div>
 
                                             <div class="text-xs text-green-800 bg-green-200 rounded-md p-1">
@@ -41,7 +41,7 @@
                                 <div class="mt-1">
                                         <div class="flex space-x-2 items-center">
                                             <div class="text-2xl">
-                                                1,000
+                                                {{number_format($total_2021)}}
                                             </div>
                                             <div class="text-xs text-green-800 bg-green-200 rounded-md p-1">
 
@@ -62,12 +62,12 @@
                             <div class="flex space-x-8 w-56">
                                 <div class="">
                                     <div class="uppercase text-sm text-gray-400">
-                                        Unpaid
+                                        BMIC
                                     </div>
                                 <div class="mt-1">
                                         <div class="flex space-x-2 items-center">
                                             <div class="text-2xl">
-                                                $30,000
+                                                {{number_format($bmic)}}
                                             </div>
                                             <div class="text-xs text-green-800 bg-green-200 rounded-md p-1">
 
@@ -88,12 +88,12 @@
                             <div class="flex space-x-8 w-56">
                                 <div class="">
                                     <div class="uppercase text-sm text-gray-400">
-                                        Value
+                                        BMIC {{ now()->year }}
                                     </div>
-                                <div class="mt-1">
+                                    <div class="mt-1">
                                         <div class="flex space-x-2 items-center">
                                             <div class="text-2xl">
-                                                30,000
+                                                {{number_format($bmic_2021)}}
                                             </div>
 
                                             <div class="text-xs text-green-800 bg-green-200 rounded-md p-1">
@@ -103,7 +103,7 @@
                                     </div>
                                 </div>
                                 <div class="pl-5">
-                                    <img src="{{asset('icons/student.svg')}}" alt="">
+                                    <img src="{{asset('icons/non.svg')}}" alt="">
                                 </div>
                             </div>
                         </div>

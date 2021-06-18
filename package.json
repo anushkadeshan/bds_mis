@@ -26,7 +26,6 @@
         "tailwindcss": "^2.0.1"
     },
     "dependencies": {
-        "admin-lte": "^3.1.0",
         "html-entities": "^2.3.2",
         "websocket": "^1.0.33"
     }

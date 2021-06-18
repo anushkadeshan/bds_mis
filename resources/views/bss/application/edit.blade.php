@@ -1,4 +1,6 @@
 <x-app-layout>
+    @section('title','Edit BSS Students')
+
     <div>
         <div class="max-w-9xl mx-auto py-6 sm:px-2 lg:px-4">
             <section class="content-header">
@@ -12,7 +14,13 @@
             </section>
             <div class="content px-3">
                 <section class="p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
-                    <livewire:bss.edit-student/>
+                    
+                    @if(empty($id))
+                        <livewire:bss.edit-student :id="null"/>
+                    @else
+                        <livewire:bss.edit-student :id="$id"/>
+                    @endif
+                   
                 </section>
 
             </div>

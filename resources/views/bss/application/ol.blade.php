@@ -1,4 +1,5 @@
 <x-app-layout>
+    @section('title','Add O/L Results')
     <div>
         <div class="max-w-9xl mx-auto py-6 sm:px-2 lg:px-4">
             <section class="content-header">
@@ -14,7 +15,6 @@
                 <section class="p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
                     <livewire:bss.ol-results/>
                 </section>
-
             </div>
         </div>
     </div>

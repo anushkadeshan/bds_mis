@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Livewire\Bss;
-use App\Models\Pyament;
+use App\Models\bss\Pyament;
 use Livewire\Component;
 use App\Models\DsOffice;
 use App\Models\GnOffice;
@@ -42,6 +42,9 @@ class EditStudent extends Component
     public $client_code;
     public $added_by;
     public $schol_type;
+    public $client_name;
+    public $bmic_branch;
+    public $bmic_region;
 
     public $selectedDsd = NULL;
 
@@ -56,6 +59,13 @@ class EditStudent extends Component
     public $reason_for_dropouts;
     public $p_status;
     public $finished_year;
+
+    public $payment_end_month;
+    public $bank_name;
+    public $bank_account_holder;
+    public $bank_account_number;
+    public $branch_name;
+    public $branch_code;
 
     public $saved = false;
 
@@ -99,6 +109,9 @@ class EditStudent extends Component
             $this->status_id =$student->status_id;
             $this->client_code =$student->client_code;
             $this->schol_type =$student->schol_type;
+            $this->client_name = $student->client_name;
+            $this->bmic_branch = $student->bmic_branch;
+            $this->bmic_region = $student->bmic_region;
             if($payment){
             $this->scholar_amount = $payment->scholar_amount;
             $this->payment_start_year = $payment->payment_start_year;
@@ -107,12 +120,24 @@ class EditStudent extends Component
             $this->reason_for_dropouts = $payment->reason_for_dropouts;
             $this->p_status = $payment->p_status;
             $this->finished_year = $payment->finished_year;
+            $this->payment_end_month = $payment->payment_end_month;
+            $this->bank_name = $payment->bank_name;
+            $this->bank_account_holder = $payment->bank_account_holder;
+            $this->bank_account_number = $payment->bank_account_number;
+            $this->branch_name = $payment->branch_name;
+            $this->branch_code = $payment->branch_code;
             }
         }
 
     }
 
-    public function mount(){
+    public function mount($id){
+        
+        if(!is_null($id)){
+            $this->student_id= $id;
+            $this->getData();
+        }
+        
         $this->gnds = collect();
         $dsds = DsOffice::select('id','name')->get()->toArray();
         $status = Status::select('id','status')->get()->toArray();
@@ -121,7 +146,7 @@ class EditStudent extends Component
     }
 
     protected $rules = [
-        'schol_given_on' => 'nullable',
+        'schol_given_on' => 'required',
         'ref_no' => 'required|string|max:150',
         'name' => 'required|string|max:155',
         'gender' => 'required|string|max:45',
@@ -148,20 +173,27 @@ class EditStudent extends Component
         'non_bmic_pci' => 'nullable|numeric',
         'status_id' => 'required|integer',
         'client_code' => 'nullable|string|max:45',
-        'schol_type' => 'nullable|string|max:45',
+        'schol_type' => 'string|max:45',
 
         //payment
-        'scholar_amount' => 'required|numeric',
+        'scholar_amount' => 'required',
         'payment_start_year' => 'required|integer',
         'payment_start_month' => 'required|string|max:50',
         'renewal_document' => 'required|boolean',
         'reason_for_dropouts' => 'nullable|string|max:500',
         'p_status' => 'required|integer',
         'finished_year' => 'required|integer',
+
+        //bank details
+        'payment_end_month' => 'required',
+        'bank_name' => 'required',
+        'bank_account_holder' => 'required',
+        'bank_account_number' => 'required'
     ];
 
 
     public function saveData(){
+
         $this->validate();
         $student = Student::find($this->student_id);
         $student->schol_given_on = $this->schol_given_on;
@@ -195,23 +227,56 @@ class EditStudent extends Component
         $student->client_code = $this->client_code;
         $student->added_by = Auth::user()->id;
         $student->schol_type = $this->schol_type;
+        $student->client_name = $this->client_name;
+        $student->bmic_branch = $this->bmic_branch;
+        $student->bmic_region = $this->bmic_region;
         $student->save();
 
         $payment = Pyament::where('student_id',$this->student_id)->first();
-        $payment->scholar_amount = $this->scholar_amount;
-        $payment->payment_start_year = $this->payment_start_year;
-        $payment->payment_start_month = $this->payment_start_month;
-        $payment->renewal_document = $this->renewal_document;
-        $payment->reason_for_dropouts = $this->reason_for_dropouts;
-        $payment->p_status = $this->p_status;
-        $payment->finished_year = $this->finished_year;
-        $payment->user_id = Auth::user()->id;
-        $payment->save();
+        if(is_null($payment)){
+            $payment_insert = new Pyament;
+            $payment_insert->scholar_amount = $this->scholar_amount;
+            $payment_insert->payment_start_year = $this->payment_start_year;
+            $payment_insert->payment_start_month = $this->payment_start_month;
+            $payment_insert->renewal_document = $this->renewal_document;
+            $payment_insert->reason_for_dropouts = $this->reason_for_dropouts;
+            $payment_insert->p_status = $this->p_status;
+            $payment_insert->finished_year = $this->finished_year;
+            $payment_insert->payment_end_month = $this->payment_end_month;
+            $payment_insert->bank_name = $this->bank_name;
+            $payment_insert->bank_account_holder = $this->bank_account_holder;
+            $payment_insert->bank_account_number = $this->bank_account_number;
+            $payment_insert->branch_name = $this->branch_name;
+            $payment_insert->branch_code = $this->branch_code;
+            $payment_insert->student_id = $this->student_id;
+            $payment_insert->user_id = Auth::user()->id;
+            $payment_insert->save();
+        }
+        else{
+            $payment->scholar_amount = $this->scholar_amount;
+            $payment->payment_start_year = $this->payment_start_year;
+            $payment->payment_start_month = $this->payment_start_month;
+            $payment->renewal_document = $this->renewal_document;
+            $payment->reason_for_dropouts = $this->reason_for_dropouts;
+            $payment->p_status = $this->p_status;
+            $payment->finished_year = $this->finished_year;
+            $payment->payment_end_month = $this->payment_end_month;
+            $payment->bank_name = $this->bank_name;
+            $payment->bank_account_holder = $this->bank_account_holder;
+            $payment->bank_account_number = $this->bank_account_number;
+            $payment->branch_name = $this->branch_name;
+            $payment->branch_code = $this->branch_code;
+            $payment->user_id = Auth::user()->id;
+            $payment->save();
+        }
+
+
 
         $this->saved = true;
-        $this->clreaForm();
 
-        session()->flash('message', 'BSS student Updated Successfully.');
+
+        session()->flash('message', 'BSS student ' .$this->student_name. ' Updated Successfully.');
+        $this->clreaForm();
     }
 
     public function updatedSelectedDsd($dsd_id)
@@ -264,6 +329,10 @@ class EditStudent extends Component
         $this->reason_for_dropouts = '';
         $this->p_status = '';
         $this->finished_year = '';
+        $this->payment_end_month = '';
+        $this->bank_name = '';
+        $this->bank_account_holder = '';
+        $this->bank_account_number = '';
     }
 
     public function render()

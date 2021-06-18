@@ -63,6 +63,10 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
             Route::resource('institutes', App\Http\Controllers\skill\InstituteController::class);
             Route::resource('employers', App\Http\Controllers\skill\EmployerController::class);
             Route::resource('vacancies', App\Http\Controllers\skill\VacancyController::class);
+            Route::resource('families', App\Http\Controllers\skill\FamilyController::class);
+            Route::resource('youths', App\Http\Controllers\skill\YouthController::class);
         });
+
+        Route::get('activity-log', [App\Http\Controllers\ActivityController::class, 'index'])->name('activity');
 
 });

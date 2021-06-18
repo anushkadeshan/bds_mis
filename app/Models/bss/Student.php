@@ -2,8 +2,12 @@
 
 namespace App\Models\bss;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\bss\Pyament;
+use App\Http\Livewire\Bss\AlResults;
+use App\Http\Livewire\Bss\OlResults;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Student extends Model
 {
@@ -12,7 +16,49 @@ class Student extends Model
 
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
+    use LogsActivity;
 
+
+    protected static $logAttributes = [
+        'schol_given_on',
+        'ref_no',
+        'grade_05_year',
+        'ol_year',
+        'uni_year',
+        'name',
+        'gender',
+        'nic',
+        'ethnicity',
+        'date_of_birth',
+        'address',
+        'contact',
+        'guardian_name',
+        'relationship',
+        'al_year',
+        'stream',
+        'school',
+        'direct_by_bmic',
+        'dsd_id',
+        'gn_id',
+        'sector',
+        'branch_id',
+        'samurdi',
+        'low_income',
+        'bmic_pci',
+        'non_bmic_pci',
+        'status_id',
+        'client_code',
+        'added_by',
+        'schol_type',
+        'client_name',
+        'bmic_branch',
+        'bmic_region',
+        'al_status',
+        'confirmed_al_stream',
+        'profile_picture'
+    ];
+
+    protected static $logOnlyDirty = true;
     public $fillable = [
         'schol_given_on',
         'ref_no',
@@ -44,6 +90,12 @@ class Student extends Model
         'client_code',
         'added_by',
         'schol_type',
+        'client_name',
+        'bmic_branch',
+        'bmic_region',
+        'al_status',
+        'confirmed_al_stream',
+        'profile_picture'
     ];
 
     /**
@@ -82,7 +134,10 @@ class Student extends Model
         'status_id' => 'integer',
         'client_code' => 'string',
         'added_by' => 'integer',
-        'schol_type' => 'string'
+        'schol_type' => 'string',
+        'client_name'=> 'string',
+        'bmic_branch'=> 'string',
+        'bmic_region'=> 'string'
     ];
 
     /**
@@ -169,4 +224,16 @@ class Student extends Model
     {
         return $this->hasOne(\App\Models\bss\Pyament::class, 'student_id', 'id');
     }
+
+    public function OlResult()
+    {
+        return $this->hasMany(\App\Models\bss\ResultOL::class, 'student_id', 'id');
+    }
+
+    public function AlResult()
+    {
+        return $this->hasMany(\App\Models\bss\ResultAL::class, 'student_id', 'id');
+    }
+
+
 }

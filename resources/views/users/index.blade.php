@@ -1,6 +1,6 @@
 
 <x-app-layout>
-
+    @section('title','Users')
     <div >
         <div class="max-w-9xl mx-auto py-10 sm:px-6 lg:px-8">
             <section class="content-header">

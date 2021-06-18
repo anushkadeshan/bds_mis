@@ -1,4 +1,6 @@
 <x-app-layout>
+    @section('title','All BSS Students')
+
     <div>
         <div class="max-w-9xl mx-auto py-10 sm:px-6 lg:px-8">
             <section class="content-header">
@@ -19,7 +21,7 @@
                 </div>
             </section>
             <div class="content px-3">
-                <livewire:bss.student-table exportable/>
+                <livewire:bss.student-table exportable hideable="select" />
             </div>
         </div>
     </div>

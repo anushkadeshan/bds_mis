@@ -50,9 +50,11 @@ class StudentController extends Controller
      * @param  \App\Models\bss\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function show(Student $student)
+    public function show($id)
     {
-        //
+        $student = Student::with(['branch','dsd','gn','payment','OlResult','AlResult'])->where('id',$id)->first();
+
+        return view('bss.application.profile',compact('student'));
     }
 
     /**
@@ -64,6 +66,12 @@ class StudentController extends Controller
     public function editStudent()
     {
         return view('bss.application.edit');
+    }
+
+    public function edit($id)
+    {
+
+        return view('bss.application.edit', compact('id'));
     }
 
     /**

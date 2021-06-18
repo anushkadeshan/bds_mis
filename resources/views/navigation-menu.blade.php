@@ -3,7 +3,7 @@
     <div class="max-w-9xl mx-auto px-4 sm:px-6 lg:px-4">
         <div class="flex justify-between h-10">
             <div class="flex">
-               
+
 
             </div>
 
@@ -114,7 +114,9 @@
                 </div>
             </div>
             <div class="ml-3 relative">
+                @can('Super Admin')
                 <livewire:notifications >
+                @endcan
             </div>
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">

@@ -4,6 +4,7 @@ namespace App\Models\bss;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -24,7 +25,14 @@ class Status extends Model
 
     protected $dates = ['deleted_at'];
 
+    use LogsActivity;
 
+
+    protected static $logAttributes = [
+        'status'
+    ];
+
+    protected static $logOnlyDirty = true;
 
     public $fillable = [
         'status'

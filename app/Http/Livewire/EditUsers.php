@@ -81,8 +81,11 @@ class EditUsers extends Component
     public function mount($user,$roles,$branches,$permissions)
     {
         $this->isActive = $user->active;
-        $cuurent_role = Auth::user()->roles->pluck('name');
-        $this->role = $cuurent_role[0];
+        $cuurent_role = $user->roles->pluck('name');
+        if(!$cuurent_role){
+            $this->role = $cuurent_role[0];
+        }
+
         $this->branch = $user->branch_id;
 
         $userCollection = User::find($this->user->id);

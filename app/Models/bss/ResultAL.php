@@ -3,6 +3,7 @@
 namespace App\Models\bss;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -38,7 +39,29 @@ class ResultAL extends Model
 
     protected $dates = ['deleted_at'];
 
+    use LogsActivity;
 
+
+    protected static $logAttributes = [
+        'stream',
+        'school',
+        'year',
+        'index_no',
+        'AL_A',
+        'AL_B',
+        'AL_C',
+        'AL_S',
+        'AL_W',
+        'pass_fail',
+        'student_id',
+        'attempt',
+        'z_score',
+        'district_rank',
+        'island_rank',
+        'user_id'
+    ];
+
+    protected static $logOnlyDirty = true;
 
     public $fillable = [
         'stream',

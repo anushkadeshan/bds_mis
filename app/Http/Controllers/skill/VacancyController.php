@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\skill;
 
-use App\Models\Vacancy;
+use App\Models\skill\Vacancy;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -56,9 +56,11 @@ class VacancyController extends Controller
      * @param  \App\Models\Vacancy  $vacancy
      * @return \Illuminate\Http\Response
      */
-    public function edit(Vacancy $vacancy)
+    public function edit($id)
     {
-        //
+        $vacancy = Vacancy::find($id)->toArray();
+        return view('skill-development.vacancies.edit',compact('vacancy'));
+
     }
 
     /**

@@ -2,16 +2,19 @@
 
 namespace App\Http\Livewire\Bss;
 
-use App\Models\Pyament;
+use Auth;
 use Livewire\Component;
 use App\Models\DsOffice;
 use App\Models\GnOffice;
 use App\Models\bss\Status;
+use App\Models\bss\Pyament;
 use App\Models\bss\Student;
-use Auth;
+use Livewire\WithFileUploads;
 
 class CreateStudent extends Component
 {
+    use WithFileUploads;
+
     public $schol_given_on;
     public $ref_no;
     public $grade_05_year;
@@ -42,6 +45,9 @@ class CreateStudent extends Component
     public $client_code;
     public $added_by;
     public $schol_type;
+    public $client_name;
+    public $bmic_branch;
+    public $bmic_region;
 
     public $selectedDsd = NULL;
 
@@ -56,11 +62,19 @@ class CreateStudent extends Component
     public $reason_for_dropouts;
     public $p_status;
     public $finished_year;
+    public $payment_end_month;
+    public $bank_name;
+    public $bank_account_holder;
+    public $bank_account_number;
+    public $branch_name;
+    public $branch_code;
+    public $photo;
 
     public $saved = false;
 
 
     public function mount(){
+
         $this->gnds = collect();
         $dsds = DsOffice::select('id','name')->get()->toArray();
         $status = Status::select('id','status')->get()->toArray();
@@ -68,8 +82,15 @@ class CreateStudent extends Component
         $this->status = $status;
     }
 
+    public function updatedPhoto()
+    {
+        $this->validate([
+            'photo' => 'image|max:1024', // 1MB Max
+        ]);
+    }
+
     protected $rules = [
-        'schol_given_on' => 'nullable',
+        'schol_given_on' => 'required',
         'ref_no' => 'required|string|max:150',
         'name' => 'required|string|max:155',
         'gender' => 'required|string|max:45',
@@ -96,22 +117,39 @@ class CreateStudent extends Component
         'non_bmic_pci' => 'nullable|numeric',
         'status_id' => 'required|integer',
         'client_code' => 'nullable|string|max:45',
-        'schol_type' => 'nullable|string|max:45',
+        'schol_type' => 'required|string|max:45',
+        'photo' => 'image|max:1024',
 
         //payment
         'scholar_amount' => 'required|numeric',
-        'payment_start_year' => 'required|integer',
+        'payment_start_year' => 'required|numeric|digits:4',
         'payment_start_month' => 'required|string|max:50',
         'renewal_document' => 'required|boolean',
         'reason_for_dropouts' => 'nullable|string|max:500',
-        'p_status' => 'required|integer',
-        'finished_year' => 'required|integer',
+        'p_status' => 'required|numeric',
+        'finished_year' => 'required|numeric',
+
+        //bank details
+        'payment_end_month' => 'required',
+        'bank_name' => 'required',
+        'bank_account_holder' => 'required',
+        'bank_account_number' => 'required'
     ];
 
 
     public function saveData(){
         //dd(date('Y-m-d', strtotime($this->schol_given_on)));
-        $this->validate();
+
+        $v = $this->validate();
+        if($this->photo){
+            $name = $this->photo->storePublicly('bss','public');
+        }
+        else{
+            $name = null;
+        }
+
+
+        //dd("lll",$v);
         $data = Student::create([
             'schol_given_on' => $this->schol_given_on,
             'ref_no' => $this->ref_no,
@@ -143,7 +181,11 @@ class CreateStudent extends Component
             'status_id' => $this->status_id,
             'client_code' => $this->client_code,
             'added_by' => Auth::user()->id,
-            'schol_type' => $this->schol_type
+            'schol_type' => $this->schol_type,
+            'client_name' => $this->client_name,
+            'bmic_branch' => $this->bmic_branch,
+            'bmic_region' => $this->bmic_region,
+            'profile_picture' => $name
         ]);
 
         Pyament::create([
@@ -154,15 +196,23 @@ class CreateStudent extends Component
             'reason_for_dropouts' => $this->reason_for_dropouts,
             'p_status' => $this->p_status,
             'finished_year' => $this->finished_year,
+            'payment_end_month' => $this->payment_end_month,
+            'bank_name' => $this->bank_name,
+            'bank_account_holder' => $this->bank_account_holder,
+            'bank_account_number' => $this->bank_account_number,
+            'branch_name' => $this->branch_name,
+            'branch_code' => $this->branch_code,
             'student_id' =>$data->id,
             'user_id'=> Auth::user()->id
         ]);
 
         $this->saved = true;
-        //$this->clreaForm();
-        session(['student_id'=>$data->id]);
 
-        session()->flash('message', 'BSS student Created Successfully.');
+        session(['student_id'=>$data->id]);
+        $this->emit('Created');
+
+        session()->flash('message', 'BSS student ' .$this->name. ' Created Successfully.');
+        $this->clreaForm();
     }
 
     public function updatedSelectedDsd($dsd_id)
@@ -209,6 +259,15 @@ class CreateStudent extends Component
         $this->reason_for_dropouts = '';
         $this->p_status = '';
         $this->finished_year = '';
+        $this->payment_end_month = '';
+        $this->bank_name = '';
+        $this->bank_account_holder = '';
+        $this->bank_account_number = '';
+        $this->branch_name = '';
+        $this->branch_code = '';
+        $this->client_name = '';
+        $this->bmic_branch = '';
+        $this->bmic_region = '';
     }
 
     public function render()

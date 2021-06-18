@@ -1,4 +1,5 @@
 <x-app-layout>
+    @section('title','Add A/L Results')
     <div>
         <div class="max-w-9xl mx-auto py-6 sm:px-2 lg:px-4">
             <section class="content-header">

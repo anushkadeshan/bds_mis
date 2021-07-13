@@ -58,8 +58,8 @@
                             </select>
                             @error('selectedDistrict') <span class="text-danger">*{{ $message }}</span> @enderror
                         </div>
-                         
-                        
+
+
                         <div class="flex flex-col w-3/12 px-2">
                             <label for="username" class="block text-black">DS Division</label>
                             <select wire:model="selectedDsd" name="dsd_id" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" wire:select="updatedSelectedDsd">
@@ -71,7 +71,7 @@
                         @error('selectedDsd') <span class="text-danger">*{{ $message }}</span> @enderror
 
                         </div>
-                        
+
                         <div class="flex flex-col w-3/12 px-2">
                             <label for="username" class="block text-black">GN Division</label>
                             <select wire:model="selectedGnd" name="gn_id" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" wire:select="updatedSelectedDsd">
@@ -83,12 +83,12 @@
                         @error('selectedGnd') <span class="text-danger">*{{ $message }}</span> @enderror
 
                         </div>
-                        
+
                         <div class="flex flex-col w-3/12 px-2">
                             <label for="username" class="block text-black">Village</label>
                             <input type="text" autofocus wire:model="village" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="Village Name" />
                         @error('village') <span class="text-danger">*{{ $message }}</span> @enderror
-                        
+
                         </div>
                     </div>
                     <div class="flex items-center justify-between mb-5">
@@ -96,23 +96,23 @@
                             <label for="username" class="block text-black">Date of Interview</label>
                             <input type="date" autofocus wire:model="date_of_interviewed" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full"  />
                          @error('date_of_interviewed') <span class="text-danger">*{{ $message }}</span> @enderror
-                       
+
                         </div>
-                        
+
                         <div class="flex flex-col w-3/12 px-2">
                             <label for="username" class="block text-black">Interviewer</label>
                             <input type="text" autofocus wire:model="interviewer" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="Interviewer" />
                         @error('interviewer') <span class="text-danger">*{{ $message }}</span> @enderror
-                       
+
                         </div>
-                        
+
                         <div class="flex flex-col w-3/12 px-2">
                             <label for="username" class="block text-black">Respondent</label>
                             <input type="text" autofocus wire:model="respondent" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="Respondent Name" />
                         @error('respondent') <span class="text-danger">*{{ $message }}</span> @enderror
-                        
+
                         </div>
-                        
+
                         <div class="flex flex-col w-3/12 px-2">
                             <label for="username" class="block text-black">Respondent's Relationship to HHH</label>
                             <select wire:model="res_rela_to_HHH" name="res_rela_to_HHH" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full">
@@ -121,27 +121,34 @@
                                     <option value="Husband">Husband</option>
                             </select>
                         @error('res_rela_to_HHH') <span class="text-danger">*{{ $message }}</span> @enderror
-                        
+
                         </div>
                     </div>
                     <div class="flex items-center justify-between mb-5">
-                        
+                        <div class="flex flex-col w-3/12 px-2">
+                            <label for="serial_number" class="block text-black">Serial Number</label>
+                            <input type="text" autofocus wire:model="serial_number" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="EX: ANU/KAH/MAH/GAL/06" />
+                        @error('serial_number') <span class="text-danger">*{{ $message }}</span> @enderror
+
+                        </div>
                         <div class="flex flex-col w-9/12 px-2">
                             <label for="username" class="block text-black">House Hold Address</label>
                             <input type="text" autofocus wire:model="hh_address" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="Address" />
                         @error('hh_address') <span class="text-danger">*{{ $message }}</span> @enderror
-                        
+
                         </div>
-                        
+                    </div>
+                    <div class="flex items-center justify-between mb-5">
                         <div class="flex flex-col w-3/12 px-2">
-                            <label for="username" class="block text-black">Respondent's Relationship to HHH</label>
-                            <select wire:model="family_type" name="family_type" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full">
-                                <option value="">Select option</option>
-                                    <option value="Male headed">Male headed</option>
-                                    <option value="Female headed">Female headed</option>
-                                    <option value="Husband">Family with PWD Member/s </option>
-                                    <option value="Suffering chronic illness">Suffering chronic illness</option>
-                                    <option value="Single parent">Single parent</option>
+                            <label for="username" class="block text-black">Family Type</label>
+                            <select wire:model="family_type" name="family_type" class="rounded-sm focus:outline-none bg-gray-100 w-full" multiple>
+                                    <option value="1">Male headed</option>
+                                    <option value="2">Female headed</option>
+                                    <option value="3">Family with PWD Member/s</option>
+                                    <option value="4">Suffering chronic illness</option>
+                                    <option value="5">Single parent</option>
+                                    <option value="6">Alcholic/drug addicted HHH</option>
+                                    <option value="7">Lazy HHH</option>
                             </select>
                         @error('family_type') <span class="text-danger">*{{ $message }}</span> @enderror
                         </div>
@@ -157,8 +164,8 @@
                         <input  wire:model="hh_name" type="text" autofocus id="hh_name" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="Name" />
                      @error('hh_name') <span class="text-danger">*{{ $message }}</span> @enderror
                     </div>
-                   
-                    
+
+
                     <div class="flex flex-col w-2/6 px-2">
                         <label for="username" class="block text-black">NIC Number</label>
                         <input wire:model="hh_nic" type="text" autofocus id="hh_nic" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="NIC" />
@@ -178,7 +185,7 @@
                         <input  wire:model="hh_sp_contact" type="text" autofocus id="hh_sp_contact" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="Smart Phone Number" />
                     @error('hh_sp_contact') <span class="text-danger">*{{ $message }}</span> @enderror
                     </div>
-                    
+
                     <div class="flex flex-col w-2/6 px-2">
                         <label for="username" class="block text-black">Ethnicity</label>
                         <select wire:model="hh_ethnicity" name="hh_ethnicity" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full">
@@ -190,7 +197,7 @@
                         </select>
                     @error('hh_ethnicity') <span class="text-danger">*{{ $message }}</span> @enderror
                     </div>
-                    
+
                     <div class="flex flex-col w-2/6 px-2">
                         <label for="username" class="block text-black">Religion</label>
                         <select wire:model.lazy="hh_religion" name="hh_religion" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full">
@@ -203,7 +210,7 @@
                         </select>
                     @error('hh_religion') <span class="text-danger">*{{ $message }}</span> @enderror
                     </div>
-                    
+
                 </div>
                 <div class="flex items-center justify-between mb-5">
                     <div class="flex flex-col w-2/6 px-2">
@@ -211,7 +218,7 @@
                         <input  wire:model="hh_age" type="text" autofocus id="hh_age" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="Age to Data Collected date" />
                     @error('hh_age') <span class="text-danger">*{{ $message }}</span> @enderror
                     </div>
-                    
+
                     <div class="flex flex-col w-2/6 px-2">
                         <label for="username" class="block text-black">Gender</label>
                         <select wire:model="hh_gender" name="family_type" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full">
@@ -221,7 +228,7 @@
                         </select>
                     @error('hh_gender') <span class="text-danger">*{{ $message }}</span> @enderror
                     </div>
-                    
+
                     <div class="flex flex-col w-2/6 px-2">
                         <label for="username" class="block text-black">Civil Status</label>
                         <select wire:model="hh_civil_status" name="hh_civil_status" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full">
@@ -234,7 +241,7 @@
                         </select>
                     @error('hh_civil_status') <span class="text-danger">*{{ $message }}</span> @enderror
                     </div>
-                    
+
                 </div>
 
                 <div class="flex items-center justify-between mb-5">
@@ -251,7 +258,7 @@
                         </select>
                     @error('hh_education') <span class="text-danger">*{{ $message }}</span> @enderror
                     </div>
-                    
+
                     <div class="flex flex-col w-2/6 px-2">
                         <label for="username" class="block text-black">Employment status</label>
                         <select wire:model="hh_employment" name="hh_employment" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full">
@@ -264,7 +271,7 @@
                             </select>
                     @error('hh_employment') <span class="text-danger">*{{ $message }}</span> @enderror
                     </div>
-                    
+
                     <div class="flex flex-col w-2/6 px-2">
                         <label for="username" class="block text-black">Physical/ health condition</label>
                         <select wire:model="hh_health" name="hh_health" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full">
@@ -276,7 +283,7 @@
                         </select>
                     @error('hh_health') <span class="text-danger">*{{ $message }}</span> @enderror
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -289,13 +296,13 @@
                         <input wire:model="spouse_nic" type="text" autofocus id="spouse_nic" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="NIC" />
                     @error('spouse_nic') <span class="text-danger">*{{ $message }}</span> @enderror
                     </div>
-                    
+
                     <div class="flex flex-col w-2/6 px-2">
                         <label for="username" class="block text-black">Contact Number</label>
                         <input wire:model="spouse_contact" type="text" autofocus id="spouse_contact" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="Mobile Number" />
                     @error('spouse_contact') <span class="text-danger">*{{ $message }}</span> @enderror
                     </div>
-                    
+
                     <div class="flex flex-col w-2/6 px-2">
                         <label for="username" class="block text-black">Smart Phone Number</label>
                         <input  wire:model="spouse_sp_contact" type="text" autofocus id="spouse_sp_contact" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="Smart Phone Number" />
@@ -308,7 +315,7 @@
                         <input  wire:model="spouse_age" type="text" autofocus id="spouse_age" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="Age to Data Collected date" />
                     @error('spouse_age') <span class="text-danger">*{{ $message }}</span> @enderror
                     </div>
-                    
+
                     <div class="flex flex-col w-2/6 px-2">
                         <label for="username" class="block text-black">Gender</label>
                         <select wire:model="spouse_gender" name="spouse_gender" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full">
@@ -318,7 +325,7 @@
                         </select>
                     @error('spouse_gender') <span class="text-danger">*{{ $message }}</span> @enderror
                     </div>
-                   
+
                     <div class="flex flex-col w-2/6 px-2">
                         <label for="username" class="block text-black">Highest level of education (Age 18-35)</label>
                         <select wire:model="spouse_education" name="spouse_education" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full">
@@ -335,7 +342,7 @@
                 </div>
 
                 <div class="flex items-center  mb-5">
-                    
+
                     <div class="flex flex-col w-2/6 px-2">
                         <label for="username" class="block text-black">Employment status</label>
                         <select wire:model="spouse_employment" name="spouse_employment" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full">
@@ -348,7 +355,7 @@
                             </select>
                     @error('spouse_employment') <span class="text-danger">*{{ $message }}</span> @enderror
                     </div>
-                   
+
                     <div class="flex flex-col w-2/6 px-2">
                         <label for="username" class="block text-black">Physical/ health condition</label>
                         <select wire:model="spouse_health" name="spouse_health" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full">
@@ -383,7 +390,7 @@
                     @error('member_sp_contact') <span class="text-danger">*{{ $message }}</span> @enderror
                     </div>
                 </div>
-                
+
                 <div class="flex items-center justify-between mb-5">
                     <div class="flex flex-col w-2/6 px-2">
                         <label for="username" class="block text-black">Age</label>
@@ -431,7 +438,7 @@
                         <label for="username" class="block text-black">If schooling, present grade</label>
                         <input  wire:model="school_grade.0" type="text" autofocus id="school_grade" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="Age to Data Collected date" />
                     @error('school_grade') <span class="text-danger">*{{ $message }}</span> @enderror
-                    
+
                     </div>
                     <div class="flex flex-col w-3/12 px-2">
                         <label for="username" class="block text-black">Employment status</label>
@@ -458,11 +465,11 @@
                     </div>
                 </div>
                 <button wire:click.prevent="add({{$i}})" wire:loading.attr="disabled" class="bg-blue-600 float-right  text-white p-2 w-28 rounded-10 hover:bg-blue-700 focus:outline-none focus:ring shadow-lg hover:shadow-none transition-all duration-300 m-2">
-                    Add New 
+                    Add New
                     <div wire:loading wire:target="add">
                         <i class="fas fa-cog fa-spin"></i>
                     </div>
-                    
+
                 </button>
             </div>
             <br/>
@@ -560,7 +567,7 @@
                 </div>
 
                 <button wire:click.prevent="remove({{$key}})" class="bg-red-600 float-right  text-white p-2 w-28 rounded-10 hover:bg-red-700 focus:outline-none focus:ring shadow-lg hover:shadow-none transition-all duration-300 m-2">
-                    Remove 
+                    Remove
                     <div wire:loading wire:target="remove">
                         <i class="fas fa-cog fa-spin"></i>
                     </div>
@@ -574,13 +581,13 @@
                 <p>Confirm Every required data are filled before save the data.</p>
             </div>
             <div class="flex-auto flex justify-center content-center mt-5 mb-2">
-                
+
                 <button wire:click.prevent="saveData" class="bg-green-600 float-right  text-white p-2 w-28 rounded-10 hover:bg-green-700 focus:outline-none focus:ring shadow-lg hover:shadow-none transition-all duration-300 m-2">
-                    Save Data 
+                    Save Data
                     <div wire:loading wire:target="saveData">
                         <i class="fas fa-cog fa-spin"></i>
                     </div>
-                </button>                
+                </button>
             </div>
 
             <div class="flex-auto flex justify-center content-center mt-5 mb-2">
@@ -588,7 +595,7 @@
                     <p class="text-blue-600">Please Wait. Data is Saving to the database</p>
                 </div>
             </div>
-          
+
 
         </div>
         @if (count($errors) > 0)

@@ -30,6 +30,7 @@ class Pyament extends Model
     const UPDATED_AT = 'updated_at';
 
     use LogsActivity;
+    use SoftDeletes;
 
 
     protected static $logAttributes = [

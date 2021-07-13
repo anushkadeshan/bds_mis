@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ImproveLivilyhood extends Model
 {
     use HasFactory;
     use LogsActivity;
-
+    use SoftDeletes;
     public $fillable = [
         'responsible_officer',
         'log_activity_name',
@@ -30,6 +31,8 @@ class ImproveLivilyhood extends Model
         'lessions_learned',
         'family_id',
         'added_by',
+        'approved',
+        'approved_by'
     ];
 
     protected static $logAttributes =[
@@ -51,7 +54,9 @@ class ImproveLivilyhood extends Model
         'lessions_learned',
         'family_id',
         'added_by',
+        'approved',
+        'approved_by'
     ];
-    
+
     protected static $logOnlyDirty = true;
 }

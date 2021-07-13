@@ -46,7 +46,9 @@ class AddCourses extends Component
             'min_qualification' => $this->min_qualification,
             'embeded_softs_skills' => $this->embeded_softs_skills,
             'medium' => json_encode($this->medium),
+            'approved' => false,
             'added_by' => auth()->user()->id
+
         ]);
 
         session()->flash('message', 'New Course added Successfully.');

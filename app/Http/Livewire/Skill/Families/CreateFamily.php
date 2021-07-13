@@ -64,7 +64,8 @@ class CreateFamily extends Component
             'total_income' => $this->total_income,
             'total_members' => $this->total_members,
             'livelihood_family_id' => $this->livelihood_family_id,
-            'is_livelihood' => $this->is_livelihood
+            'is_livelihood' => $this->is_livelihood,
+            'approved' => false,
 
         ]);
         session()->flash('message', 'New Family added Successfully.');

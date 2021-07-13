@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-             
+
                 <h5 class="modal-title" id="exampleModalLabel">Add New Permission</h5>
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -31,6 +31,16 @@
                 <div class="flex">
                     <span class="text-sm border border-2 w-25 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">Guard Name:</span>
                     <input wire:model="guard_name" class="border border-2 rounded-r px-4 py-2 w-full" type="text" name="guard_name"  spellcheck="false" data-ms-editor="true">
+                </div>
+                <br/>
+                <div class="flex">
+                    <span class="text-sm border border-2 w-25 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">Only Super Admin:</span>
+                    <select wire:model="only_super_admin" class="border border-2 rounded-r px-4 py-2 w-full" name="" id="">
+                        <option value="">Select Option</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+
                 </div>
             </div>
             <div class="modal-footer">

@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Branch;
 use App\Models\Permission;
+use Auth;
 
 class UserController extends Controller
 {
@@ -63,8 +64,15 @@ class UserController extends Controller
         $user = User::find($id);
         $roles = Role::all();
         $branches = Branch::all();
-        $permissions = Permission::all();
-        
+        $auth_user = Auth::user();
+        if($auth_user->hasRole(['Regional Manager'])){
+            $permissions = Permission::where('only_super_admin','!=',1)
+                ->orWhere('only_super_admin', null)
+                ->get();
+        }
+        else{
+            $permissions = Permission::all();
+        }
         return view('users.edit',compact('user','roles','branches','permissions'));
     }
 

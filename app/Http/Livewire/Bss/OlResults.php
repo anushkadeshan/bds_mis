@@ -14,6 +14,8 @@ class OlResults extends Component
     public $OL_C;
     public $OL_S;
     public $OL_W;
+    public $english_result;
+    public $science_result;
     public $Maths_Result;
     public $Exam_Year;
     public $Medium;
@@ -31,7 +33,9 @@ class OlResults extends Component
         'OL_C' => 'required|integer|max:10',
         'OL_S' => 'required|integer|max:10',
         'OL_W' => 'required|integer|max:10',
-        'Maths_Result' => 'required|string|max:11',
+        'Maths_Result' => 'required|string|max:1',
+        'english_result' => 'required|string|max:1',
+        'science_result' => 'required|string|max:1',
         'Exam_Year' => 'required|string|max:11',
         'Medium' => 'required|string|max:40'
     ];
@@ -47,9 +51,12 @@ class OlResults extends Component
             $ol_results->OL_S = $this->OL_S;
             $ol_results->OL_W = $this->OL_W;
             $ol_results->Maths_Result = $this->Maths_Result;
+            $ol_results->english_result = $this->english_result;
+            $ol_results->science_result = $this->science_result;
             $ol_results->Exam_Year = $this->Exam_Year;
             $ol_results->Medium = $this->Medium;
             $ol_results->user_id = Auth::user()->id;
+            $ol_results->approved = false;
             $ol_results->save();
             session()->flash('message', 'O/L reuslts updated Successfully.');
         }
@@ -61,10 +68,13 @@ class OlResults extends Component
             $ol_results->OL_S = $this->OL_S;
             $ol_results->OL_W = $this->OL_W;
             $ol_results->Maths_Result = $this->Maths_Result;
+            $ol_results->english_result = $this->english_result;
+            $ol_results->science_result = $this->science_result;
             $ol_results->Exam_Year = $this->Exam_Year;
             $ol_results->Medium = $this->Medium;
             $ol_results->student_id = $this->student_id;
             $ol_results->user_id = Auth::user()->id;
+            $ol_results->approved = false;
             $ol_results->save();
             session()->flash('message', 'O/L reuslts added Successfully.');
 
@@ -79,6 +89,8 @@ class OlResults extends Component
         $this->OL_S = '';
         $this->OL_W = '';
         $this->Maths_Result = '';
+        $this->science_result = '';
+        $this->english_result = '';
         $this->Exam_Year = '';
         $this->Medium = '';
     }
@@ -108,6 +120,8 @@ class OlResults extends Component
             $this->OL_S = $ol_results->OL_S;
             $this->OL_W = $ol_results->OL_W;
             $this->Maths_Result = $ol_results->Maths_Result;
+            $this->science_result = $ol_results->science_result;
+            $this->english_result = $ol_results->english_result;
             $this->Exam_Year = $ol_results->Exam_Year;
             $this->Medium = $ol_results->Medium;
         }

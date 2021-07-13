@@ -47,6 +47,16 @@
                 /> @error('Maths_Result') <span class="text-danger">*{{ $message }}</span> @enderror
             </div>
             <div>
+                <label class="text-gray-700 dark:text-gray-200" for="science_result">Science Results</label>
+                <input wire:model="science_result" id="science_result" type="text" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                /> @error('science_result') <span class="text-danger">*{{ $message }}</span> @enderror
+            </div>
+            <div>
+                <label class="text-gray-700 dark:text-gray-200" for="english_result">English Results</label>
+                <input wire:model="english_result" id="english_result" type="text" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                /> @error('english_result') <span class="text-danger">*{{ $message }}</span> @enderror
+            </div>
+            <div>
                 <label class="text-gray-700 dark:text-gray-200" for="Exam_Year">Exam Year</label>
                 <input wire:model="Exam_Year" id="Exam_Year" type="text" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                 /> @error('Exam_Year') <span class="text-danger">*{{ $message }}</span> @enderror

@@ -20,12 +20,12 @@ class CreateLivelihoodfamily extends Component
     public $selectedDsd = NULL;
     public $selectedGnd = NULL;
 
-    public $relationship_to_hhh, $member_contact, $member_sp_contact, $age, $gender, $civil_status,  $education, $employment, $health, $school_grade;
+    public $relationship_to_hhh, $member_contact, $member_sp_contact, $age, $gender, $civil_status,  $education, $employment, $health, $school_grade, $serial_number;
     public $updateMode = false;
     public $inputs = [];
     public $i = 1;
 
-    public $village, $date_of_interviewed, $interviewer, $respondent, $res_rela_to_HHH, $hh_address, $family_type;
+    public $village, $date_of_interviewed, $interviewer, $respondent, $res_rela_to_HHH, $hh_address, $family_type = '';
     public $hh_name, $hh_nic, $hh_contact, $hh_sp_contact, $hh_ethnicity, $hh_religion, $hh_age, $hh_gender, $hh_civil_status, $hh_education, $hh_employment, $hh_health;
 
     public $spouse_nic, $spouse_contact, $spouse_sp_contact, $spouse_age, $spouse_gender, $spouse_education, $spouse_employment, $spouse_health;
@@ -84,6 +84,7 @@ class CreateLivelihoodfamily extends Component
         $this->validate();
 
         $data = LivelihoodFamily::create([
+            'serial_number' => $this->serial_number,
             'district' => $this->selectedDistrict,
             'dsd_id'=> $this->selectedDsd,
             'gn_id'=> $this->selectedGnd,
@@ -93,7 +94,7 @@ class CreateLivelihoodfamily extends Component
             'respondent'=> $this->respondent,
             'res_rela_to_HHH'=> $this->res_rela_to_HHH,
             'hh_address'=> $this->hh_address,
-            'family_type'=> $this->family_type,
+            'family_type'=> json_encode($this->family_type),
             'hh_name'=> $this->hh_name,
             'hh_nic'=> $this->hh_nic,
             'spouse_nic'=> $this->spouse_nic,
@@ -114,6 +115,7 @@ class CreateLivelihoodfamily extends Component
             'spouse_employment'=> $this->spouse_employment,
             'hh_health'=> $this->hh_health,
             'spouse_health' => $this->spouse_health,
+            'approved' =>false,
             'added_by' => Auth::user()->id,
         ]);
 

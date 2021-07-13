@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\DateColumn;
 use Mediconesystems\LivewireDatatables\NumberColumn;
@@ -16,8 +17,19 @@ class UsersTable extends LivewireDatatable
 
     public function builder()
     {
-        return User::query()->leftJoin('branches', 'branches.id', 'users.branch_id');
-        return User::query()->leftJoin('model_has_roles', 'model_has_roles.id', 'users.branch_id');
+        $user = Auth::user();
+        if($user->hasRole(['Super Admin', 'Internal Auditor','General Manager','Board'])){
+            return User::query()->leftJoin('branches', 'branches.id', 'users.branch_id');
+        }
+        elseif($user->hasRole(['Regional Manager'])){
+            return User::query()->leftJoin('branches', 'branches.id', 'users.branch_id')
+            ->whereIn('users.branch_id',json_decode(Auth::user()->branches));
+        }
+        else{
+            return null;
+        }
+
+
     }
     public function columns()
     {
@@ -29,7 +41,6 @@ class UsersTable extends LivewireDatatable
             Column::name('email')->searchable(),
 
             DateColumn::name('created_at'),
-            DateColumn::name('email_verified_at'),
             BooleanColumn::name('active'),
             Column::name('branches.name')
                 ->label('Branch'),
@@ -41,5 +52,5 @@ class UsersTable extends LivewireDatatable
         ];
     }
 
-   
+
 }

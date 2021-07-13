@@ -9,6 +9,7 @@
                         <div class="col-sm-6">
                             <h1>All BSS Students</h1>
                         </div>
+                        @can('Create Student')
                         <div class="col-sm-6">
                             <a href="{{route('students.create')}}"><button
                                 class="bg-blue-600 float-right  text-white p-2 w-28 rounded-10 hover:bg-blue-700 focus:outline-none focus:ring shadow-lg hover:shadow-none transition-all duration-300 m-2"
@@ -17,11 +18,20 @@
                             </button>
                             </a>
                         </div>
+                        @endcan
                     </div>
                 </div>
             </section>
             <div class="content px-3">
-                <livewire:bss.student-table exportable hideable="select" />
+                @can('View Student')
+                    <livewire:bss.student-table exportable hideable="select" />
+                @else
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <strong class="font-bold">Opps!</strong>
+                    <span class="block sm:inline">You don't have permisision to View BSS table</span>
+                </div>
+                @endcan
+
             </div>
         </div>
     </div>

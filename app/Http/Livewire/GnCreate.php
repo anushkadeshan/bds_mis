@@ -17,7 +17,7 @@ class GnCreate extends Component
         'name' => 'required',
         'dsDivision' => 'required',
     ];
-    
+
     //protected $listeners = ['echo:bds_mis,createGn' => 'showalert'];
 
 
@@ -26,16 +26,17 @@ class GnCreate extends Component
         $gn = GnOffice::create([
             'name' => $this->name,
             'dsd_id' => $this->dsDivision,
+            'approved' =>false,
         ]);
-        
+
         $user = Auth::user();
         event(new createGn($gn,$user));
         $this->emit('refreshLivewireDatatable');
         $this->name = '';
         $this->dsDivision = '';
         session()->flash('message', 'GN Division added successfully');
-        
-       
+
+
     }
     public function mount($dss)
     {

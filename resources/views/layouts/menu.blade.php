@@ -1,4 +1,4 @@
- @can('View User')
+@can('Admin Menu')
 <li class="nav-item">
     <a href="" class="nav-link">
         <i class="fa fa-users nav-icon"></i>
@@ -14,6 +14,7 @@
                 <p>Users</p>
             </a>
         </li>
+        @can('Super Admin')
         <li class="nav-item">
             <a href="{{ route('roles.index') }}" class="nav-link {{ Request::is('roles*') ? 'active' : '' }}">
                 <i class="fa fa-cog nav-icon"></i>
@@ -27,7 +28,16 @@
                 <p>Permissions</p>
             </a>
         </li>
+        @endcan
     </ul>
+</li>
+@endcan
+@can('View Activity')
+<li class="nav-item">
+    <a href="{{ route('activities.index') }}" class="nav-link {{ Request::is('activities*') ? 'active' : '' }}">
+        <i class="fa fa-clipboard-list nav-icon"></i>
+        <p>User Activities</p>
+    </a>
 </li>
 @endcan
 <li class="nav-item">
@@ -123,7 +133,7 @@
 </li>
 {{--skill developmenmt--}}
 <li class="nav-item">
-    <a href="" class="nav-link">
+    <a href="" class="nav-link {{ Request::is('skill-development/*') ? 'active' : '' }}">
         <i class="fa fa-house-damage nav-icon"></i>
         <p>
             Skill Development
@@ -153,6 +163,12 @@
             <a href="{{ route('vacancies.index') }}" class="nav-link {{ Request::is('skill-development/vacancies*') ? 'active' : '' }}">
                 <i class="fas fa-briefcase nav-icon"></i>
                 <p>Vacancies</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('youths.index') }}" class="nav-link {{ Request::is('skill-development/youths*') ? 'active' : '' }}">
+                <i class="fas fa-child nav-icon"></i>
+                <p>Youths</p>
             </a>
         </li>
     </ul>

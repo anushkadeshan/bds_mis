@@ -31,7 +31,7 @@ class ResultOL extends Model
     const UPDATED_AT = 'updated_at';
 
     use LogsActivity;
-
+    use SoftDeletes;
 
     protected static $logAttributes = [
         'OL_A',
@@ -43,7 +43,11 @@ class ResultOL extends Model
         'Exam_Year',
         'Medium',
         'student_id',
-        'user_id'
+        'user_id',
+        'science_result',
+        'english_result',
+        'approved',
+        'approved_by'
     ];
 
     protected static $logOnlyDirty = true;
@@ -58,7 +62,11 @@ class ResultOL extends Model
         'Exam_Year',
         'Medium',
         'student_id',
-        'user_id'
+        'user_id',
+        'science_result',
+        'english_result',
+        'approved',
+        'approved_by'
     ];
 
     /**

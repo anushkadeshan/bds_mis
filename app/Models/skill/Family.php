@@ -4,16 +4,21 @@ namespace App\Models\skill;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Family extends Model
 {
     use HasFactory,LogsActivity;
-
+    use SoftDeletes;
     public $timestamps = true;
-    protected $fillable = ['district', 'ds_division', 'gn_division', 'head_of_household', 'nic_head_of_household', 'address', 'family_type', 'total_income', 'total_members','livelihood_family_id','is_livelihood'];
+    protected $fillable = ['district', 'ds_division', 'gn_division', 'head_of_household', 'nic_head_of_household', 'address', 'family_type', 'total_income', 'total_members','livelihood_family_id','is_livelihood',
+    'approved',
+    'approved_by'];
 
-    protected static $logAttributes = ['district', 'ds_division', 'gn_division', 'head_of_household', 'nic_head_of_household', 'address', 'family_type', 'total_income', 'total_members','livelihood_family_id','is_livelihood'];
+    protected static $logAttributes = ['district', 'ds_division', 'gn_division', 'head_of_household', 'nic_head_of_household', 'address', 'family_type', 'total_income', 'total_members','livelihood_family_id','is_livelihood',
+    'approved',
+    'approved_by'];
 
     protected static $logOnlyDirty = true;
 

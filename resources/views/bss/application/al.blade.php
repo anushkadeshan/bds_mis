@@ -11,12 +11,21 @@
                     </div>
                 </div>
             </section>
+
             <div class="content px-3">
                 <section class="p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
-                    <livewire:bss.al-results/>
+                    @can('Create Exam Result')
+                    <livewire:bss.al-results />
+                    @else
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <strong class="font-bold">Opps!</strong>
+                        <span class="block sm:inline">You don't have permisision to Add A/L Results.</span>
+                    </div>
+                    @endcan
                 </section>
 
             </div>
+
         </div>
     </div>
 </x-app-layout>

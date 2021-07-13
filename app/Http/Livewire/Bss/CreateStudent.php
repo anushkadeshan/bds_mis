@@ -185,7 +185,8 @@ class CreateStudent extends Component
             'client_name' => $this->client_name,
             'bmic_branch' => $this->bmic_branch,
             'bmic_region' => $this->bmic_region,
-            'profile_picture' => $name
+            'profile_picture' => $name,
+            'approved' =>false
         ]);
 
         Pyament::create([

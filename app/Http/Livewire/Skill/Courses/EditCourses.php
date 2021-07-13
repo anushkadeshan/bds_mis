@@ -47,6 +47,7 @@ class EditCourses extends Component
         $course->medium = json_encode($this->medium);
         $course->min_qualification = $this->min_qualification;
         $course->embeded_softs_skills = $this->embeded_softs_skills;
+        $course->approved = false;
         $course->save();
 
 

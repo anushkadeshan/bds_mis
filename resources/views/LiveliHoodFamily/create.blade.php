@@ -12,7 +12,15 @@
                 </div>
             </section>
             <div class="content px-3">
-                <livewire:create-livelihoodfamily wire:loading.delay>
+                @can('Create Livelihood Family')
+                    <livewire:create-livelihoodfamily wire:loading.delay>
+                @else
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <strong class="font-bold">Opps!</strong>
+                    <span class="block sm:inline">You don't have permisision to Create Family</span>
+                </div>
+                @endcan
+
             </div>
 
         </div>

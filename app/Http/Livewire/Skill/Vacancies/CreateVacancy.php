@@ -59,6 +59,7 @@ class CreateVacancy extends Component
             'specializaion' => $this->specializaion,
             'skills' => $this->skills,
             'gender' => $this->gender,
+            'approved' => false,
             'user_id' => auth()->user()->id,
             'employer_id' => $this->employer_id
         ]);

@@ -39,6 +39,7 @@ class EditInstitutes extends Component
         $institute->is_registerd = $this->is_registerd;
         $institute->reg_no = $this->reg_no;
         $institute->type = $this->type;
+        $institute->approved = false;
         $institute->save();
         session()->flash('message', 'Institute updated Successfully.');
     }

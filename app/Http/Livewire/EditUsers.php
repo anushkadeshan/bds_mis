@@ -89,6 +89,9 @@ class EditUsers extends Component
         $this->branch = $user->branch_id;
 
         $userCollection = User::find($this->user->id);
+        if($cuurent_role=='Regional Manager'){
+
+        }
         $currentPermissions = $userCollection->getAllPermissions()->pluck('name');
         $this->givenPermissions = $currentPermissions->toArray();
         $this->regional_branches = json_decode($userCollection->branches);

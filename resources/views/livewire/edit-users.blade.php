@@ -11,6 +11,7 @@
         @endif
     </div>
     <div class="grid grid-cols-2 gap-4">
+        @can('Activate User')
         <div class="bg-gray-200	p-4 rounded-md">
             <div class="flex flex-col mb-4 md:w-full">
                 <label class="mb-2  font-bold text-lg text-grey-darkest" for="email">Is Active</label>
@@ -40,6 +41,7 @@
                 </select>
             </div>
         </div>
+        @endcan
         <div class="bg-gray-200	p-4 rounded-md">
             <div class="flex flex-col mb-4 md:w-full">
                 <label class="mb-2 font-bold text-lg text-grey-darkest" for="email">Give Permissions to {{$user->name}}</label>
@@ -54,6 +56,7 @@
             </button>
                 </form>
             </div>
+            @can('Activate User')
             <div class="flex flex-col mb-4 md:w-full">
                 <label class="mb-2  font-bold text-lg text-grey-darkest" for="email">Add Branches to Regional Managers</label>
                 <select name="" id="" wire:model="regional_branches" multiple class="border py-2 px-3 text-grey-darkest">
@@ -66,6 +69,7 @@
                     Add Branches
                     </button>
             </div>
+            @endcan
         </div>
     </div>
 

@@ -38,6 +38,7 @@ class AddInstitutes extends Component
             'is_registerd'=> $this->is_registerd,
             'reg_no'=> $this->reg_no,
             'type'=> $this->type,
+            'approved' => false,
             'added_by'=> auth()->user()->id
         ]);
 

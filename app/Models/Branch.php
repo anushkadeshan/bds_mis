@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Branch extends Model
 {
     use HasFactory;
     use LogsActivity;
-
+    use SoftDeletes;
     public $table = 'branches';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -44,6 +45,6 @@ class Branch extends Model
      * @var array
      */
     public static $rules = [
-        
+
     ];
 }

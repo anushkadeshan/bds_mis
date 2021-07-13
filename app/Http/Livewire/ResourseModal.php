@@ -24,7 +24,7 @@ class ResourseModal extends Component
             'proffesion' => 'required',
             'cv' => 'required'
         ]);
-        
+
         $filename  = $this->cv->store('cvs');
         ResoursePerson::create(
             [
@@ -32,6 +32,7 @@ class ResourseModal extends Component
                 'institute' =>  $this->institute,
                 'proffesion' =>  $this->proffesion,
                 'cv' => $filename,
+                'approved' =>false,
             ]
         );
         $this->resetInput();

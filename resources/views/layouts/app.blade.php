@@ -201,12 +201,14 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
     <script>
+       ;
         function app() {
             return {
                 step: 1,
             }
         }
     </script>
+
     <script>
         $(function () {
             bsCustomFileInput.init();
@@ -215,6 +217,11 @@
         $("input[data-bootstrap-switch]").each(function () {
             $(this).bootstrapSwitch('state', $(this).prop('checked'));
         });
+
+        @if(session('message'))
+            alert("{{ session('message') }}");
+            toastr['success']("{{ session('message') }}");
+        @endif
     </script>
 
     @yield('third_party_scripts') @stack('page_scripts')
@@ -222,6 +229,7 @@
 
 
     <script>
+
         window.livewire.on('alert', param => {
             toastr[param['type']](param['message'], param['type']);
         });
@@ -243,12 +251,20 @@
                     toastr['success']('A Family in ' + e.data.village + ' in ' + e.data.district + ' Added by ' + e.user.name);
                 });
             @endhasanyrole
+
+
         });
 
-        @if(session('message'))
-            alert("{{ session('message') }}");
-            toastr['success']("{{ session('message') }}");
-        @endif
+        var userId = '{{auth()->user()->id}}';
+        window.addEventListener('DOMContentLoaded', function () {
+            window.Echo.private('-App.Models.User'.userId)
+            .notification((notification) => {
+                console.log(notification);
+            });
+
+        });
+
+
     </script>
 
 

@@ -37,6 +37,7 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
         Route::resource('permissions', App\Http\Controllers\PermissionController::class);
         Route::resource('users', App\Http\Controllers\UserController::class);
     });
+        Route::view('upload-profile-picture', 'LiveliHoodFamily.profile-picture');
         Route::resource('gn-divisions', App\Http\Controllers\GnOfficeController::class);
         Route::resource('dsd-divisions', App\Http\Controllers\DsOfficeController::class);
         Route::resource('house-hold-families', App\Http\Controllers\LivelihoodFamilyController::class);
@@ -66,7 +67,10 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
             Route::resource('families', App\Http\Controllers\skill\FamilyController::class);
             Route::resource('youths', App\Http\Controllers\skill\YouthController::class);
         });
-
-        Route::get('activity-log', [App\Http\Controllers\ActivityController::class, 'index'])->name('activity');
+        Route::resource('activities', App\Http\Controllers\ActivityController::class);
+        Route::post('familyList', [App\Http\Controllers\skill\YouthController::class, 'familyList']);
+        Route::post('bssList', [App\Http\Controllers\skill\YouthController::class, 'bssList']);
+        Route::post('courseList', [App\Http\Controllers\skill\YouthController::class, 'courseList']);
+        Route::post('courseList1', [App\Http\Controllers\skill\YouthController::class, 'courseList1']);
 
 });

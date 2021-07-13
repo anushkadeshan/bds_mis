@@ -24,6 +24,7 @@ class StudentTable extends LivewireDatatable
             return Student::query()->leftJoin('gn_office', 'gn_office.id', 'students.gn_id')
             ->leftJoin('dsd_office', 'dsd_office.id', 'students.dsd_id')
             ->leftJoin('status', 'status.id', 'students.status_id')
+            ->whereIn('students.approved',[1,2])
             ->leftJoin('branches', 'branches.id', 'students.branch_id')
             ->where('branch_id',Auth::user()->branch_id);
         }
@@ -32,6 +33,7 @@ class StudentTable extends LivewireDatatable
             ->leftJoin('dsd_office', 'dsd_office.id', 'students.dsd_id')
             ->leftJoin('status', 'status.id', 'students.status_id')
             ->leftJoin('branches', 'branches.id', 'students.branch_id')
+            ->whereIn('students.approved',[1,2])
             ->whereIn('branch_id',json_decode(Auth::user()->branches));
         }
         else{
@@ -39,6 +41,7 @@ class StudentTable extends LivewireDatatable
             ->leftJoin('dsd_office', 'dsd_office.id', 'students.dsd_id')
             ->leftJoin('branches', 'branches.id', 'students.branch_id')
             ->whereNotIn('branch_id',[9,10,11,4])
+            ->whereIn('students.approved',[1,2])
             ->leftJoin('status', 'status.id', 'students.status_id');
 
         }

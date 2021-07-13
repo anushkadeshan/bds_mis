@@ -4,11 +4,13 @@ namespace App\Models\skill;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Vacancy extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     public $timestamps = true;
     use LogsActivity;
     protected $fillable = [
@@ -27,7 +29,9 @@ class Vacancy extends Model
         'skills',
         'gender',
         'user_id',
-        'employer_id'
+        'employer_id',
+        'approved',
+        'approved_by'
     ];
 
     protected static $logAttributes = [
@@ -46,7 +50,9 @@ class Vacancy extends Model
         'skills',
         'gender',
         'user_id',
-        'employer_id'
+        'employer_id',
+        'approved',
+        'approved_by'
     ];
 
     protected static $logOnlyDirty = true;

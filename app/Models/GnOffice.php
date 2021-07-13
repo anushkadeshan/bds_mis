@@ -2,22 +2,27 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class GnOffice extends Model
 {
     use HasFactory;
     public $table = 'gn_office';
-
+    use SoftDeletes;
 
 
     public $fillable = [
         'name',
-        'dsd_id'
+        'dsd_id',
+        'approved',
+        'approved_by'
     ];
 
-    protected static $logAttributes = ['name', 'dsd_id'];
+    protected static $logAttributes = ['name', 'dsd_id',
+    'approved',
+    'approved_by'];
     protected static $logOnlyDirty = true;
 
     /**
@@ -25,7 +30,7 @@ class GnOffice extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function dsoffice(): BelongsTo
+    public function dsoffice()
     {
         return $this->belongsTo(DsOffice::class, 'dsd_id');
     }

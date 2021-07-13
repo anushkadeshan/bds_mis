@@ -59,7 +59,7 @@ class CreateLivilyhood extends Component
     ];
 
     public $family_id = '';
- 
+
     public $families = [];
 
     public function mount()
@@ -133,13 +133,14 @@ class CreateLivilyhood extends Component
             'units_completed' => $this->units_completed,
             'lessions_learned' => $this->lessions_learned,
             'family_id' => $this->family_id,
+            'approved' =>false,
             'added_by' => Auth::user()->id,
         ]);
 
         $lastId = $data->id;
         if(!is_null($this->beneficiary_name || $this->meterial || $this->quantity))
          foreach ($this->beneficiary_name as $key => $value) {
-            LivilyhoodMeterials::create([                
+            LivilyhoodMeterials::create([
                 'livelihood_id' => $lastId,
                 'beneficiary_name' => $this->beneficiary_name[$key],
                 'meterial' => $this->meterial[$key],
@@ -149,7 +150,7 @@ class CreateLivilyhood extends Component
 
         if(!is_null($this->type_of_contribution || $this->organization || $this->financial_contribution))
          foreach ($this->type_of_contribution as $key => $value) {
-            LivilyhoodPartners::create([                
+            LivilyhoodPartners::create([
                 'livelihood_id' => $lastId,
                 'organization' => $this->organization[$key],
                 'type_of_contribution' => $this->type_of_contribution[$key],
@@ -162,7 +163,7 @@ class CreateLivilyhood extends Component
         $this->inputs = [];
         $this->inputs2 = [];
         $this->clearForm();
-         
+
         session()->flash('message', 'Livelyhood Family Created Successfully.');
 
     }
@@ -184,7 +185,7 @@ class CreateLivilyhood extends Component
         $this->totol_planned_cost = '';
         $this->units_completed = '';
         $this->lessions_learned = '';
-            
+
     }
 
     public function render()

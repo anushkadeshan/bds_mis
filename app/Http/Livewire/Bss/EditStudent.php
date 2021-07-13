@@ -132,12 +132,12 @@ class EditStudent extends Component
     }
 
     public function mount($id){
-        
+
         if(!is_null($id)){
             $this->student_id= $id;
             $this->getData();
         }
-        
+
         $this->gnds = collect();
         $dsds = DsOffice::select('id','name')->get()->toArray();
         $status = Status::select('id','status')->get()->toArray();
@@ -230,6 +230,7 @@ class EditStudent extends Component
         $student->client_name = $this->client_name;
         $student->bmic_branch = $this->bmic_branch;
         $student->bmic_region = $this->bmic_region;
+        $student->approved = false;
         $student->save();
 
         $payment = Pyament::where('student_id',$this->student_id)->first();

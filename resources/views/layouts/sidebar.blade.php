@@ -15,6 +15,7 @@
             </div>
             <div class="info">
                 <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+                <a href="#" class="d-block text-success text-xs">{{ Auth::user()->roles->pluck('name')->first() }}</a>
             </div>
         </div>
 

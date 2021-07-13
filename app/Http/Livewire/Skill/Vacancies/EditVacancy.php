@@ -64,6 +64,7 @@ class EditVacancy extends Component
         $vacancy->specializaion = $this->specializaion;
         $vacancy->skills = $this->skills;
         $vacancy->gender = $this->gender;
+        $vacancy->approved = false;
         $vacancy->user_id = auth()->user()->id;
         $vacancy->employer_id = $this->employer_id;
         $vacancy->save();

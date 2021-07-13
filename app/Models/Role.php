@@ -15,12 +15,12 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Role extends Model
 {
-    
+
 
     use HasFactory;
     use LogsActivity;
     public $table = 'roles';
-    
+    use SoftDeletes;
 
 
     protected $dates = ['deleted_at'];
@@ -53,8 +53,8 @@ class Role extends Model
      * @var array
      */
     public static $rules = [
-        
+
     ];
 
-    
+
 }

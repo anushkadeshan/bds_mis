@@ -7,7 +7,7 @@ use App\Models\Permission;
 
 class PermissionModal extends Component
 {
-    public $data, $name, $guard_name, $selected_id;
+    public $data, $name, $guard_name, $selected_id, $only_super_admin;
     public $updateMode = false;
 
     public function render()
@@ -19,6 +19,7 @@ class PermissionModal extends Component
     {
         $this->name = null;
         $this->guard_name = null;
+        $this->only_super_admin = null;
     }
 
     public function store()
@@ -30,7 +31,8 @@ class PermissionModal extends Component
 
         Permission::create([
             'name' => $this->name,
-            'guard_name' => $this->guard_name
+            'guard_name' => $this->guard_name,
+            'only_super_admin' => $this->only_super_admin
         ]);
 
         $this->resetInput();

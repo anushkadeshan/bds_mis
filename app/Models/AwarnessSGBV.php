@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AwarnessSGBV extends Model
 {
     use HasFactory;
     use LogsActivity;
+    use SoftDeletes;
     public $table = "awarness_sgbvs";
 
     public $fillable = [
@@ -33,7 +35,9 @@ class AwarnessSGBV extends Model
         'added_by',
         'views_of_rp',
         'attendance',
-        'resourse_person_id'
+        'resourse_person_id',
+        'approved',
+        'approved_by'
     ];
 
     protected static $logAttributes = [
@@ -57,7 +61,9 @@ class AwarnessSGBV extends Model
         'added_by',
         'views_of_rp',
         'attendance',
-        'resourse_person_id'
+        'resourse_person_id',
+        'approved',
+        'approved_by'
     ];
 
     protected static $logOnlyDirty = true;

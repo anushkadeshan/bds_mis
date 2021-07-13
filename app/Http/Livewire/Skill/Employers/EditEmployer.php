@@ -36,6 +36,7 @@ class EditEmployer extends Component
         $employer->phone = $this->phone;
         $employer->email = $this->email;
         $employer->user_id = auth()->user()->id;
+        $employer->approved = false;
         $employer->save();
 
         session()->flash('message', 'Employer updated Successfully.');

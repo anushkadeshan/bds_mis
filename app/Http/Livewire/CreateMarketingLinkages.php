@@ -159,6 +159,7 @@ class CreateMarketingLinkages extends Component
             'family_id' => json_encode($this->family_id),
             'views_of_rp' => $this->views_of_rp,
             'attendance' => $attendance_name,
+            'approved' =>false,
             'resourse_person_id' => $this->resourse_person_id,
             'added_by' => Auth::user()->id,
         ]);

@@ -7,6 +7,7 @@ use App\Http\Livewire\Bss\AlResults;
 use App\Http\Livewire\Bss\OlResults;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Student extends Model
@@ -17,7 +18,7 @@ class Student extends Model
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
     use LogsActivity;
-
+    use SoftDeletes;
 
     protected static $logAttributes = [
         'schol_given_on',
@@ -55,7 +56,9 @@ class Student extends Model
         'bmic_region',
         'al_status',
         'confirmed_al_stream',
-        'profile_picture'
+        'profile_picture',
+        'approved',
+        'approved_by'
     ];
 
     protected static $logOnlyDirty = true;
@@ -95,7 +98,9 @@ class Student extends Model
         'bmic_region',
         'al_status',
         'confirmed_al_stream',
-        'profile_picture'
+        'profile_picture',
+        'approved',
+        'approved_by'
     ];
 
     /**

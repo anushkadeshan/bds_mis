@@ -26,7 +26,7 @@ class Status extends Model
     protected $dates = ['deleted_at'];
 
     use LogsActivity;
-
+    use SoftDeletes;
 
     protected static $logAttributes = [
         'status'

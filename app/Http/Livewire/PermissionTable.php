@@ -13,14 +13,14 @@ use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 class PermissionTable extends LivewireDatatable
 {
     public $model = Permission::class;
-    
+
     public function columns()
     {
 
         return [
             NumberColumn::name('id'),
 
-            Column::name('name')->searchable(),
+            Column::name('name')->searchable()->editable(),
 
             Column::name('guard_name')->searchable(),
 
@@ -32,5 +32,5 @@ class PermissionTable extends LivewireDatatable
         ];
     }
 
-    
+
 }

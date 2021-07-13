@@ -35,6 +35,7 @@ class AddEmployers extends Component
             'phone' => $this->phone,
             'email' => $this->email,
             'added_by' => auth()->user()->id,
+            'approved' => false,
             'user_id' => auth()->user()->id,
         ]);
 

@@ -11,4 +11,9 @@ class ActivityController extends Controller
     public function index(){
         return view('Logs.index');
     }
+
+    public function edit($id){
+        $activity = Activity::with('causer')->where('id',$id)->first();
+        return view('Logs.edit', compact('activity'));
+    }
 }

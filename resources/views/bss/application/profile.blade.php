@@ -21,13 +21,14 @@
                                     "
                                     @endif
                                     alt="">
-
+                                    @can('Update Student')
                                     <div class="absolute opacity-0 fd-sh group group-hover:opacity-100">
                                         <span class="font-bold text-gray-900 text-lg tracking-wider leading-relaxed font-sans">Change the Photo</span>
                                         <div class="pt-8 text-center">
                                             <button  data-toggle="modal" data-target="#exampleModal" class="border-2 group-hover:opacity-100 border-gray-700 hover:border-gray-500 text-center rounded-lg p-3 bg-white  text-gray-700 font-bold">Upload</button>
                                             </div>
                                     </div>
+                                    @endcan
                             </div>
                             <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">{{$student->name}}
                             </h1>
@@ -60,6 +61,7 @@
                                     <span>Schol Given on</span>
                                     <span class="ml-auto">{{$student->schol_given_on}}</span>
                                 </li>
+                                @can('Update Student')
                                 <li class="flex items-center py-3">
                                     <a href="{{ route('students.edit', [$student->id]) }}"><button
                                             class="bg-gray-300 hover:bg-green-400 text-green-800 font-bold py-2 px-4 rounded inline-flex items-center">
@@ -75,6 +77,7 @@
                                         </button>
                                     </a>
                                 </li>
+                                @endcan
                             </ul>
                         </div>
                         <!-- End of profile card -->

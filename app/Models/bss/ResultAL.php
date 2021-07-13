@@ -40,7 +40,7 @@ class ResultAL extends Model
     protected $dates = ['deleted_at'];
 
     use LogsActivity;
-
+    use SoftDeletes;
 
     protected static $logAttributes = [
         'stream',
@@ -58,7 +58,9 @@ class ResultAL extends Model
         'z_score',
         'district_rank',
         'island_rank',
-        'user_id'
+        'user_id',
+        'approved',
+        'approved_by'
     ];
 
     protected static $logOnlyDirty = true;
@@ -79,7 +81,9 @@ class ResultAL extends Model
         'z_score',
         'district_rank',
         'island_rank',
-        'user_id'
+        'user_id',
+        'approved',
+        'approved_by'
     ];
 
     /**

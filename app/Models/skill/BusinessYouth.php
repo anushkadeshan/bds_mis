@@ -2,14 +2,15 @@
 
 namespace App\Models\skill;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class BusinessYouth extends Model
 {
     use HasFactory, LogsActivity;
-
+    use SoftDeletes;
     public $table = 'youth_intresting_business';
 
     public $fillable = [

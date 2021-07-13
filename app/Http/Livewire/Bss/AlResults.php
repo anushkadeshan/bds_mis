@@ -67,7 +67,8 @@ class AlResults extends Component
                 'z_score' => $this->z_score,
                 'district_rank' => $this->district_rank,
                 'island_rank' => $this->island_rank,
-                'user_id' => Auth::user()->id
+                'user_id' => Auth::user()->id,
+                'approved' =>false
             ]);
             session()->flash('message', 'A/L reuslts added Successfully '.$this->student_name);
         }
@@ -88,6 +89,7 @@ class AlResults extends Component
             $al->district_rank = $this->district_rank;
             $al->island_rank = $this->island_rank;
             $al->user_id = Auth::user()->id;
+            $al->approved = false;
             $al->save();
             session()->flash('message', 'A/L reuslts updated Successfully of '.$this->student_name);
         }
@@ -108,7 +110,8 @@ class AlResults extends Component
                 'z_score' => $this->z_score,
                 'district_rank' => $this->district_rank,
                 'island_rank' => $this->island_rank,
-                'user_id' => Auth::user()->id
+                'user_id' => Auth::user()->id,
+                'approved' =>false
             ]);
             session()->flash('message', 'A/L reuslts added Successfully '.$this->student_name);
         }

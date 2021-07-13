@@ -163,6 +163,7 @@ class BdCreate extends Component
             'views_of_rp' => $this->views_of_rp,
             'attendance' => $attendance_name,
             'resourse_person_id' => $this->resourse_person_id,
+            'approved' =>false,
             'added_by' => Auth::user()->id,
         ]);
 

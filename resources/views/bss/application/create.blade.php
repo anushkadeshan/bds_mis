@@ -13,7 +13,15 @@
             </section>
             <div class="content px-3">
                 <section class="p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
+
+                    @can('Create Student')
                     <livewire:bss.create-student/>
+                    @else
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <strong class="font-bold">Opps!</strong>
+                        <span class="block sm:inline">You don't have permisision to create BSS application.</span>
+                    </div>
+                    @endcan
                 </section>
 
             </div>

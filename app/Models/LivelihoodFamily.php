@@ -45,16 +45,18 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class LivelihoodFamily extends Model
 {
-    
+
 
     use HasFactory;
     use LogsActivity;
+    use SoftDeletes;
     public $table = 'livelihood_families';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
     public $fillable = [
+        'serial_number',
         'district',
         'dsd_id',
         'gn_id',
@@ -85,10 +87,14 @@ class LivelihoodFamily extends Model
         'spouse_employment',
         'hh_health',
         'spouse_health',
-        'added_by'
+        'added_by',
+        'approved',
+        'approved_by',
+        'covid_relief_money_order'
     ];
 
     protected static $logAttributes = [
+        'serial_number',
         'district',
         'dsd_id',
         'gn_id',
@@ -119,10 +125,13 @@ class LivelihoodFamily extends Model
         'spouse_employment',
         'hh_health',
         'spouse_health',
-        'added_by'
+        'added_by',
+        'approved',
+        'approved_by',
+        'covid_relief_money_order'
     ];
     protected static $logOnlyDirty = true;
-    
+
     /**
      * The attributes that should be casted to native types.
      *
@@ -139,7 +148,7 @@ class LivelihoodFamily extends Model
         'respondent' => 'string',
         'res_rela_to_HHH' => 'string',
         'hh_address' => 'string',
-        'family_type' => 'string',
+        'family_type' => 'json',
         'hh_name' => 'string',
         'hh_nic' => 'string',
         'spouse_nic' => 'string',
@@ -202,5 +211,5 @@ class LivelihoodFamily extends Model
         'updated_at' => 'nullable'
     ];
 
-    
+
 }

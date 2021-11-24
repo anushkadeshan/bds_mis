@@ -14,7 +14,8 @@ class DsOfficeController extends Controller
      */
     public function index()
     {
-        return view('locations.dsd');
+        $count = DsOffice::count();
+        return view('locations.dsd',compact('count'));
     }
 
     /**

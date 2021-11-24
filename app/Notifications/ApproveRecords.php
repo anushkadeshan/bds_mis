@@ -58,10 +58,13 @@ class ApproveRecords extends Notification
      */
     public function toDatabase($notifiable)
     {
-        dd($this->activity,$this->subject);
+
         return [
             'causer' => auth()->user()->name,
             'subject' => $this->subject,
+            'message' => 'Record is approved',
+            'photo' =>auth()->user()->profile_photo_url,
+            'url' => '/my-activities'
         ];
     }
 

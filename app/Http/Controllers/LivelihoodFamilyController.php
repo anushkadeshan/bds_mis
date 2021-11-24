@@ -14,7 +14,8 @@ class LivelihoodFamilyController extends Controller
      */
     public function index()
     {
-        return view('LiveliHoodFamily.index');
+        $count = LivelihoodFamily::count();
+        return view('LiveliHoodFamily.index',compact('count'));
     }
 
     /**
@@ -33,9 +34,10 @@ class LivelihoodFamilyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function money_orders()
     {
-        //
+        $count = LivelihoodFamily::whereNotNull('money_order_giving_photo')->count();
+        return view('LiveliHoodFamily.money-orders',compact('count'));
     }
 
     /**

@@ -32,15 +32,15 @@
                             <label for="log_activity_name" class="block text-black"> Activity name as mentioned in the logframe </label>
                             <input type="text" autofocus wire:model="log_activity_name" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="Activity Name" />
                         @error('log_activity_name') <span class="text-danger">*{{ $message }}</span> @enderror
-                        
+
                         </div>
                     </div>
 
                     <div class="flex items-center justify-between mb-5">
-                        <div class="flex flex-col w-4/12 px-2">
-                            <label for="responsible_officer" class="block text-black">Output Code</label>
-                            <input type="text" autofocus wire:model="output_code" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="Output Code" />
-                            @error('output_code') <span class="text-danger">*{{ $message }}</span> @enderror
+                        <div class="flex flex-col w-3/12 px-2">
+                            <label for="responsible_officer" class="block text-black">Name of the responsible officer</label>
+                            <input type="text" autofocus wire:model="responsible_officer" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="Responsible Officer" />
+                            @error('responsible_officer') <span class="text-danger">*{{ $message }}</span> @enderror
                         </div>
                         <div class="flex flex-col w-4/12 px-2">
                             <label for="activity_code" class="block text-black"> Activity Code </label>
@@ -91,8 +91,8 @@
                             </select>
                             @error('selectedDistrict') <span class="text-danger">*{{ $message }}</span> @enderror
                         </div>
-                         
-                        
+
+
                         <div class="flex flex-col w-3/12 px-2">
                             <label for="username" class="block text-black">DS Division</label>
                             <select wire:model="selectedDsd" name="dsd_id" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" wire:select="updatedSelectedDsd">
@@ -104,7 +104,7 @@
                         @error('selectedDsd') <span class="text-danger">*{{ $message }}</span> @enderror
 
                         </div>
-                        
+
                         <div class="flex flex-col w-3/12 px-2">
                             <label for="username" class="block text-black">GN Division</label>
                             <select wire:model="selectedGnd" name="gn_id" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" wire:select="updatedSelectedDsd">
@@ -116,27 +116,27 @@
                         @error('selectedGnd') <span class="text-danger">*{{ $message }}</span> @enderror
 
                         </div>
-                        
+
                     </div>
                     <div class="flex mb-5">
                         <div class="flex flex-col w-3/12 px-2">
                             <label for="date_of_start" class="block text-black">Date of Start</label>
                             <input type="date" autofocus wire:model="date_of_start" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full"  />
                          @error('date_of_start') <span class="text-danger">*{{ $message }}</span> @enderror
-                       
+
                         </div>
                         <div class="flex flex-col w-3/12 px-2">
                             <label for="date_of_end" class="block text-black">Date of End</label>
                             <input type="date" autofocus wire:model="date_of_end" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full"  />
                          @error('date_of_end') <span class="text-danger">*{{ $message }}</span> @enderror
-                       
+
                         </div>
 
                         <div class="flex flex-col w-3/12 px-2">
                             <label for="partner_contribution" class="block text-black">Partner Contribution</label>
                             <input type="number" autofocus wire:model="partner_contribution" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full"  />
                          @error('partner_contribution') <span class="text-danger">*{{ $message }}</span> @enderror
-                       
+
                         </div>
 
 
@@ -144,37 +144,37 @@
                             <label for="bds_contribution" class="block text-black">BDS Contribution</label>
                             <input type="number" autofocus wire:model="bds_contribution" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full"  />
                          @error('bds_contribution') <span class="text-danger">*{{ $message }}</span> @enderror
-                       
+
                         </div>
                     </div>
                     <div class="flex items-center justify-between mb-5">
-                        
+
                         <div class="flex flex-col w-4/12 px-2">
                             <label for="totol_planned_cost" class="block text-black">Total Planned Cost</label>
                             <input type="number" autofocus wire:model="totol_planned_cost" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full"  />
                          @error('totol_planned_cost') <span class="text-danger">*{{ $message }}</span> @enderror
-                       
+
                         </div>
                         <div class="flex flex-col w-4/12 px-2">
                             <label for="totdal_actual_cost" class="block text-black">Total Actual Cost</label>
                             <input type="number" autofocus wire:model="totdal_actual_cost" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full"  />
                          @error('totdal_actual_cost') <span class="text-danger">*{{ $message }}</span> @enderror
-                       
+
                         </div>
                         <div class="flex flex-col w-4/12 px-2">
                             <label for="units_completed" class="block text-black">Units Completed</label>
                             <input type="number" autofocus wire:model="units_completed" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full"  />
                          @error('units_completed') <span class="text-danger">*{{ $message }}</span> @enderror
-                       
+
                         </div>
                     </div>
                     <div class="flex mb-5">
-                        
+
                         <div class="flex flex-col w-9/12 px-2">
                             <label for="lessions_learned" class="block text-black">Lessons learned/strengths/weaknesses & your recommendations.</label>
                             <textarea rows="5" type="number" autofocus wire:model="lessions_learned" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full"></textarea>
                          @error('lessions_learned') <span class="text-danger">*{{ $message }}</span> @enderror
-                       
+
                         </div>
 
                         <div class="flex flex-col w-3/12 px-2">
@@ -188,8 +188,8 @@
                             </select>
                             @error('family_id') <span class="text-danger">*{{ $message }}</span> @enderror
                             </div>
-                         
-                       
+
+
                         </div>
                     </div>
                 </div>
@@ -203,7 +203,7 @@
                         <input  wire:model="organization.0" type="text" autofocus id="hh_name" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="Name" />
                      @error('organization') <span class="text-danger">*{{ $message }}</span> @enderror
                     </div>
-                                       
+
                     <div class="flex flex-col w-3/12 px-2">
                         <label for="username" class="block text-black">Type of Contribution</label>
                         <select wire:model="type_of_contribution.0" name="type_of_contribution" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full">
@@ -213,7 +213,7 @@
                         </select>
                     @error('type_of_contribution') <span class="text-danger">*{{ $message }}</span> @enderror
                     </div>
-                    
+
                     <div class="flex flex-col w-3/12 px-2">
                         <label for="financial_contribution" class="block text-black">Financial Contribution</label>
                         <input wire:model="financial_contribution.0" type="text" autofocus id="financial_contribution" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="Amount" />
@@ -230,14 +230,14 @@
                         <input wire:model="other_amount.0" type="text" autofocus id="other_amount" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="Amount" />
                         @error('other_amount') <span class="text-danger">*{{ $message }}</span> @enderror
                     </div>
-                  
+
                 </div>
                  <button wire:click.prevent="add({{$i}})" wire:loading.attr="disabled" class="bg-blue-600 float-right  text-white p-2 w-32 rounded-10 hover:bg-blue-700 focus:outline-none focus:ring shadow-lg hover:shadow-none transition-all duration-300 m-2">
-                    Add another 
+                    Add another
                     <div wire:loading wire:target="add">
                         <i class="fas fa-cog fa-spin"></i>
                     </div>
-                    
+
                 </button>
             </div>
             <br>
@@ -249,7 +249,7 @@
                         <input  wire:model="organization.{{ $value }}" type="text" autofocus id="hh_name" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="Name" />
                      @error('organization.'.$value) <span class="text-danger">*{{ $message }}</span> @enderror
                     </div>
-                                       
+
                     <div class="flex flex-col w-3/12 px-2">
                         <label for="username" class="block text-black">Type of Contribution</label>
                         <select wire:model="type_of_contribution.{{ $value }}" name="type_of_contribution" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full">
@@ -277,16 +277,16 @@
                     </div>
                 </div>
                 <button wire:click.prevent="remove({{$key}})" class="bg-red-600 float-right  text-white p-2 w-28 rounded-10 hover:bg-red-700 focus:outline-none focus:ring shadow-lg hover:shadow-none transition-all duration-300 m-2">
-                    Remove 
+                    Remove
                     <div wire:loading wire:target="remove">
                         <i class="fas fa-cog fa-spin"></i>
                     </div>
                 </button>
             </div>
-            
+
             <br>
             @endforeach
-            
+
         </div>
         <div wire:ignore.self class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-profile-tab">
             <div class="flex flex-col text-black-500 bg-gray-200 p-3 rounded-lg">
@@ -296,7 +296,7 @@
                         <label for="username" class="block text-black">Beneficiary Name</label>
                         <input  wire:model="beneficiary_name.0" type="text" autofocus id="hh_name" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="Beneficiary Name" />
                      @error('beneficiary_name') <span class="text-danger">*{{ $message }}</span> @enderror
-                    </div>               
+                    </div>
                     <div class="flex flex-col w-2/6 px-2">
                         <label for="financial_contribution" class="block text-black">Meterial</label>
                         <input wire:model="meterial.0" type="text" autofocus id="meterial" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="Meterial Name" />
@@ -307,26 +307,26 @@
                         <input wire:model="quantity.0" type="text" autofocus id="quantity" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="Quantity" />
                         @error('quantity') <span class="text-danger">*{{ $message }}</span> @enderror
                     </div>
-                    
+
                 </div>
                  <button wire:click.prevent="add2({{$x}})" wire:loading.attr="disabled" class="bg-blue-600 float-right  text-white p-2 w-32 rounded-10 hover:bg-blue-700 focus:outline-none focus:ring shadow-lg hover:shadow-none transition-all duration-300 m-2">
-                    Add another 
+                    Add another
                     <div wire:loading wire:target="add2">
                         <i class="fas fa-cog fa-spin"></i>
                     </div>
-                    
+
                 </button>
             </div>
             <br>
             @foreach($inputs2 as $key => $value)
             <div class="flex flex-col text-black-500 bg-gray-200 p-3 rounded-lg">
-                <div class="flex  mb-5">            
+                <div class="flex  mb-5">
                     <div class="flex flex-col w-2/6 px-2">
                         <label for="username" class="block text-black">Beneficiary Name</label>
                         <input  wire:model="beneficiary_name.{{ $value }}" type="text" autofocus id="hh_name" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="Beneficiary Name" />
                      @error('beneficiary_name.'.$value) <span class="text-danger">*{{ $message }}</span> @enderror
-                    </div>               
-                  
+                    </div>
+
                     <div class="flex flex-col w-2/6 px-2">
                         <label for="financial_contribution" class="block text-black">Meterial</label>
                         <input wire:model="meterial.{{ $value }}" type="text" autofocus id="meterial" class="rounded-sm px-3 py-2 mt-2 focus:outline-none bg-gray-100 w-full" placeholder="Meterial Name" />
@@ -339,29 +339,29 @@
                     </div>
                 </div>
                 <button wire:click.prevent="remove2({{$key}})" class="bg-red-600 float-right  text-white p-2 w-28 rounded-10 hover:bg-red-700 focus:outline-none focus:ring shadow-lg hover:shadow-none transition-all duration-300 m-2">
-                    Remove 
+                    Remove
                     <div wire:loading wire:target="remove2">
                         <i class="fas fa-cog fa-spin"></i>
                     </div>
                 </button>
             </div>
-            
+
             <br>
             @endforeach
-            
+
         </div>
         <div wire:ignore.self class="tab-pane fade" id="pills-finish" role="tabpanel" aria-labelledby="pills-finish-tab">
             <div class="flex-auto flex justify-center content-center mt-5 mb-5">
                 <p>Confirm Every required data are filled before save the data.</p>
             </div>
             <div class="flex-auto flex justify-center content-center mt-5 mb-2">
-                
+
                 <button wire:click.prevent="saveData" class="bg-green-600 float-right  text-white p-2 w-28 rounded-10 hover:bg-green-700 focus:outline-none focus:ring shadow-lg hover:shadow-none transition-all duration-300 m-2">
-                    Save Data 
+                    Save Data
                     <div wire:loading wire:target="saveData">
                         <i class="fas fa-cog fa-spin"></i>
                     </div>
-                </button>                
+                </button>
             </div>
 
             <div class="flex-auto flex justify-center content-center mt-5 mb-2">
@@ -369,7 +369,7 @@
                     <p class="text-blue-600">Please Wait. Data is Saving to the database</p>
                 </div>
             </div>
-          
+
 
         </div>
         @if (count($errors) > 0)

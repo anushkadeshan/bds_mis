@@ -12,10 +12,10 @@ use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 class LivelihoodfamilyTable extends LivewireDatatable
 {
 
-     public $model = LivelihoodFamily::class;
+    public $model = LivelihoodFamily::class;
     protected $listners = ['refreshLivewireDatatable' => 'columns'];
 
-    
+
     public function columns()
     {
         return [
@@ -27,7 +27,7 @@ class LivelihoodfamilyTable extends LivewireDatatable
             Column::name('hh_name')->searchable(),
             Column::name('hh_contact')->searchable(),
 
-          
+
             Column::callback(['id'], function ($id) {
                 return view('livewire.livelihoodfamily-table', ['id' => $id]);
             })

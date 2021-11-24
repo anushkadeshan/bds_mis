@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Models\bss\ResultOL;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,10 +12,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-use Spatie\WelcomeNotification\WelcomesNewUsers;
-use App\Http\Controllers\WelcomeController;
 use App\Http\Livewire\OlResults;
-use App\Models\bss\ResultOL;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Redirect;
+use App\Http\Controllers\WelcomeController;
+use Spatie\WelcomeNotification\WelcomesNewUsers;
 
 Route::group(['middleware' => ['web', WelcomesNewUsers::class,]], function () {
     Route::get('welcome/{user}', [WelcomeController::class, 'showWelcomeForm'])->name('welcome');
@@ -33,15 +34,34 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 Route::group(['middleware'=>'auth:sanctum'],function(){
     Route::group(['middleware'=>'password.confirm'],function(){
-        Route::resource('roles', App\Http\Controllers\RoleController::class);
-        Route::resource('permissions', App\Http\Controllers\PermissionController::class);
-        Route::resource('users', App\Http\Controllers\UserController::class);
+        Route::group(['prefix'=>'admin'], function(){
+            Route::resource('roles', App\Http\Controllers\RoleController::class);
+            Route::resource('permissions', App\Http\Controllers\PermissionController::class);
+            Route::resource('users', App\Http\Controllers\UserController::class);
+            Route::resource('tasks', App\Http\Controllers\TaskController::class);
+            Route::resource('budget-types', App\Http\Controllers\Program\BudgetTypeController::class);
+        });
     });
-        Route::view('upload-profile-picture', 'LiveliHoodFamily.profile-picture');
-        Route::resource('gn-divisions', App\Http\Controllers\GnOfficeController::class);
-        Route::resource('dsd-divisions', App\Http\Controllers\DsOfficeController::class);
-        Route::resource('house-hold-families', App\Http\Controllers\LivelihoodFamilyController::class);
-        Route::resource('resourse-people', App\Http\Controllers\ResoursePersonController::class);
+        Route::view('upload-profile-picture', 'LiveliHoodFamily.profile-picture')->name('upload-profile-picture');
+        Route::get('money-order-documents', [App\Http\Controllers\LivelihoodFamilyController::class, 'money_orders'])->name('money-orders');
+        Route::view('csos', 'csos.index')->name('cso.index');
+        Route::view('csos-create', 'csos.create')->name('cso.create');
+        Route::group(['prefix'=>'working-areas'], function(){
+            Route::resource('gn-divisions', App\Http\Controllers\GnOfficeController::class);
+            Route::resource('dsd-divisions', App\Http\Controllers\DsOfficeController::class);
+        });
+
+        Route::group(['prefix'=>'program'], function(){
+            Route::resource('logframe-activities', App\Http\Controllers\LogFrame\ActivityController::class);
+            Route::resource('completion-reports', App\Http\Controllers\Program\CompletionReportController::class);
+            Route::resource('budget', App\Http\Controllers\Program\BudgetController::class);
+            Route::resource('progress', App\Http\Controllers\Program\ProgressController::class);
+        });
+        Route::group(['prefix'=>'families'], function(){
+            Route::resource('house-hold-families', App\Http\Controllers\LivelihoodFamilyController::class);
+            Route::resource('resourse-people', App\Http\Controllers\ResoursePersonController::class);
+        });
+
         Route::group(['prefix'=>'activities'], function(){
             Route::resource('livelihood-support', App\Http\Controllers\ImproveLivilyhoodController::class);
             Route::resource('business-developmemt', App\Http\Controllers\BusinessDevelopmentController::class);
@@ -52,7 +72,7 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
         });
 
         Route::group(['prefix'=>'bss'], function(){
-            Route::view('dashboard', 'dashboard-bss');
+            Route::view('dashboard', 'dashboard-bss')->name('dashboard-bss');
             Route::resource('students', App\Http\Controllers\bss\StudentController::class);
             Route::get('ol-results', [App\Http\Controllers\bss\StudentController::class, 'ol'])->name('ol');
             Route::get('al-results', [App\Http\Controllers\bss\StudentController::class, 'al'])->name('al');
@@ -68,9 +88,23 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
             Route::resource('youths', App\Http\Controllers\skill\YouthController::class);
         });
         Route::resource('activities', App\Http\Controllers\ActivityController::class);
+        Route::get('my-activities', [App\Http\Controllers\ActivityController::class, 'myActivities']);
         Route::post('familyList', [App\Http\Controllers\skill\YouthController::class, 'familyList']);
         Route::post('bssList', [App\Http\Controllers\skill\YouthController::class, 'bssList']);
         Route::post('courseList', [App\Http\Controllers\skill\YouthController::class, 'courseList']);
         Route::post('courseList1', [App\Http\Controllers\skill\YouthController::class, 'courseList1']);
+        Route::view('notifications', 'Logs.notifications');
+
+        Route::get('eip-clients', [App\Http\Controllers\EipController::class, 'index'])->name('eip-clients');
+        Route::get('eip-create', [App\Http\Controllers\EipController::class, 'create'])->name('eip-create');
+
+        Route::group(['prefix'=>'mobile-app'], function(){
+            Route::resource('sessions', App\Http\Controllers\MobileApp\SessionController::class);
+            Route::resource('trips', App\Http\Controllers\MobileApp\TripController::class);
+        });
 
 });
+
+Route::view('career-key', 'career-key.index');
+Route::get("/tor", function() { return Redirect::to("/storage/audit-tor/ToRAudit.pdf"); });
+Route::view('invitaion-for-bids','tender.index');

@@ -9,14 +9,14 @@
         <div class="relative">
             <div class="flex">
                 <div class="felx-1 w-4/6">
-                    <input wire:model="query" wire:keydown.escape="reset" placeholder="Search house hold by name or code" wire:keydown.tab="reset" wire:keydown.ArrowUp="decrementHighlight" wire:keydown.ArrowDown="incrementHighlight" wire:keydown.enter="selectStudent" id="query" type="text" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"/>
+                    <input wire:model="query" wire:keydown.escape="reset" placeholder="Search house hold by name" wire:keydown.tab="reset" wire:keydown.ArrowUp="decrementHighlight" wire:keydown.ArrowDown="incrementHighlight" wire:keydown.enter="selectStudent" id="query" type="text" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"/>
                 </div>
-                <span wire:loading class="felx-1 fa-2x pl-2 mt-1">
+                <span wire:loading wire:target="query" class="felx-1 fa-2x pl-2 mt-1">
                     <i class="fas fa-circle-notch fa-spin"></i>
                 </span>
             </div>
 
-            <div wire:loading class="absolute z-10 list-group bg-white w-full rounded-t-none shadow-lg">
+            <div wire:loading   wire:target="query" class="absolute z-10 list-group bg-white w-full rounded-t-none shadow-lg">
                 <div class="list-item">Searching...</div>
             </div>
             @error('family_id') <span class="text-danger">*{{ $message }}</span> @enderror
@@ -55,7 +55,16 @@
                             @if ($profile)
                                 <img class="w-40" src="{{ $profile->temporaryUrl() }}">
                             @endif
+                            <button wire:click.prevent="saveProfilePhoto" class="text-white bg-green-700 hover:bg-green-600 font-bold py-2 px-4 rounded inline-flex items-center">
+                                <svg wire:loading wire:target="saveProfilePhoto" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                <span wire:loading wire:target="saveProfilePhoto">Saving</span>
+                                <span wire:loading.remove wire:target="saveProfilePhoto"><i class="fa fa-save"></i> Upload</span>
+                            </button>
                         </div>
+
                     </div>
                     <div class="bg-grey-lighter border-dotted border-gray-500">
                         <label class="w-80 flex flex-col items-center m-3  px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide  border border-blue cursor-pointer hover:bg-blue hover:text-white">
@@ -73,6 +82,15 @@
                             @if($filename2)
                                 <div class="text-black">{{$filename2}}</div>
                             @endif
+
+                            <button wire:click.prevent="saveMoneyOrderPhoto" class="text-white bg-green-700 hover:bg-green-600 font-bold py-2 px-4 rounded inline-flex items-center">
+                                <svg wire:loading wire:target="saveMoneyOrderPhoto" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                <span wire:loading wire:target="saveMoneyOrderPhoto">Saving</span>
+                                <span wire:loading.remove wire:target="saveMoneyOrderPhoto"><i class="fa fa-save"></i> Upload</span>
+                            </button>
                         </div>
 
                     </div>
@@ -92,18 +110,17 @@
                             @if ($photo)
                                 <img class="w-40" src="{{ $photo->temporaryUrl() }}">
                             @endif
+                            <button wire:click.prevent="saveMoneyOrderGivingPhoto" class="text-white bg-green-700 hover:bg-green-600 font-bold py-2 px-4 rounded inline-flex items-center">
+                                <svg wire:loading wire:target="saveMoneyOrderGivingPhoto" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                <span wire:loading wire:target="saveMoneyOrderGivingPhoto">Saving</span>
+                                <span wire:loading.remove wire:target="saveMoneyOrderGivingPhoto"><i class="fa fa-save"></i> Upload</span>
+                            </button>
                         </div>
-
                     </div>
                 </div>
-                <button wire:click.prevent="saveData" class="text-white bg-green-700 hover:bg-green-600 font-bold py-2 px-4 rounded inline-flex items-center">
-                    <svg wire:loading wire:target="saveData" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <span wire:loading wire:target="saveData">Saving</span>
-                    <span wire:loading.remove wire:target="saveData"><i class="fa fa-save"></i> Save</span>
-                </button>
             </div>
           </div>
     </div>

@@ -2,14 +2,15 @@
 
 namespace App\Actions\Fortify;
 
+use Auth;
 use App\Models\Team;
 use App\Models\User;
+use Laravel\Jetstream\Jetstream;
+use App\Notifications\UserCreated;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
-use Laravel\Jetstream\Jetstream;
-use Auth;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -31,12 +32,16 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
         ])->validate();
-           return User::create([
+           return $user = User::create([
                 'name' => $input['name'],
                 'email' => $input['email'],
                 'password' => Hash::make($input['password']),
                 'phone' => $input['phone'],
             ]);
+
+            $user = User::role('Super Admin')->first();
+            dd($user);
+            $user->notify(new UserCreated($user));
     }
 
     /**

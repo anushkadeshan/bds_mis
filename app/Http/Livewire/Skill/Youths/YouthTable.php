@@ -39,15 +39,16 @@ class YouthTable extends LivewireDatatable
     {
         return [
             NumberColumn::name('id'),
-            Column::name('name')->searchable()->editable(),
-            Column::name('full_name')->searchable(),
-            Column::name('nic')->searchable()->editable(),
-            Column::name('gender')->searchable(),
-            Column::name('branches.name')
-                    ->label('Branch Name')->searchable()->filterable(),
             Column::callback(['id'], function ($id) {
                 return view('livewire.skill.youths.youth-table', ['id' => $id]);
-            })
+            }),
+            Column::name('name')->searchable(),
+            Column::name('full_name')->searchable(),
+            Column::name('nic')->searchable(),
+            Column::name('gender')->searchable(),
+            Column::name('branches.name')
+                    ->label('Branch Name')->searchable(),
+
         ];
     }
 

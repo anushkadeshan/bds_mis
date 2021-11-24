@@ -161,7 +161,8 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-       // Yajra\Datatables\DataTablesServiceProvider::class,
+
+        Yajra\Datatables\DataTablesServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -180,7 +181,10 @@ return [
         App\Providers\JetstreamServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        App\Providers\GoogleDriveServiceProvider::class
+        App\Providers\GoogleDriveServiceProvider::class,
+        Shetabit\Visitor\Provider\VisitorServiceProvider::class,
+        Cornford\Googlmapper\MapperServiceProvider::class,
+
     ],
 
     /*
@@ -236,8 +240,10 @@ return [
         'Form'      => Collective\Html\FormFacade::class,
         'Html'      => Collective\Html\HtmlFacade::class,
         'Flash'     => Laracasts\Flash\Flash::class,
-         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-       //'Datatables' => Yajra\DataTables\Facades\DataTables::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Visitor' => Shetabit\Visitor\Facade\Visitor::class,
+       'Datatables' => Yajra\DataTables\Facades\DataTables::class,
+       'Mapper'  => Cornford\Googlmapper\Facades\MapperFacade::class,
 
 
     ],

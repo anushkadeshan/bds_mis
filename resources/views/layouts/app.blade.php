@@ -41,7 +41,7 @@
         crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.css">
     <link rel="stylesheet" href="{{asset('css/adminlte.css')}}">
-
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     @yield('third_party_stylesheets') @stack('page_css') @livewireStyles
     <style>
@@ -200,6 +200,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@2.1.16/dist/js/coreui.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
+    <script src="//cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script>
        ;
         function app() {
@@ -207,6 +208,10 @@
                 step: 1,
             }
         }
+
+        $(document).ready( function () {
+            $('#myTable').DataTable();
+        } );
     </script>
 
     <script>
@@ -219,7 +224,6 @@
         });
 
         @if(session('message'))
-            alert("{{ session('message') }}");
             toastr['success']("{{ session('message') }}");
         @endif
     </script>

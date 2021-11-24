@@ -20,7 +20,7 @@ class PermissionTable extends LivewireDatatable
         return [
             NumberColumn::name('id'),
 
-            Column::name('name')->searchable()->editable(),
+            Column::name('name')->searchable(),
 
             Column::name('guard_name')->searchable(),
 

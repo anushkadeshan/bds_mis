@@ -8,10 +8,10 @@
         @endif
         <div class="row mt-3">
 
-        <div class="col-md-6">
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Edit Vacancy Details</h3>
+        <div class="col-md-12">
+            <div class="card card-absolute">
+                <div class="card-header bg-primary">
+                    <h5 class="card-title">Edit Vacancy Details</h5>
                   </div>
                   <div class="card-body">
                           <div class="form-group">
@@ -115,9 +115,9 @@
             </div>
 
         <div class="col-md-6">
-            <div class="card card-success">
-                <div class="card-header">
-                    <h3 class="card-title">Candidate Profile</h3>
+            <div class="card card-absolute">
+                <div class="card-header bg-primary">
+                    <h5 class="card-title">Candidate Profile</h5>
                   </div>
                   <div class="card-body">
                       <div class="row">
@@ -191,7 +191,7 @@
                           </select>
                           @error('employer_id') <span class="text-danger">*{{ $message }}</span> @enderror
                       </div>
-
+                      <br>
                       <div class="form-group">
                         <button type="submit" class="text-white bg-green-700 hover:bg-green-600 py-2 px-4 rounded inline-flex items-center">
                             <svg wire:loading wire:target="save" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

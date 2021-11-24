@@ -54,5 +54,21 @@
             </div>
         </div>
     </div>
+    <div class="mx-auto mt-10 mb-3">
+        <div class="mb-2">
+            <input placeholder="Enter reject reason" wire:model="reason" id="reason" type="text" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">                                @error('reason') <span class="text-danger">*{{ $message }}</span> @enderror
+        </div>
+        <div class="flex ">
+            <div class="text-right ">
+                <button wire:click.prevent="reject" class="text-white bg-red-700 hover:bg-red-600 font-bold py-2 px-4 rounded inline-flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span wire:loading wire:target="reject"> Proccessing</span>
+                    <span wire:loading.remove wire:target="reject"> Reject</span>
+                </button>
+            </div>
+        </div>
+    </div>
     @endif
 </div>

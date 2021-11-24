@@ -4,7 +4,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Add New Course</h5>
-                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     @if (session()->has('message'))
@@ -112,7 +112,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="text-white bg-gray-700 hover:bg-gray-600 py-2 px-4 rounded inline-flex items-center" data-dismiss="modal">Close</button>
+                    <button type="button" class="text-white bg-gray-700 hover:bg-gray-600 py-2 px-4 rounded inline-flex items-center" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="text-white bg-green-700 hover:bg-green-600 py-2 px-4 rounded inline-flex items-center">
                         <svg wire:loading wire:target="save" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

@@ -20,11 +20,9 @@ class DsdTable extends LivewireDatatable
         return [
             NumberColumn::name('id'),
 
-            Column::name('name')->searchable()->editable(),
+            Column::name('name')->searchable(),
             Column::name('district')->searchable(),
             Column::name('province')->searchable(),
-
-
             Column::callback(['id'], function ($id) {
                 return view('livewire.dsd-table', ['id' => $id]);
             })

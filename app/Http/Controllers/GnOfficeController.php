@@ -16,8 +16,9 @@ class GnOfficeController extends Controller
     public function index()
     {
         $dss = DsOffice::all();
+        $count = GnOffice::count();
         // dd($ds_divisions);
-        return view('locations.gn',compact('dss'));
+        return view('locations.gn',compact('dss','count'));
     }
 
     /**

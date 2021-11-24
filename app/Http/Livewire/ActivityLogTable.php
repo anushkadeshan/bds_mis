@@ -34,6 +34,9 @@ class ActivityLogTable extends LivewireDatatable
     {
         return [
             NumberColumn::name('id'),
+            Column::callback(['id'], function ($id) {
+                return view('livewire.activity-log-table', ['id' => $id]);
+            }),
             Column::name('description'),
             Column::name('subject_type'),
             Column::name('users.name')
@@ -42,9 +45,7 @@ class ActivityLogTable extends LivewireDatatable
                 return view('livewire.activity-log-properties', ['properties' => $properties]);
             })->label('Data'),
             Column::name('created_at'),
-            Column::callback(['id'], function ($id) {
-                return view('livewire.activity-log-table', ['id' => $id]);
-            })
+
         ];
     }
 }

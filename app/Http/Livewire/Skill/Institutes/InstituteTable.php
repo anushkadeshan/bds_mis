@@ -16,11 +16,10 @@ class InstituteTable extends LivewireDatatable
     {
         return [
             NumberColumn::name('id'),
-            Column::name('name')->searchable()->editable(),
-            Column::name('phone')->searchable()->editable(),
-            Column::name('contact_person')->searchable()->editable(),
+            Column::name('name')->searchable(),
             Column::name('phone')->searchable(),
-            Column::name('email')->searchable()->editable(),
+            Column::name('contact_person')->searchable(),
+            Column::name('email')->searchable(),
             Column::name('type')->searchable(),
             Column::callback(['id'], function ($id) {
                 return view('livewire.skill.institutes.institute-table', ['id' => $id]);

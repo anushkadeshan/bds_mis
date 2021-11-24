@@ -12,6 +12,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Shetabit\Visitor\Traits\Visitor;
 
 
 class User extends Authenticatable
@@ -24,6 +25,7 @@ class User extends Authenticatable
     use TwoFactorAuthenticatable;
     use HasRoles;
     use SoftDeletes;
+    use Visitor;
     protected $guard_name = 'web';
 
     /**
@@ -32,7 +34,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','active','phone'
+        'name', 'email', 'password','active','phone','last_seen'
     ];
 
     protected static $logAttributes = [

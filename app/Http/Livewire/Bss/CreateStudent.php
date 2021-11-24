@@ -118,7 +118,6 @@ class CreateStudent extends Component
         'status_id' => 'required|integer',
         'client_code' => 'nullable|string|max:45',
         'schol_type' => 'required|string|max:45',
-        'photo' => 'image|max:1024',
 
         //payment
         'scholar_amount' => 'required|numeric',

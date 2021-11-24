@@ -20,17 +20,18 @@ class VacancyTable extends LivewireDatatable
     {
         return [
             NumberColumn::name('id'),
-            Column::name('title')->searchable()->editable(),
-            Column::name('job_type')->searchable()->editable(),
-            Column::name('industry')->searchable()->editable(),
-            Column::name('location')->searchable(),
-            Column::name('dedline')->searchable()->editable(),
-            Column::name('salary')->searchable()->editable(),
-            Column::name('employers.name')
-                ->label('Employer')->searchable(),
             Column::callback(['id'], function ($id) {
                 return view('livewire.skill.vacancies.vacancy-table', ['id' => $id]);
-            })
+            }),
+            Column::name('title')->searchable(),
+            Column::name('job_type')->searchable(),
+            Column::name('industry')->searchable(),
+            Column::name('location')->searchable(),
+            Column::name('dedline')->searchable(),
+            Column::name('salary')->searchable(),
+            Column::name('employers.name')
+                ->label('Employer')->searchable(),
+
         ];
     }
 

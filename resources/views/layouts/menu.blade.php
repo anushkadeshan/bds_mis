@@ -172,4 +172,37 @@
             </a>
         </li>
     </ul>
+    <li class="nav-item">
+        <a href="{{ route('cso.index') }}" class="nav-link {{ Request::is('csos') ? 'active' : '' }}">
+            <i class="fas fa-users-cog nav-icon"></i>
+            <p>CSO Profiles</p>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="{{ route('eip-clients') }}" class="nav-link {{ Request::is('eip-clients') ? 'active' : '' }}">
+            <i class="fas fa-house-damage nav-icon"></i>
+            <p>EIP Clients</p>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="{{ route('money-orders') }}" class="nav-link {{ Request::is('upload-profile-picture*') ? 'active' : '' }}">
+            <i class="fas fa-upload nav-icon"></i>
+            <p>Money Order Documents</p>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="{{ route('sessions.index') }}" class="nav-link {{ Request::is('upload-profile-picture*') ? 'active' : '' }}">
+            <i class="fas fa-mobile-alt  nav-icon"></i>
+            <p>Mobile App</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{{ route('trips.index') }}" class="nav-link {{ Request::is('upload-profile-picture*') ? 'active' : '' }}">
+            <i class="fas fa-mobile-alt  nav-icon"></i>
+            <p>Mobile App -Trips</p>
+        </a>
+    </li>
 </li>

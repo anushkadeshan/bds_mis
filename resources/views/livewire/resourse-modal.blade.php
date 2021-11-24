@@ -2,9 +2,9 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-             
+
                 <h5 class="modal-title" id="exampleModalLabel">Add New Resourse Person</h5>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 @if (count($errors) > 0)
@@ -55,11 +55,11 @@
                             <progress max="100" x-bind:value="progress"></progress>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" wire:click="store()" class="btn btn-primary">Save changes</button>
             </div>
         </div>

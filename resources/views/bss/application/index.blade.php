@@ -7,7 +7,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>All BSS Students</h1>
+                            <h1>All BSS Students <span class="inline-flex items-center justify-center px-3 py-2 mr-2 text-lg font-bold leading-none text-red-100 bg-red-600 rounded-full">{{$count}}</span></h1>
                         </div>
                         @can('Create Student')
                         <div class="col-sm-6">

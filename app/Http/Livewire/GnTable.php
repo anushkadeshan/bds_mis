@@ -26,7 +26,7 @@ class GnTable extends LivewireDatatable
         return [
             NumberColumn::name('id'),
 
-            Column::name('name')->searchable()->editable(),
+            Column::name('name')->searchable(),
             Column::name('dsd_office.name')
                 ->label('DS Office Name')->searchable(),
 

@@ -183,6 +183,7 @@
                                 <option value="">Select a Option</option>
                                 <option value="Rural">Rural</option>
                                 <option value="Plantation">Plantation</option>
+                                <option value="Urban">Urban</option>
                             </select> @error('sector') <span class="text-danger">*{{ $message }}</span> @enderror
                             </div>
                             <div>
@@ -202,12 +203,13 @@
                             </select> @error('low_income') <span class="text-danger">*{{ $message }}</span> @enderror
                             </div>
                             <div>
-                                <label class="text-gray-700 dark:text-gray-200" for="direct_by_bmic">Direct By Bmic</label>
+                                <label class="text-gray-700 dark:text-gray-200" for="direct_by_bmic">Source</label>
                                 <select wire:model="direct_by_bmic" id="direct_by_bmic" type="text" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
-                                <option value="">Select a Option</option>
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
-                            </select> @error('direct_by_bmic') <span class="text-danger">*{{ $message }}</span> @enderror
+                                    <option value="">Select a Option</option>
+                                    <option value="1">BMIC</option>
+                                    <option value="0">BDS</option>
+                                    <option value="2">Tesco</option>
+                                </select> @error('direct_by_bmic') <span class="text-danger">*{{ $message }}</span> @enderror
                             </div>
 
                             @if($direct_by_bmic=="1")

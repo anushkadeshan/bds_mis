@@ -17,15 +17,16 @@ class EmployersTable extends LivewireDatatable
     {
         return [
             NumberColumn::name('id'),
-            Column::name('name')->searchable()->editable(),
-            Column::name('address')->searchable()->editable(),
-            Column::name('company_type')->searchable()->editable(),
-            Column::name('industry')->searchable(),
-            Column::name('phone')->searchable()->editable(),
-            Column::name('email')->searchable()->editable(),
             Column::callback(['id'], function ($id) {
                 return view('livewire.skill.employers.employers-table', ['id' => $id]);
-            })
+            }),
+            Column::name('name')->searchable(),
+            Column::name('address')->searchable(),
+            Column::name('company_type')->searchable(),
+            Column::name('industry')->searchable(),
+            Column::name('phone')->searchable(),
+            Column::name('email')->searchable(),
+
         ];
     }
 }

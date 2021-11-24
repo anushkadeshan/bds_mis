@@ -35,8 +35,10 @@ class UsersTable extends LivewireDatatable
     {
         return [
             NumberColumn::name('id'),
-
-            Column::name('name')->searchable()->editable(),
+            Column::callback(['id', 'name'], function ($id, $name) {
+                return view('livewire.users-table', ['id' => $id, 'name' => $name]);
+            }),
+            Column::name('name')->searchable(),
 
             Column::name('email')->searchable(),
 
@@ -46,9 +48,6 @@ class UsersTable extends LivewireDatatable
                 ->label('Branch'),
             Column::name('roles.name')
                 ->label('Role'),
-            Column::callback(['id', 'name'], function ($id, $name) {
-                return view('livewire.users-table', ['id' => $id, 'name' => $name]);
-            })
         ];
     }
 

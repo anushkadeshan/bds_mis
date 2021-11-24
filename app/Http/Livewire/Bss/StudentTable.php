@@ -24,7 +24,8 @@ class StudentTable extends LivewireDatatable
             return Student::query()->leftJoin('gn_office', 'gn_office.id', 'students.gn_id')
             ->leftJoin('dsd_office', 'dsd_office.id', 'students.dsd_id')
             ->leftJoin('status', 'status.id', 'students.status_id')
-            ->whereIn('students.approved',[1,2])
+            ->leftJoin('payment_details', 'payment_details.student_id', 'students.id')
+            //->whereIn('students.approved',[1,2])
             ->leftJoin('branches', 'branches.id', 'students.branch_id')
             ->where('branch_id',Auth::user()->branch_id);
         }
@@ -32,16 +33,20 @@ class StudentTable extends LivewireDatatable
             return Student::query()->leftJoin('gn_office', 'gn_office.id', 'students.gn_id')
             ->leftJoin('dsd_office', 'dsd_office.id', 'students.dsd_id')
             ->leftJoin('status', 'status.id', 'students.status_id')
+            ->leftJoin('payment_details', 'payment_details.student_id', 'students.id')
             ->leftJoin('branches', 'branches.id', 'students.branch_id')
-            ->whereIn('students.approved',[1,2])
+           // ->whereIn('students.approved',[1,2])
+            ->where('payment_details.p_status',1)
             ->whereIn('branch_id',json_decode(Auth::user()->branches));
         }
         else{
             return Student::query()->leftJoin('gn_office', 'gn_office.id', 'students.gn_id')
             ->leftJoin('dsd_office', 'dsd_office.id', 'students.dsd_id')
             ->leftJoin('branches', 'branches.id', 'students.branch_id')
+            ->leftJoin('payment_details', 'payment_details.student_id', 'students.id')
             ->whereNotIn('branch_id',[9,10,11,4])
-            ->whereIn('students.approved',[1,2])
+           // ->whereIn('students.approved',[1,2])
+           ->where('payment_details.p_status',1)
             ->leftJoin('status', 'status.id', 'students.status_id');
 
         }
@@ -102,6 +107,7 @@ class StudentTable extends LivewireDatatable
                 Column::name('ref_no')->searchable()->editable()->hide(),
                 Column::name('schol_type')->searchable()->hide(),
                 Column::name('schol_given_on')->searchable()->hide(),
+                Column::name('ethnicity')->searchable()->hide()->filterable(),
                 Column::name('nic')->searchable()->filterable()->hide(),
                 Column::name('dsd_office.name')
                     ->label('DS Office Name')->searchable()->filterable()->hide(),

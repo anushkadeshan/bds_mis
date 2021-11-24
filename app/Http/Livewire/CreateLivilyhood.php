@@ -28,6 +28,8 @@ class CreateLivilyhood extends Component
     public $i = 1;
     public $x = 1;
 
+
+
     public $responsible_officer, $output_code, $log_activity_name, $activity_code, $financial_year, $specific_activity_name,
         $date_of_start,
         $date_of_end,

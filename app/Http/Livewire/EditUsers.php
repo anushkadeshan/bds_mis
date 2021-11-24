@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 use Auth;
 use App\Actions\textbiz;
+use App\Models\GnOffice;
 use App\Models\User;
 use Livewire\Component;
 use App\Notifications\UserActivated;
@@ -14,6 +15,8 @@ class EditUsers extends Component
     public $roles;
     public $branches;
     public $permissions;
+    public $dsDivisions;
+    public $gnDivisions;
 
 
     public $role;
@@ -21,6 +24,8 @@ class EditUsers extends Component
     public $isActive;
     public $regional_branches = [];
     public $givenPermissions = [];
+    public $dsds = [];
+    public $gnds = [];
 
     public function givePermission(){
 
@@ -78,10 +83,29 @@ class EditUsers extends Component
 
     }
 
-    public function mount($user,$roles,$branches,$permissions)
+    public function changeDsds(){
+        //dd(json_encode($this->regional_branches));
+        $userCollection = User::find($this->user->id);
+        $userCollection->dsds = $this->dsds;
+        $userCollection->save();
+
+        session()->flash('message', 'DSDs successfully Updated.');
+
+    }
+
+    public function UpdatedDsds($dsds){
+        if (!is_null($dsds)) {
+            $this->gnDivisions = GnOffice::whereIn('dsd_id', $dsds)->get();
+        }
+    }
+
+    public function mount($user,$roles,$branches,$permissions, $dsDivisions)
     {
         $this->isActive = $user->active;
+        $this->dsDivisions = $dsDivisions;
+        $this->gnDivisions = collect();
         $cuurent_role = $user->roles->pluck('name');
+
         if(!$cuurent_role){
             $this->role = $cuurent_role[0];
         }

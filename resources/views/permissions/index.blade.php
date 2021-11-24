@@ -1,37 +1,63 @@
 
-    
+@extends('layouts.admin.master')
+@section('title', 'User Permissions')
 
-    
+@section('css')
+@endsection
 
-<x-app-layout>
+@section('style')
+@endsection
 
-    <div >
-        <div class="max-w-9xl mx-auto py-10 sm:px-6 lg:px-8">
-            <section class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1>Permissions</h1>
-                        </div>
-                        <div class="col-sm-6">
-                            <button
-                                class="bg-blue-600 float-right  text-white p-2 w-28 rounded-10 hover:bg-blue-700 focus:outline-none focus:ring shadow-lg hover:shadow-none transition-all duration-300 m-2"
-                                data-toggle="modal" data-target="#exampleModal"
-                            >
-                                Add New
-                            </button>
-                        </div>
+@section('breadcrumb-title')
+@endsection
+
+@section('breadcrumb-items')
+<li class="breadcrumb-item">Permissions</li>
+<li class="breadcrumb-item active">All</li>
+@endsection
+
+@section('content')
+<div class="container mt-3">
+
+    <div class="content">
+        <div class="card">
+            <section class="card-header">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Permissions</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <button
+                            class="float-right  text-white p-2 w-28 btn btn-primary m-2"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        >
+                            Add New
+                        </button>
                     </div>
                 </div>
             </section>
-            <div class="content px-3">
-                <livewire:permission-table exportable/>
+            <div class="card-body">
+                <div class="content px-3">
+                    @can('View Permissions')
+                    <livewire:permission-table exportable/>
+                    @else
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <strong class="font-bold">Opps!</strong>
+                        <span class="block sm:inline">You don't have permisision to View Permissions</span>
+                    </div>
+                    @endcan
+
+                </div>
             </div>
         </div>
     </div>
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <!-- Modal -->
+     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <livewire:permission-modal>
     </div>
-</x-app-layout>
+</div>
+@endsection
 
+@section('script')
+
+@endsection

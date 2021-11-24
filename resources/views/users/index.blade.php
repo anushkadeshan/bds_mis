@@ -1,22 +1,49 @@
 
-<x-app-layout>
-    @section('title','Users')
-    <div >
-        <div class="max-w-9xl mx-auto py-10 sm:px-6 lg:px-8">
-            <section class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1>Users</h1>
-                        </div>
-                    </div>
-                </div>
+@extends('layouts.admin.master')
+@section('title', 'Users')
+
+@section('css')
+@endsection
+
+@section('style')
+@endsection
+
+@section('breadcrumb-title')
+@endsection
+
+@section('breadcrumb-items')
+<li class="breadcrumb-item">Users</li>
+<li class="breadcrumb-item active">All</li>
+@endsection
+
+@section('content')
+<div class="container mt-3">
+
+    <div class="content">
+        <div class="card">
+            <section class="card-header">
+                <h1>
+                    All Users
+                </h1>
             </section>
-            <div class="content px-3">
-                <livewire:users-table exportable/>
+            <div class="card-body">
+                <div class="content px-3">
+                    @can('View Users')
+                    <livewire:users-table exportable/>
+                    @else
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <strong class="font-bold">Opps!</strong>
+                        <span class="block sm:inline">You don't have permisision to View Users</span>
+                    </div>
+                    @endcan
+
+                </div>
             </div>
         </div>
     </div>
+</div>
+@endsection
 
-</x-app-layout>
+@section('script')
 
+@endsection

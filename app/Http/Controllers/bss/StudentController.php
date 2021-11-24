@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\bss;
 
+use Auth;
+use App\Models\User;
 use App\Models\bss\Student;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Auth;
+
 class StudentController extends Controller
 {
     /**
@@ -15,7 +17,17 @@ class StudentController extends Controller
      */
     public function index()
     {
-        return view('bss.application.index');
+        $user = Auth::user();
+        if($user->hasRole(['Community Development coordinator', 'Youth Development coordinator'])){
+            $count = Student::join('payment_details', 'payment_details.student_id', 'students.id')->where('branch_id',Auth::user()->branch_id)->where('payment_details.p_status',1)->count();
+        }
+        elseif($user->hasRole(['Regional Manager', 'M&E Staff'])){
+            $count = Student::join('payment_details', 'payment_details.student_id', 'students.id')->whereIn('branch_id',json_decode(Auth::user()->branches))->where('payment_details.p_status',1)->count();
+        }
+        else{
+            $count = Student::join('payment_details', 'payment_details.student_id', 'students.id')->where('payment_details.p_status',1)->count();
+        }
+        return view('bss.application.index',compact('count'));
     }
 
     /**

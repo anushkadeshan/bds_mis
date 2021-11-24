@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Branch;
+use App\Models\DsOffice;
 use App\Models\Permission;
 use Auth;
 
@@ -18,7 +19,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('users.index');
+        $count = User::count();
+        return view('users.index',compact('count'));
     }
 
     /**
@@ -64,6 +66,7 @@ class UserController extends Controller
         $user = User::find($id);
         $roles = Role::all();
         $branches = Branch::all();
+        $dsDivisions = DsOffice::get();
         $auth_user = Auth::user();
         if($auth_user->hasRole(['Regional Manager'])){
             $permissions = Permission::where('only_super_admin','!=',1)
@@ -73,7 +76,7 @@ class UserController extends Controller
         else{
             $permissions = Permission::all();
         }
-        return view('users.edit',compact('user','roles','branches','permissions'));
+        return view('users.edit',compact('user','roles','branches','permissions','dsDivisions'));
     }
 
     /**

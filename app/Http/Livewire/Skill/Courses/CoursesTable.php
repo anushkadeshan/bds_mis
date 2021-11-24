@@ -22,9 +22,9 @@ class CoursesTable extends LivewireDatatable
     {
         return [
             NumberColumn::name('id'),
-            Column::name('name')->searchable()->editable(),
-            Column::name('duration')->searchable()->editable(),
-            Column::name('course_fee')->searchable()->editable(),
+            Column::name('name')->searchable(),
+            Column::name('duration')->searchable(),
+            Column::name('course_fee')->searchable(),
             Column::name('course_type')->searchable(),
             Column::name('medium')->searchable()->editable(),
             Column::name('course_categories.course_category')

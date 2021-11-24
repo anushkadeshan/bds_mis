@@ -40,6 +40,28 @@
                     @endforeach
                 </select>
             </div>
+            <div class="flex flex-col mb-4 md:w-full">
+                <label class="mb-2  font-bold text-lg text-grey-darkest" for="email">Working DSDs</label>
+                <select name="" id="" wire:model="dsds" class="border py-2 px-3 text-grey-darkest" multiple wire:select="UpdatedDsds">
+                    @foreach($dsDivisions as $d)
+                        <option  value="{{$d->id}}">{{$d->name}}</option>
+                    @endforeach
+                </select>
+                <button type="button" wire:click="changeDsds" class="w-48 mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Add DSDs
+                    </button>
+            </div>
+            <div class="flex flex-col mb-4 md:w-full">
+                <label class="mb-2  font-bold text-lg text-grey-darkest" for="email">Working GNDs</label>
+                <select name="" id="" wire:model="gnds" class="border py-2 px-3 text-grey-darkest" multiple>
+                    @foreach($gnDivisions as $d)
+                        <option  value="{{$d->id}}">{{$d->name}}</option>
+                    @endforeach
+                </select>
+                <button type="button" wire:click="changeGnds" class="w-48 mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Add GNDs
+                    </button>
+            </div>
         </div>
         @endcan
         <div class="bg-gray-200	p-4 rounded-md">
@@ -65,10 +87,9 @@
                         <option  value="{{$branch->id}}">{{$branch->name}}</option>
                     @endforeach
                 </select>
-                <button type="button" wire:click="changeBranches" class="w-48 mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Add Branches
-                    </button>
+
             </div>
+
             @endcan
         </div>
     </div>

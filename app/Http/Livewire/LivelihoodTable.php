@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\ImproveLivilyhood;
+use Illuminate\Support\Facades\Auth;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\DateColumn;
 use Mediconesystems\LivewireDatatables\NumberColumn;
@@ -17,8 +18,6 @@ class LivelihoodTable extends LivewireDatatable
     public function builder()
     {
         return ImproveLivilyhood::query()->leftJoin('gn_office', 'gn_office.id', 'improve_livilyhoods.gnd_id')->leftJoin('dsd_office', 'dsd_office.id', 'improve_livilyhoods.dsd_id');
-        
-
     }
 
     public function columns()

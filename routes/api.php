@@ -32,4 +32,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post("update-session",[App\Http\Controllers\Api\SessionController::class,'update']);
     Route::post("add-home",[App\Http\Controllers\Api\LoginController::class,'addHome']);
     Route::post("add-office",[App\Http\Controllers\Api\LoginController::class,'addOffice']);
+    Route::post("add-boarding",[App\Http\Controllers\Api\LoginController::class,'addBoarding']);
+    Route::post("add-bike",[App\Http\Controllers\Api\LoginController::class,'addBikeNumber']);
 });

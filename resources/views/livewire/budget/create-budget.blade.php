@@ -20,28 +20,63 @@
                 @endif
                 <div class="flex">
                     <span
+                        class="text-sm border border-2 w-25 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">Project:</span>
+                    <select wire:model="project_id" class="border border-2 rounded-r px-4 py-2 w-full">
+                        <option>Select Option</option>
+                        @foreach($projects as $p)
+                        <option value="{{$p->id}}">{{$p->name}} </option>
+                        @endforeach
+                    </select>
+                </div>
+                @error('project_id') <span class="text-danger">*{{ $message }}</span> @enderror
+                <br />
+                <div class="flex">
+                    <span
+                        class="text-sm border border-2 w-25 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">Pre Condition:</span>
+                    <select wire:model="pre_condition_id" class="border border-2 rounded-r px-4 py-2 w-full">
+                        <option>Select Option</option>
+                        @foreach($pre_conditions as $a)
+                        <option value="{{$a->id}}">{{$a->code}} | {{$a->pre_condition}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                @error('pre_condition_id') <span class="text-danger">*{{ $message }}</span> @enderror
+                <br />
+                <div class="flex">
+                    <span
+                        class="text-sm border border-2 w-25 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">Outcome:</span>
+                    <select wire:model="outcome_id" class="border border-2 rounded-r px-4 py-2 w-full">
+                        <option>Select Option</option>
+                        @foreach($outcomes as $a)
+                        <option value="{{$a->id}}">{{$a->code}} | {{$a->outcome}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                @error('outcome_id') <span class="text-danger">*{{ $message }}</span> @enderror
+                <br />
+                <div class="flex">
+                    <span class="text-sm border border-2 w-25 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">Output
+                        Type:</span>
+                    <select wire:model="output_id" class="border border-2 rounded-r px-4 py-2 w-full">
+                        <option>Select Option</option>
+                        @foreach($outputs as $b)
+                        <option value="{{$b->id}}"> {{$b->code}} | {{$b->output}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                @error('output_id') <span class="text-danger">*{{ $message }}</span> @enderror
+                <br />
+                <div class="flex">
+                    <span
                         class="text-sm border border-2 w-25 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">Activity:</span>
                     <select wire:model="activity_code" class="border border-2 rounded-r px-4 py-2 w-full">
                         <option>Select Option</option>
                         @foreach($activities as $a)
-                        <option value="{{$a->code}}">{{$a->code}} | {{$a->name}}</option>
+                        <option value="{{$a->id}}">{{$a->code}} | {{$a->name}}</option>
                         @endforeach
                     </select>
                 </div>
                 @error('activity_code') <span class="text-danger">*{{ $message }}</span> @enderror
-                <br />
-                <div class="flex">
-                    <span class="text-sm border border-2 w-25 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">Budget
-                        Type:</span>
-                    <select wire:model="budget_type" class="border border-2 rounded-r px-4 py-2 w-full">
-                        <option>Select Option</option>
-                        @foreach($budget_types as $b)
-                        <option value="{{$b->id}}"> {{$b->type}} ({{$b->start_date}} to {{$b->end_date}})
-                        </option>
-                        @endforeach
-                    </select>
-                </div>
-                @error('budget_type') <span class="text-danger">*{{ $message }}</span> @enderror
                 <br />
                 <div class="flex">
                     <span
@@ -93,7 +128,7 @@
                 <br />
 
                 @if($budget_valid_to == '' || $budget_valid_from == '')
-                
+
                 @else
                 <div class="col-sm-12 col-lg-12 col-xl-12">
                     <div class="table-responsive">

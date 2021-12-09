@@ -21,9 +21,20 @@
     <div class="content">
         <div class="card">
             <section class="card-header">
-                <h1>
-                    View Field Trips
-                </h1>
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>
+                            View Field Trips
+                        </h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="{{route('trip-detail-view')}}"><button
+                            class="float-right  text-white p-2 btn btn-success m-2"
+                        >
+                        <i class="fa fa-list"></i> Detail View
+                        </button></a>
+                    </div>
+                </div>
             </section>
             <div class="card-body">
                 <div class="content px-3">

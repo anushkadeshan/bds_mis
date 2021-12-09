@@ -1,3 +1,4 @@
+const { set } = require("lodash");
 
 //DateRange Picker
 (function($) {
@@ -37,7 +38,6 @@
         function cb(start, end) {
             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
         }
-
         $('#reportrange').daterangepicker({
             startDate: start,
             endDate: end,
@@ -50,6 +50,7 @@
                 'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
             }
         }, cb);
+
 
         cb(start, end);
 

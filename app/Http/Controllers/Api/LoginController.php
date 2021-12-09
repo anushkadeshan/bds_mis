@@ -119,5 +119,47 @@ class LoginController extends Controller
 
     }
 
+    public function addBoarding(Request $request) {
+        $user_id = auth()->user()->id;
+        $user = User::find($user_id);
+        try{
+            $user->is_boarded = $request->is_boarded;
+            $user->save();
+
+            return response([
+                'success' => true,
+                'message' => 'Boarding Place Updated Successfully',
+            ],201);
+        }
+        catch(\Exception  $e){
+            return response([
+                'success' => false,
+                'message' => $e,
+            ],402);
+        }
+
+    }
+
+    public function addBikeNumber(Request $request) {
+        $user_id = auth()->user()->id;
+        $user = User::find($user_id);
+        try{
+            $user->bike_number = $request->bike_number;
+            $user->save();
+
+            return response([
+                'success' => true,
+                'message' => 'Bike Plate Number Updated Successfully',
+            ],201);
+        }
+        catch(\Exception  $e){
+            return response([
+                'success' => false,
+                'message' => $e,
+            ],402);
+        }
+
+    }
+
 
 }

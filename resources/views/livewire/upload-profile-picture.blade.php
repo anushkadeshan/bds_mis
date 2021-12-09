@@ -16,7 +16,7 @@
                 </span>
             </div>
 
-            <div wire:loading   wire:target="query" class="absolute z-10 list-group bg-white w-full rounded-t-none shadow-lg">
+            <div wire:loading  wire:target="query" class="absolute z-10 list-group bg-white w-full rounded-t-none shadow-lg">
                 <div class="list-item">Searching...</div>
             </div>
             @error('family_id') <span class="text-danger">*{{ $message }}</span> @enderror

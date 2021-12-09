@@ -11,6 +11,16 @@
 
                    </tr>
                    <tr>
+                    <td class="f-w-600">Trip Started From</td>
+                    <td>{{$trip['trip_start_location']}}</td>
+
+                    </tr>
+                    <tr>
+                        <td class="f-w-600">Trip End At</td>
+                        <td>{{$trip['trip_end_location']}}</td>
+
+                     </tr>
+                   <tr>
                       <td class="f-w-600">Trip Started Time</td>
                       <td>{{$trip['start_time']}}</td>
 

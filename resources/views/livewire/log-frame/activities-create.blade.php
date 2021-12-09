@@ -1,5 +1,5 @@
 <div>
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
             <div class="modal-header">
 
@@ -27,17 +27,70 @@
                 @error('name') <span class="text-danger">*{{ $message }}</span> @enderror
                 <br/>
                 <div class="flex">
+                    <span class="text-sm border border-2 w-25 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">Output :</span>
+                    <select wire:model="output_id" class="border border-2 rounded-r px-4 py-2 w-full">
+                        <option value="">Select option</option>
+                        @foreach($outputs as $output)
+                            <option value="{{$output->id}}">{{$output->output}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                @error('output_id') <span class="text-danger">*{{ $message }}</span> @enderror
+                <br/>
+                <div class="flex">
                     <span class="text-sm border border-2 w-25 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">Type :</span>
                     <select wire:model="type" class="border border-2 rounded-r px-4 py-2 w-full">
                         <option value="">Select option</option>
                         <option value="Construction">Construction</option>
                         <option value="Exercise" >Exercise</option>
+                        <option value="Meeting" >Meeting</option>
                         <option value="Material support" >Material Support</option>
                         <option value="Financial support" >Financial Support</option>
                         <option value="Training" >Training</option>
                     </select>
                 </div>
+                <br/>
                 @error('type') <span class="text-danger">*{{ $message }}</span> @enderror
+                <div class="flex">
+                    <span class="text-sm border border-2 w-25 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">Indicators :</span>
+                    <textarea wire:model="indicators" class="border border-2 rounded-r px-4 py-2 w-full" type="text" name="name" spellcheck="false" data-ms-editor="true"></textarea>
+                </div>
+                @error('indicators') <span class="text-danger">*{{ $message }}</span> @enderror
+                <br/>
+                <div class="flex">
+                    <span class="text-sm border border-2 w-25 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">Means of Veriifcation :</span>
+                    <textarea wire:model="means_of_verification" class="border border-2 rounded-r px-4 py-2 w-full" type="text" name="name" spellcheck="false" data-ms-editor="true"></textarea>
+                </div>
+                @error('means_of_verification') <span class="text-danger">*{{ $message }}</span> @enderror
+                <br/>
+                @error('type') <span class="text-danger">*{{ $message }}</span> @enderror
+                <div class="flex">
+                    <span class="text-sm border border-2 w-25 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">Assumptions/Risks :</span>
+                    <textarea wire:model="assumptions_risks" class="border border-2 rounded-r px-4 py-2 w-full" type="text" name="name" spellcheck="false" data-ms-editor="true"></textarea>
+                </div>
+                @error('assumptions_risks') <span class="text-danger">*{{ $message }}</span> @enderror
+                <br/>
+                <div class="flex">
+                    <span class="text-sm border border-2 w-25 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">Nead for Baseline :</span>
+                    <select wire:model="need_for_baseline" class="border border-2 rounded-r px-4 py-2 w-full">
+                        <option value="">Select option</option>
+                        <option value="0">No</option>
+                        <option value="1" >Yes</option>
+                    </select>
+                    @error('need_for_baseline') <span class="text-danger">*{{ $message }}</span> @enderror
+                <br/>
+                </div>
+                <br/>
+                <div class="flex">
+                    <span class="text-sm border border-2 w-25 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">Running ? :</span>
+                    <select wire:model="running" class="border border-2 rounded-r px-4 py-2 w-full">
+                        <option value="">Select option</option>
+                        <option value="0">No</option>
+                        <option value="1" >Yes</option>
+                    </select>
+                    @error('running') <span class="text-danger">*{{ $message }}</span> @enderror
+                <br/>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

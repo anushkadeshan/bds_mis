@@ -3,6 +3,7 @@
 @section('title', 'Activity Completion Reports')
 
 @section('css')
+<link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/vendors/dropzone.css')}}">
 @endsection
 
 @section('style')
@@ -31,5 +32,6 @@
 
 
 @section('script')
-<script src="{{asset('assets/admin/js/form-wizard/form-wizard-two.js')}}"></script>
+<script src="{{asset('assets/admin/js/dropzone/dropzone.js')}}"></script>
+<script src="{{asset('assets/admin/js/dropzone/dropzone-script.js')}}"></script>
 @endsection

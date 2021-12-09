@@ -52,7 +52,6 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
         });
 
         Route::group(['prefix'=>'program'], function(){
-            Route::resource('logframe-activities', App\Http\Controllers\LogFrame\ActivityController::class);
             Route::resource('completion-reports', App\Http\Controllers\Program\CompletionReportController::class);
             Route::resource('budget', App\Http\Controllers\Program\BudgetController::class);
             Route::resource('progress', App\Http\Controllers\Program\ProgressController::class);
@@ -101,6 +100,16 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
         Route::group(['prefix'=>'mobile-app'], function(){
             Route::resource('sessions', App\Http\Controllers\MobileApp\SessionController::class);
             Route::resource('trips', App\Http\Controllers\MobileApp\TripController::class);
+            Route::view('trip-detail-view','MobileApp.trips-detailed-view')->name('trip-detail-view');
+
+        });
+
+        Route::group(['prefix'=>'log-frame'], function(){
+            Route::resource('projetcs', App\Http\Controllers\LogFrame\ProjectController::class);
+            Route::resource('pre-conditions', App\Http\Controllers\LogFrame\PreConditionController::class);
+            Route::resource('outcomes', App\Http\Controllers\LogFrame\OutcomeController::class);
+            Route::resource('outputs', App\Http\Controllers\LogFrame\OutputController::class);
+            Route::resource('logframe-activities', App\Http\Controllers\LogFrame\ActivityController::class);
         });
 
 });

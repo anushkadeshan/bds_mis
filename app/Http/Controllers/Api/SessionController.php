@@ -18,9 +18,7 @@ class SessionController extends Controller
     {
         try{
             $sessions = Session::where('user_id',auth()->user()->id)
-                ->select('field_sessions.*', DB::raw('DATE(`date`) as date'))
-                ->get();
-
+                ->select('field_sessions.*', DB::raw('DATE(`date`) as date'))->orderBy('created_at','desc')->get();
                 return response($sessions,201);
         }
         catch(\Exception  $e){
@@ -32,10 +30,28 @@ class SessionController extends Controller
     }
 
     public function create(Request $request){
-        $request->request->add(['user_id' => auth()->user()->id]); //add request
-
         try{
-            $data = Session::create($request->all());
+            $image = $request->image;
+            $image = str_replace('data:image/png;base64,', '', $image);
+            $image = str_replace(' ', '+', $image);
+            Storage::disk('public')->put('mobile-app/'.$request->fileName, base64_decode($image));
+            $session = [
+                'start_address' =>  $request->start_address,
+                'start_lat' =>  $request->start_lat,
+                'start_long' =>  $request->start_long,
+                'start_time' =>  $request->start_time,
+                'description' =>  $request->description,
+                'purpose' =>  $request->purpose,
+                'client' =>  $request->client,
+                'date' =>  $request->date,
+                'end_lat' =>  $request->end_lat,
+                'end_long' =>  $request->end_long,
+                'end_address' =>  $request->end_address,
+                'end_time' =>  $request->end_time,
+                'image'  => $request->fileName,
+                'user_id' => auth()->user()->id
+            ];
+            $data = Session::create($session);
             if($data){
                 return response([
                     'success' => true,

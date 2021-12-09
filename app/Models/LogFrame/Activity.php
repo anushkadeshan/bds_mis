@@ -11,10 +11,10 @@ class Activity extends Model
     protected static $logOnlyDirty = true;
 
     public $fillable = [
-        'code', 'name', 'methodology', 'type', 'running'
+        'code', 'name', 'methodology', 'type', 'running','indicators', 'need_for_baseline', 'means_of_verification', 'assumptions_risks' ,'output_id'
     ];
 
     protected static $logAttributes = [
-        'code', 'name', 'methodology', 'type', 'running'
+        'code', 'name', 'methodology', 'type', 'running','indicators', 'need_for_baseline', 'means_of_verification', 'assumptions_risks' ,'output_id'
     ];
 }

@@ -9,7 +9,9 @@ class MonthlyBudget extends Model
 {
     use HasFactory;
 
+
     public $fillable = [
         'month', 'physical_target' , 'cost_per_unit' ,'budget_id'
     ];
+
 }

@@ -26,8 +26,18 @@ class Trip extends Model
         'start_time',
         'end_time',
         'trip_end_location',
-        'trip_start_location'
+        'trip_start_location',
 
     ];
+
+    /**
+     * Get the user that owns the Trip
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
 }

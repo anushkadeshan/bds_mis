@@ -58,7 +58,7 @@ class BudgetController extends Controller
      */
     public function edit(Budget $budget)
     {
-        //
+        return view('Program.Budget.edit-budget', compact('budget'));
     }
 
     /**

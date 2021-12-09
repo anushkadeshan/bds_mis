@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use App\Models\BirthDay;
+use App\Models\Employee;
+use App\Models\SentSms;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 
@@ -41,14 +43,25 @@ class SendBirthdayWishes extends Command
      */
     public function handle()
     {
-        $birthdays = BirthDay::whereMonth('birth_day', '=', Carbon::now()->format('m'))->whereDay('birth_day', '=', Carbon::now()->format('d'))->get();
+        $birthdays = Employee::whereMonth('date_of_birth', '=', Carbon::now()->format('m'))->whereDay('date_of_birth', '=', Carbon::now()->format('d'))->get();
         foreach($birthdays as $bd){
-            $phone = $bd->phone;
-            $message = 'Hello '. $bd->name.'. Wish you a Very Happy Birth Day!';
+            $phone = $bd->mobile_number;
+            $message ='Wish you a Happy Birthday ' . $bd->calling_name.'. May you get the best of everything in life';
 
             $response = Http::withHeaders([
                 'Authorization' => 'LB_Key750 QkVSRU5ESU5BREVWQVBJMDNfQjBTOnhsczRPN1dmazBfQjlT',
             ])->get('http://smsm.lankabell.com:4040/Sms.svc/SecureSendSms?phoneNumber='.$phone.'&smsMessage='.$message);
+
+            SentSms::create([
+               'receiver' => $bd->full_name,
+               'characters' => strlen($message),
+               'epf' => $bd->epf,
+               'company' => $bd->company,
+               'branch' => $bd->branch,
+               'response_id' => $response['ID'],
+               'response_status' => $response['Status'],
+               'response_data' => $response['Data']
+            ]);
 
         }
     }

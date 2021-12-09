@@ -14,7 +14,7 @@ class CompletionReportTable extends LivewireDatatable
 
     public function builder()
     {
-        return CompletionReport::query()->leftJoin('gn_office', 'gn_office.id', 'completion_reports.gnd_id')->leftJoin('dsd_office', 'dsd_office.id', 'completion_reports.dsd_id');
+        return CompletionReport::query()->leftJoin('gn_office', 'gn_office.id', 'completion_reports.gnds')->leftJoin('dsd_office', 'dsd_office.id', 'completion_reports.dsd');
     }
 
     public function columns()

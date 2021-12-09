@@ -29,10 +29,7 @@ class Kernel extends ConsoleKernel
                 // ->withoutOverlapping();
         //$schedule->command('backup:run')->daily()->at('01:30')->timezone('Asia/Colombo')
                  //->withoutOverlapping();
-
-        $schedule->command('send:wishes')->daily()->at('13:03')->timezone('Asia/Colombo')
-        ->withoutOverlapping();
-
+        $schedule->command('send:wishes')->daily()->at('0:01')->timezone('Asia/Colombo')->withoutOverlapping();
     }
 
     /**

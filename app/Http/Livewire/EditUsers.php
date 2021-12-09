@@ -93,6 +93,16 @@ class EditUsers extends Component
 
     }
 
+    public function changeGnds(){
+        //dd(json_encode($this->regional_branches));
+        $userCollection = User::find($this->user->id);
+        $userCollection->gnds = $this->gnds;
+        $userCollection->save();
+
+        session()->flash('message', 'GNDs successfully Updated.');
+
+    }
+
     public function UpdatedDsds($dsds){
         if (!is_null($dsds)) {
             $this->gnDivisions = GnOffice::whereIn('dsd_id', $dsds)->get();

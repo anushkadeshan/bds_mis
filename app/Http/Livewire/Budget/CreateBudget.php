@@ -6,10 +6,15 @@ use DateTime;
 use DatePeriod;
 use DateInterval;
 use Livewire\Component;
+use App\Models\Logframe\Output;
+use App\Models\Logframe\Outcome;
+use App\Models\Logframe\Project;
 use App\Models\LogFrame\Activity;
+use App\Models\Logframe\PreCondition;
 use App\Models\Program\Financial\Budget;
 use App\Models\Program\Financial\BudgetType;
 use App\Models\Program\Financial\MonthlyBudget;
+use App\Models\Program\Financial\BudgetTracking;
 
 class CreateBudget extends Component
 {
@@ -19,12 +24,22 @@ class CreateBudget extends Component
     public $month, $physical_target, $cost_per_unit1;
     public $updateMode = false;
     public $months = [];
+    public $project_id;
+    public $pre_condition_id;
+    public $outcome_id;
+    public $output_id;
+    public $activity_id;
+
+    public $projects = [];
+    public $pre_conditions = [];
+    public $outcomes = [];
+    public $outputs = [];
+    public $activitys = [];
 
     protected $listeners = ['editBudget' => 'edit'];
 
     public function mount(){
-        $this->activities = Activity::get();
-        $this->budget_types = BudgetType::get();
+        $this->projects = Project::get();
     }
 
     protected $rules = [
@@ -34,7 +49,6 @@ class CreateBudget extends Component
         'cost_per_unit' => 'required',
         'budget_valid_from' => 'required',
         'budget_valid_to' => 'required',
-        'budget_type' => 'required'
     ];
 
     public function updatedBudgetValidTo(){
@@ -53,21 +67,42 @@ class CreateBudget extends Component
         $this->months= $ret;
     }
 
+    public function updatedProjectId($id){
+       $this->pre_conditions = PreCondition::where('project_id',$id)->get();
+    }
+
+    public function updatedPreConditionId($id){
+        $this->outcomes = Outcome::where('pre_condition_id',$id)->get();
+     }
+
+     public function updatedOutcomeId($id){
+        $this->outputs = Output::where('outcome_id',$id)->get();
+     }
+
+     public function updatedOutputId($id){
+        $this->activities = Activity::where('output_id',$id)->get();
+      //  dd($this->activities);
+     }
+
     public function store(){
         $this->validate();
 
         $budget = Budget::create([
-            'activity_code' => $this->activity_code,
+            'activity_code' => $this->pre_condition_id.'.'. $this->outcome_id.'.'.$this->output_id.'.'.$this->activity_code,
             'year' => $this->year,
             'no_of_units' => $this->no_of_units,
             'cost_per_unit' => $this->cost_per_unit,
             'budget_valid_from' => $this->budget_valid_from,
             'budget_valid_to' => $this->budget_valid_to,
-            'budget_type' => $this->budget_type,
+            'project_id' => $this->project_id,
+            'pre_condition_id' => $this->pre_condition_id,
+            'outcome_id' => $this->outcome_id,
+            'output_id' => $this->output_id,
+            'activity_id' => $this->activity_code,
             'added_by' => auth()->user()->id,
             'approved' => false,
         ]);
-        if (!is_null($this->month || $this->cost_per_unit1 || $this->physical_target)){
+        if(!is_null($this->month || $this->cost_per_unit1 || $this->physical_target)){
             foreach($this->months as $key => $value ){
                 MonthlyBudget::create([
                     'month' => $value,
@@ -77,6 +112,15 @@ class CreateBudget extends Component
                 ]);
             }
         }
+
+        BudgetTracking::create([
+            'action' => 'Created',
+            'action_by' => auth()->user()->id,
+            'action_date' => now(),
+            'budget_id' => $budget->id
+        ]);
+
+
 
         $this->emit('refreshLivewireDatatable');
         $this->clear();

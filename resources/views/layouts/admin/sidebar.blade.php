@@ -31,11 +31,22 @@
 						</ul>
 					</li>
                     <li class="sidebar-list">
+						<a class="sidebar-link sidebar-title {{request()->route()->getPrefix() == '/log-frame' ? 'active' : '' }}" href="#"><i class="icon-target"></i><span> Log Frame</span>
+							<div class="according-menu"><i class="fa fa-angle-{{request()->route()->getPrefix() == '/log-frame' ? 'down' : 'right' }}"></i></div>
+						</a>
+						<ul class="sidebar-submenu" style="display: {{request()->route()->getPrefix() == '/log-frame' ? 'block' : 'none;' }};">
+					        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav {{ Route::currentRouteName() == 'projetcs.index'  ? 'active' : ''}}" href="{{ route('projetcs.index') }}"><i class="icon-direction"></i><span> Projects</span></a></li>
+					        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav {{ Route::currentRouteName() == 'pre-conditions.index'  ? 'active' : ''}}" href="{{ route('pre-conditions.index') }}"><i class="icon-direction"></i><span> Pre-Conditions</span></a></li>
+					        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav {{ Route::currentRouteName() == 'outcomes.index'  ? 'active' : ''}}" href="{{ route('outcomes.index') }}"><i class="icon-direction"></i><span> Outcomes</span></a></li>
+					        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav {{ Route::currentRouteName() == 'outputs.index'  ? 'active' : ''}}" href="{{ route('outputs.index') }}"><i class="icon-direction"></i><span> Outputs</span></a></li>
+					        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav {{ Route::currentRouteName() == 'logframe-activities.index'  ? 'active' : ''}}" href="{{ route('logframe-activities.index') }}"><i class="icon-direction"></i><span> Activities</span></a></li>
+						</ul>
+					</li>
+                    <li class="sidebar-list">
 						<a class="sidebar-link sidebar-title {{request()->route()->getPrefix() == '/program' ? 'active' : '' }}" href="#"><i class="icon-direction-alt"></i><span> Program</span>
 							<div class="according-menu"><i class="fa fa-angle-{{request()->route()->getPrefix() == '/program' ? 'down' : 'right' }}"></i></div>
 						</a>
 						<ul class="sidebar-submenu" style="display: {{request()->route()->getPrefix() == '/program' ? 'block' : 'none;' }};">
-					        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav {{ Route::currentRouteName() == 'logframe-activities.index'  ? 'active' : ''}}" href="{{ route('logframe-activities.index') }}"><i class="icon-direction"></i><span> Logframe Activities</span></a></li>
 					        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav {{ Route::currentRouteName() == 'completion-reports.index'  ? 'active' : ''}}" href="{{ route('completion-reports.index') }}"><i class="icon-timer"></i><span> Completion Reports</span></a></li>
 					        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav {{ Route::currentRouteName() == 'budget.index'  ? 'active' : ''}}" href="{{ route('budget.index') }}"><i class="icon-money"></i><span> Budgets</span></a></li>
 					        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav {{ Route::currentRouteName() == 'progress.index'  ? 'active' : ''}}" href="{{ route('progress.index') }}"><i class="icon-stats-up"></i><span> Progress</span></a></li>

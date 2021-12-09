@@ -26,19 +26,30 @@
                 </h1>
             </section>
             <div class="card-body">
-                <img src="data:image/jpg;base64, {{ $session->image }}" alt="Image Preview" />
                 <div class="content px-3">
                     @can('View Sessions')
                     <div class="row">
-                        <div class="col-md-6">
-                            <livewire:mobile-app.view-session :session="$session"  />
+                        <div class="col-md-12">
+                            <livewire:mobile-app.view-session :session="$session" />
                         </div>
-                        <div class="col-md-6">
-                            <div style="height: 500px;">
-                                {!! Mapper::render() !!}
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <img src="{{URL::asset('storage/mobile-app/'.$session['image'])}}" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div style="height: 333px;">
+                                        {!! Mapper::render() !!}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                     @else
                     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                         <strong class="font-bold">Opps!</strong>

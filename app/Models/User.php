@@ -34,11 +34,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','active','phone','last_seen'
+        'name', 'email', 'password','active','phone','last_seen','reporting_to','subordinates', 'branch_id','branches', 'dsds', 'gnds', 'home_lattitudes', 'home_longitudes', 'office_lattitudes', 'office_longitudes', 'is_boarded', 'bike_number'
     ];
 
     protected static $logAttributes = [
-        'name', 'email', 'active'
+        'name', 'email', 'password','active','phone','last_seen','reporting_to','subordinates', 'branch_id','branches', 'dsds', 'gnds', 'home_lattitudes', 'home_longitudes', 'office_lattitudes', 'office_longitudes', 'is_boarded', 'bike_number'
     ];
 
     protected static $logOnlyDirty = true;

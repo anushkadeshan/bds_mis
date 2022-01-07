@@ -11,6 +11,7 @@ class FinancialSupport extends Model
 
     public $fillable = [
         'beneficiary_financial',
+        'beneficiary_financial_nic',
         'financial_purpose',
         'approved_amount',
         'completion_report_id',

@@ -111,11 +111,13 @@ class CreateCompletionReport extends Component
 
     //material support
     public $beneficiary_meterial;
+    public $nic_or_reg_no;
     public $meterial_provided;
     public $meterial_quantity;
 
     //fiancnial support
     public $beneficiary_financial;
+    public $beneficiary_financial_nic;
     public $financial_purpose;
     public $approved_amount;
 
@@ -128,6 +130,7 @@ class CreateCompletionReport extends Component
 
     //CSO Meertinds
     public $cso_name;
+    public $cso_reg_no;
     public $cso_male;
     public $cso_female;
 
@@ -135,8 +138,7 @@ class CreateCompletionReport extends Component
 
     public $ages = ['15-18','19-24','25-29','30-35','36-60','61 & Over'];
 
-    public $activity_type;
-
+    public $activity_type ='Construction';
     public function getYears(){
         $currentYear=date('Y');
         $startyear=date('Y')-1;
@@ -170,6 +172,7 @@ class CreateCompletionReport extends Component
         ]);
 
         $completion_report = CompletionReport::create([
+            'activity_code' => $this->pre_condition_id.'.'. $this->outcome_id.'.'.$this->output_id.'.'.$this->activity_code,
             'project_id' => $this->project_id,
             'pre_condition_id' => $this->pre_condition_id,
             'outcome_id' => $this->outcome_id,
@@ -177,7 +180,7 @@ class CreateCompletionReport extends Component
             'activity_id' => $this->activity_id,
             'district' => $this->selectedDistrict,
             'dsd' => $this->selectedDsd,
-            'gnds' => $this->selectedGnd,
+            'gnds' => json_encode($this->selectedGnd),
             'responsible_officer' => $this->responsible_officer,
             'financial_year' => $this->financial_year,
             'date_of_start' => $this->date_of_start,
@@ -193,7 +196,7 @@ class CreateCompletionReport extends Component
 
         $this->alert('success', 'General data is added!');
 
-        if(!is_null($this->type_of_contribution || $this->organization || $this->financial_contribution)){
+        if(!is_null($this->type_of_contribution)  || !is_null($this->organization) || !is_null($this->financial_contribution)){
             foreach ($this->organization as $key => $value) {
                 Partner::create([
                     'completion_report_id' => $completion_report->id,
@@ -232,6 +235,7 @@ class CreateCompletionReport extends Component
                 CsoTraining::create([
                     'completion_report_id' => $completion_report->id,
                     'cso_name' => isset($this->cso_name[$key]) ?  $this->cso_name[$key] : null,
+                    'cso_reg_no' => isset($this->cso_reg_no[$key]) ?  $this->cso_reg_no[$key] : null,
                     'cso_male' => isset($this->cso_male[$key]) ?  $this->cso_male[$key] : null,
                     'cso_female' => isset($this->cso_female[$key]) ?  $this->cso_female[$key] : null,
                 ]);
@@ -257,6 +261,7 @@ class CreateCompletionReport extends Component
                 foreach ($this->beneficiary_meterial as $key => $value) {
                     MaterialSupport::create([
                         'beneficiary_meterial' => isset($this->beneficiary_meterial[$key]) ?  $this->beneficiary_meterial[$key] : null,
+                        'nic_or_reg_no' => isset($this->nic_or_reg_no[$key]) ?  $this->nic_or_reg_no[$key] : null,
                         'meterial_provided' => isset($this->beneficiary_meterial[$key]) ?  $this->meterial_provided[$key] : null,
                         'meterial_quantity' => isset($this->beneficiary_meterial[$key]) ?  $this->meterial_quantity[$key] : null,
                         'completion_report_id' => $completion_report->id,
@@ -273,6 +278,7 @@ class CreateCompletionReport extends Component
                 foreach ($this->beneficiary_financial as $key => $value) {
                     FinancialSupport::create([
                         'beneficiary_financial' => isset($this->beneficiary_financial[$key]) ? $this->beneficiary_financial[$key] : null,
+                        'beneficiary_financial_nic' => isset($this->beneficiary_financial_nic[$key]) ? $this->beneficiary_financial_nic[$key] : null,
                         'financial_purpose' => isset($this->financial_purpose[$key]) ? $this->financial_purpose[$key] : null,
                         'approved_amount' => isset($this->approved_amount[$key]) ? $this->approved_amount[$key] : null,
                         'completion_report_id' => $completion_report->id,

@@ -2,6 +2,7 @@
 
 namespace App\Models\Program;
 
+use App\Models\GnOffice;
 use App\Models\Program\Partner;
 use App\Models\Program\Attachment;
 use App\Models\Program\CsoTraining;
@@ -18,6 +19,7 @@ class CompletionReport extends Model
 {
     use HasFactory;
     use LogsActivity;
+
 
     protected static $logOnlyDirty = true;
 
@@ -69,48 +71,51 @@ class CompletionReport extends Model
         'added_by',
     ];
 
+    protected $casts = [
+        'gnds' => 'json'
+    ];
+
     /**
-     * Get all of the comments for the CompletionReport
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function partners()
     {
-        return $this->hasMany(Partner::class, 'id', 'completion_report_id');
+        return $this->hasMany(Partner::class, 'completion_report_id', 'id');
     }
 
     public function constructions()
     {
-        return $this->hasMany(Construction::class, 'id', 'completion_report_id');
+        return $this->hasMany(Construction::class, 'completion_report_id', 'id');
     }
 
     public function materialsupports()
     {
-        return $this->hasMany(MaterialSupport::class, 'id', 'completion_report_id');
+        return $this->hasMany(MaterialSupport::class, 'completion_report_id', 'id');
     }
 
     public function financialsupports()
     {
-        return $this->hasMany(FinancialSupport::class, 'id', 'completion_report_id');
+        return $this->hasMany(FinancialSupport::class, 'completion_report_id', 'id');
     }
 
     public function trainingData()
     {
-        return $this->hasMany(TrainingData::class, 'id', 'completion_report_id');
+        return $this->hasMany(TrainingData::class, 'completion_report_id', 'id');
     }
 
     public function participants()
     {
-        return $this->hasMany(Participant::class, 'id', 'completion_report_id');
+        return $this->hasMany(Participant::class, 'completion_report_id', 'id');
     }
 
     public function csoTrainings()
     {
-        return $this->hasMany(CsoTraining::class, 'id', 'completion_report_id');
+        return $this->hasMany(CsoTraining::class, 'completion_report_id', 'id');
     }
 
     public function attachments()
     {
-        return $this->hasMany(Attachment::class, 'id', 'completion_report_id');
+        return $this->hasMany(Attachment::class, 'completion_report_id', 'id');
     }
 }

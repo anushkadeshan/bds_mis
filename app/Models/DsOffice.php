@@ -18,12 +18,14 @@ class DsOffice extends Model
         'name',
         'district',
         'province',
+        'is_working',
         'approved',
         'approved_by'
     ];
 
     protected static $logAttributes = ['name', 'district','province',
-    'approved',
+        'is_working',
+        'approved',
     'approved_by'];
     protected static $logOnlyDirty = true;
     /**

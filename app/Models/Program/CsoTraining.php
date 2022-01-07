@@ -11,6 +11,7 @@ class CsoTraining extends Model
 
     public $fillable = [
         'cso_name',
+        'cso_reg_no',
         'cso_male',
         'cso_female',
         'completion_report_id',

@@ -6,6 +6,24 @@
 @endsection
 
 @section('style')
+<style>
+    .loading-overlay {
+        display: none;
+        background: rgba(255, 255, 255, 0.7);
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+        z-index: 9998;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .loading-overlay.is-active {
+        display: flex;
+      }
+</style>
 @endsection
 
 @section('breadcrumb-title')
@@ -38,10 +56,10 @@
                     </div>
                 </div>
             </section>
-            <div class="card-body">
+            <div class="card-body p-0">
                 <div class="content px-3">
                     @can('View Progress')
-                    <livewire:progress.progress-table exportable/>
+                    <livewire:progress.progress-table />
                     @else
                     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                         <strong class="font-bold">Opps!</strong>

@@ -47,7 +47,7 @@ class CompletionReportController extends Controller
      */
     public function show(CompletionReport $completionReport)
     {
-        //
+
     }
 
     /**
@@ -56,9 +56,14 @@ class CompletionReportController extends Controller
      * @param  \App\Models\Program\CompletionReport  $completionReport
      * @return \Illuminate\Http\Response
      */
-    public function edit(CompletionReport $completionReport)
+    public function edit($id)
     {
-        //
+        $completion_report = CompletionReport::with('partners', 'constructions', 'materialsupports', 'financialsupports', 'trainingData', 'participants', 'csoTrainings','attachments')
+            ->find($id);
+       // dd($completion_report);
+        return view('Program.edit-completion-report',compact('completion_report'));
+
+
     }
 
     /**

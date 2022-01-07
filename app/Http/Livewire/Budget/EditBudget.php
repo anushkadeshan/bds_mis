@@ -6,21 +6,26 @@ use DateTime;
 use DatePeriod;
 use DateInterval;
 use Livewire\Component;
+use App\Models\DsOffice;
+use App\Models\GnOffice;
 use App\Models\Logframe\Output;
 use App\Models\Logframe\Outcome;
 use App\Models\Logframe\Project;
 use App\Models\LogFrame\Activity;
 use Illuminate\Support\Facades\DB;
 use App\Models\Logframe\PreCondition;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use App\Models\Program\Financial\MonthlyBudget;
 use App\Models\Program\Financial\BudgetTracking;
 
 class EditBudget extends Component
 {
-    public $activity_code, $year, $no_of_units, $cost_per_unit, $budget_valid_from, $budget_valid_to , $budget_type;
-    public $month, $physical_target, $cost_per_unit1;
+    use LivewireAlert;
+    public $activity_code, $financial_year, $no_of_units, $cost_per_unit, $budget_valid_from, $budget_valid_to , $budget_type, $budget_valid_from1, $budget_valid_to1;
+    public $month, $cost_per_unit1;
     public $updateMode = false;
     public $months = [];
+    public $physical_target = [];
     public $project_id;
     public $pre_condition_id;
     public $outcome_id;
@@ -36,8 +41,28 @@ class EditBudget extends Component
     public $trackings = [];
     public $monthly_targets = [];
 
-    public $approved = false;
+    public $dsds =[];
+    public $gnds =[];
 
+    public $selectedDistrict = NULL;
+    public $selectedDsd = NULL;
+    public $selectedGnd = NULL;
+
+    public $approved = false;
+    public $yearArray = [];
+    public $targetSum =0;
+
+    public $months_long = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    public function getYears(){
+        $currentYear=date('Y');
+        $startyear=date('Y')-1;
+        //$this->financial_year = $currentYear;
+        $endYear=$startyear+5;
+
+        // set start and end year range i.e the start year
+        $this->yearArray = range($startyear,$endYear);
+    }
     public function mount($budget){
         $this->budget = $budget;
         $this->projects = Project::get();
@@ -50,17 +75,39 @@ class EditBudget extends Component
         $this->output_id = $budget->output_id;
         $this->activities = Activity::where('output_id',$budget->output_id)->get();
         $this->activity_id = $budget->activity_id;
-        $this->budget_valid_from = $budget->budget_valid_from;
-        $this->budget_valid_to = $budget->budget_valid_to;
-        $this->year = $budget->year;
+        $this->budget_valid_from1 = $budget->budget_valid_from;
+        $this->budget_valid_to1 = $budget->budget_valid_to;
+        $this->financial_year = $budget->year;
         $this->no_of_units = $budget->no_of_units;
         $this->cost_per_unit = $budget->cost_per_unit;
         $this->approved = $budget->approved;
         $this->monthly_targets = MonthlyBudget::where('budget_id',$budget->id)->get();
-        $this->updatedBudgetValidTo();
+        $this->selectedDistrict = $budget->district;
+        $this->dsds = DsOffice::where('district',$budget->district)->get();
+        $this->selectedDsd = $budget->dsd_id;
+        $this->gnds = GnOffice::where('dsd_id',$budget->dsd_id)->get();
+        $this->selectedGnd = $budget->gn_id;
+       // $this->budgetMonths();
+        $this->getYears();
 
         $this->trackings  = DB::table('budget_trackings')->join('users','users.id','=','budget_trackings.action_by')
             ->where('budget_id',$budget->id)->get();
+    }
+
+    public function budgetMonths(){
+        $start =  new DateTime($this->budget_valid_from1);
+        $start->modify('first day of this month');
+
+        $end = new DateTime($this->budget_valid_to1);
+        $end->modify('first day of next month');
+
+        $interval = DateInterval::createFromDateString('1 month');
+        $period   = new DatePeriod($start, $interval, $end);
+        $ret = array();
+        foreach ($period as $dt) {
+            $ret[] = $dt->format("F");
+        }
+        $this->months= $ret;
     }
 
     public function updatedBudgetValidTo(){
@@ -77,6 +124,21 @@ class EditBudget extends Component
             $ret[] = $dt->format("F");
         }
         $this->months= $ret;
+      //  dd($ret);
+    }
+
+    public function updatedSelectedDistrict($selectedDistrict)
+    {
+        if (!is_null($selectedDistrict)) {
+            $this->dsds = DsOffice::where('district', $selectedDistrict)->get();
+        }
+    }
+
+    public function updatedSelectedDsd($selectedDsd)
+    {
+        if (!is_null($selectedDsd)) {
+            $this->gnds = GnOffice::where('dsd_id', $selectedDsd)->get();
+        }
     }
 
     public function updatedProjectId($id){
@@ -97,11 +159,17 @@ class EditBudget extends Component
     }
     protected $rules = [
         'activity_id' => 'required',
-        'year' => 'required',
+        'financial_year' => 'required',
         'no_of_units' => 'required',
         'cost_per_unit' => 'required',
-        'budget_valid_from' => 'required',
-        'budget_valid_to' => 'required',
+        'project_id' => 'required',
+        'pre_condition_id' => 'required',
+        'outcome_id' => 'required',
+        'output_id' => 'required',
+        'activity_id' => 'required',
+        'selectedDistrict' => 'required',
+        'selectedDsd' => 'required',
+        'selectedGnd' => 'required',
     ];
 
     public function update(){
@@ -109,11 +177,11 @@ class EditBudget extends Component
         $this->validate();
         $budget = $this->budget;
         $budget->activity_code = $this->pre_condition_id.'.'. $this->outcome_id.'.'.$this->output_id.'.'.$this->activity_id;
-        $budget->year = $this->year;
+        $budget->year = $this->financial_year;
         $budget->no_of_units = $this->no_of_units;
         $budget->cost_per_unit = $this->cost_per_unit;
-        $budget->budget_valid_from = $this->budget_valid_from;
-        $budget->budget_valid_to = $this->budget_valid_to;
+        $budget->budget_valid_from = is_null($this->budget_valid_from) ? $this->budget_valid_from1 : $this->budget_valid_from;
+        $budget->budget_valid_to = is_null($this->budget_valid_to) ? $this->budget_valid_to1 : $this->budget_valid_to ;
         $budget->project_id = $this->project_id;
         $budget->pre_condition_id = $this->pre_condition_id;
         $budget->outcome_id = $this->outcome_id;
@@ -121,16 +189,25 @@ class EditBudget extends Component
         $budget->activity_id = $this->activity_id;
         $budget->save();
 
-        if (!is_null($this->month || $this->cost_per_unit1 || $this->physical_target)){
+        if (!is_null($this->month || $this->physical_target)){
             $delete = MonthlyBudget::where('budget_id',$budget->id)->delete();
-            foreach($this->months as $key => $value){
+            foreach($this->months_long as $key => $value ){
                 MonthlyBudget::create([
                     'month' => $value,
-                    'physical_target'=> $this->physical_target[$key],
-                    'cost_per_unit' => $this->cost_per_unit1[$key],
+                    'physical_target'=>  in_array($value, $this->months) ?$this->physical_target[key($this->months)]
+                    : null,
+                    'cost_per_unit' => in_array($value, $this->months) ? $this->cost_per_unit : null,
                     'budget_id' => $budget->id
                 ]);
             }
+        }
+
+        foreach($this->months as $key => $month){
+            MonthlyBudget::where('budget_id',$budget->id)
+                ->where('month',$month)
+                ->update([
+                    'physical_target' => $this->physical_target[$key]
+                ]);
         }
         //dd($this->trackings);
         BudgetTracking::create([
@@ -141,7 +218,7 @@ class EditBudget extends Component
         ]);
 
         $this->mount($budget);
-        session()->flash('message', 'Budget Updated Successfully.');
+        $this->alert('success', 'Budget Updated Successfully.');
     }
 
     public function approve(){

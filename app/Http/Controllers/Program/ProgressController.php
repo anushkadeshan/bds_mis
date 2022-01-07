@@ -56,9 +56,10 @@ class ProgressController extends Controller
      * @param  \App\Models\Program\Progress  $progress
      * @return \Illuminate\Http\Response
      */
-    public function edit(Progress $progress)
+    public function edit($id)
     {
-        //
+        $progress = Progress::with('addedBy','activity','budget')->find($id);
+        return view('Program.Progress.edit',compact('progress'));
     }
 
     /**

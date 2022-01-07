@@ -15,7 +15,8 @@ class TripDetailView extends Component
 
     public function updatedEnddate(){
         $this->daterange = $this->startdate. ' to '. $this->enddate;
-        $this->trips = Trip::whereBetween('date',[$this->startdate,$this->enddate])->groupBy('date')->get();
+        $this->trips = Trip::whereBetween('date',[$this->startdate,$this->enddate])
+        ->groupBy('date')->get();
     }
 
     public function render()

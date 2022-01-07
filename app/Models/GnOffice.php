@@ -17,11 +17,13 @@ class GnOffice extends Model
         'name',
         'dsd_id',
         'approved',
+        'is_working',
         'approved_by'
     ];
 
     protected static $logAttributes = ['name', 'dsd_id',
-    'approved',
+        'is_working',
+        'approved',
     'approved_by'];
     protected static $logOnlyDirty = true;
 

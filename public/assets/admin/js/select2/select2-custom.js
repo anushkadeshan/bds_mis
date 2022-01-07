@@ -27,6 +27,7 @@ setTimeout(function(){
             $(".js-example-basic-hide-search").select2({
                 minimumResultsForSearch: Infinity
             });
+
             $(".js-example-disabled").select2({
                 disabled: true
             });

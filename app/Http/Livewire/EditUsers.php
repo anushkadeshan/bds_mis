@@ -2,37 +2,44 @@
 
 namespace App\Http\Livewire;
 use Auth;
-use App\Actions\textbiz;
-use App\Models\GnOffice;
 use App\Models\User;
 use Livewire\Component;
-use App\Notifications\UserActivated;
+use App\Actions\textbiz;
+use App\Models\GnOffice;
 use textbiz as GlobalTextbiz;
+use App\Notifications\UserActivated;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class EditUsers extends Component
 {
-    public $user;
-    public $roles;
-    public $branches;
-    public $permissions;
-    public $dsDivisions;
-    public $gnDivisions;
+    use LivewireAlert;
+    public $user= [];
+    public $roles= [];
+    public $branches= [];
+    public $permissions = [];
+    public $dsDivisions = [];
+    public $gnDivisions = [];
 
+    public $username;
 
     public $role;
     public $branch;
     public $isActive;
+    public $reporting_to;
+    public $subordinates;
     public $regional_branches = [];
     public $givenPermissions = [];
     public $dsds = [];
     public $gnds = [];
+
+    public $users = [];
 
     public function givePermission(){
 
         $userCollection = User::find($this->user->id);
         $userCollection->syncPermissions($this->givenPermissions);
         //dd($this->givenPermissions);
-        session()->flash('message', 'Permissions given successfully.');
+        $this->alert('success','Permissions given Successfully.');
 
     }
 
@@ -40,8 +47,24 @@ class EditUsers extends Component
         $userCollection = User::find($this->user->id);
         $userCollection->syncRoles($this->role);
         $this->emit('refreshLivewireDatatable');
-        session()->flash('message', 'Role successfully updated');
+        $this->alert('success','Role added Successfully.');
 
+    }
+
+    public function addSubordinates(){
+        $userCollection = User::find($this->user->id);
+        $userCollection->subordinates = $this->subordinates;
+        $userCollection->save();
+
+        $this->alert('success','Subordinates added Successfully.');
+    }
+
+    public function addReporting_to(){
+        $userCollection = User::find($this->user->id);
+        $userCollection->reporting_to = $this->reporting_to;
+        $userCollection->save();
+
+        $this->alert('success','Reporting To added Successfully.');
     }
 
     public function changeActive(){
@@ -56,10 +79,10 @@ class EditUsers extends Component
             $message = "Hi ".$userCollection->name. " Your account is activated. Please log in to continue. -BDS MIS-";
             $textbiz = (new textbiz);
             $textbiz->sendsms($message,$to);
-            session()->flash('message', 'User successfully Activated.');
+            $this->alert('success','User successfully Activated.');
         }
         else{
-            session()->flash('error', 'User successfully Deactivated.');
+            $this->alert('success','User added Deactivated.');
         }
 
     }
@@ -68,8 +91,7 @@ class EditUsers extends Component
         $userCollection = User::find($this->user->id);
         $userCollection->branch_id = $this->branch;
         $userCollection->save();
-
-        session()->flash('message', 'Branch successfully Updated.');
+        $this->alert('success','Branch added Successfully.');
 
     }
 
@@ -78,8 +100,7 @@ class EditUsers extends Component
         $userCollection = User::find($this->user->id);
         $userCollection->branches = $this->regional_branches;
         $userCollection->save();
-
-        session()->flash('message', 'Branch successfully Updated.');
+        $this->alert('success','Branch successfully Updated.');
 
     }
 
@@ -88,8 +109,7 @@ class EditUsers extends Component
         $userCollection = User::find($this->user->id);
         $userCollection->dsds = $this->dsds;
         $userCollection->save();
-
-        session()->flash('message', 'DSDs successfully Updated.');
+        $this->alert('success','SDs successfully Updated.');
 
     }
 
@@ -98,8 +118,7 @@ class EditUsers extends Component
         $userCollection = User::find($this->user->id);
         $userCollection->gnds = $this->gnds;
         $userCollection->save();
-
-        session()->flash('message', 'GNDs successfully Updated.');
+        $this->alert('success','GNDs successfully Updated.');
 
     }
 
@@ -111,12 +130,22 @@ class EditUsers extends Component
 
     public function mount($user,$roles,$branches,$permissions, $dsDivisions)
     {
+        $this->username = $user->name;
+        $this->users = User::get();
         $this->isActive = $user->active;
         $this->dsDivisions = $dsDivisions;
-        $this->gnDivisions = collect();
+        //dd($dsDivisions);
         $cuurent_role = $user->roles->pluck('name');
-
-        if(!$cuurent_role){
+        $this->dsds = json_decode($user->dsds);
+        if (!is_null($this->dsds)) {
+            $this->gnDivisions = GnOffice::whereIn('dsd_id', $this->dsds)->get();
+        }
+        $this->gnds = json_decode($user->gnds);
+        $this->subordinates = json_decode($user->subordinates);
+        $this->reporting_to = json_decode($user->reporting_to);
+       // dd($cuurent_role);
+        if(count($cuurent_role)>0){
+            //dd($cuurent_role[0]);
             $this->role = $cuurent_role[0];
         }
 

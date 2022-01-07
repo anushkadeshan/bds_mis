@@ -112,6 +112,17 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
             Route::resource('logframe-activities', App\Http\Controllers\LogFrame\ActivityController::class);
         });
 
+        Route::group(['prefix'=>'reports'], function(){
+            Route::resource('reports', App\Http\Controllers\Reports\ReportController::class);
+            Route::get('running-chart', [App\Http\Controllers\Reports\ReportController::class, 'runningChart'])->name('runningChart');
+            Route::get('field-visits-summary', [App\Http\Controllers\Reports\ReportController::class, 'summary'])->name('summary');
+            Route::get('log-frame', [App\Http\Controllers\Reports\ReportController::class, 'logFrame'])->name('log-frame');
+            Route::get('budget', [App\Http\Controllers\Reports\ReportController::class, 'budget'])->name('budget');
+            Route::get('progress', [App\Http\Controllers\Reports\ReportController::class, 'progress'])->name('progress');
+        });
+        Route::resource('employees', App\Http\Controllers\EmployeeController::class);
+
+
 });
 
 Route::view('career-key', 'career-key.index');

@@ -212,4 +212,10 @@ class LivelihoodFamily extends Model
     ];
 
 
+    public function economic_crisis()
+    {
+        return $this->hasOne(EconomicCrisis::class, 'livelihood_family_id', 'id');
+    }
+
+
 }

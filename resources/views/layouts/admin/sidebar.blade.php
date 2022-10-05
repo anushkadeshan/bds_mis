@@ -199,8 +199,11 @@
                                 Profiles</span></a></li>
                     <li class="sidebar-list"><a
                             class="sidebar-link sidebar-title link-nav {{ Route::currentRouteName() == 'money-orders' ? 'active' : ''}}"
-                            href="{{ route('money-orders') }}"><i class="icon-money"></i> </i><span> Money Order
-                                Documents</span></a></li>
+                            href="{{ route('money-orders') }}"><i class="icon-money"></i> </i><span>Covid 19 Money Order
+                                </span></a></li>
+                    <li class="sidebar-list"><a
+                        class="sidebar-link sidebar-title link-nav {{ Route::currentRouteName() == 'economic-crisis-table' ? 'active' : ''}}"
+                        href="{{ route('economic-crisis-table') }}"><i class="icon-money"></i> </i><span>Economic Money Order</span></a></li>
                     <li class="sidebar-list"><a
                             class="sidebar-link sidebar-title link-nav {{ Route::currentRouteName() == 'reports.index' ? 'active' : ''}}"
                             href="{{ route('reports.index') }}"><i class="icon-pie-chart"></i> </i><span>

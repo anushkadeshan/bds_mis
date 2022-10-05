@@ -9,6 +9,7 @@ use Livewire\Component;
 class AddEmployee extends Component
 {
     use LivewireAlert;
+
     public $gender;
     public $epf;
     public $title;

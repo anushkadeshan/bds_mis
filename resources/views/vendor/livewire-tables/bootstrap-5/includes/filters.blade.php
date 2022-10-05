@@ -1,7 +1,7 @@
 @if ($showFilterDropdown && ($filtersView || count($customFilters)))
 <div x-cloak x-data="{ open: false }" x-on:keydown.escape.stop="open = false" x-on:mousedown.away="open = false"
     class="btn-group d-block d-md-inline">
-    <button x-on:click="open = !open" type="button" class="btn dropdown-toggle d-block w-100 d-md-inline btn-success">
+    <button x-on:click="open = !open" type="button" class="btn dropdown-toggle d-block w-100 d-md-inline btn-primary">
         @lang('Filters')
 
         @if (count($this->getFiltersWithoutSearch()))

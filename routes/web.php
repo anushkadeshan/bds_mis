@@ -43,7 +43,9 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
         });
     });
         Route::view('upload-profile-picture', 'LiveliHoodFamily.profile-picture')->name('upload-profile-picture');
+        Route::view('economic-crisis', 'LiveliHoodFamily.economic-crisis')->name('economic-crisis');
         Route::get('money-order-documents', [App\Http\Controllers\LivelihoodFamilyController::class, 'money_orders'])->name('money-orders');
+        Route::get('economic-crisis-table', [App\Http\Controllers\LivelihoodFamilyController::class, 'economic_crisis'])->name('economic-crisis-table');
         Route::view('csos', 'csos.index')->name('cso.index');
         Route::view('csos-create', 'csos.create')->name('cso.create');
         Route::group(['prefix'=>'working-areas'], function(){

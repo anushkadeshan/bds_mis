@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EconomicCrisis;
 use App\Models\LivelihoodFamily;
 use Illuminate\Http\Request;
 
@@ -38,6 +39,12 @@ class LivelihoodFamilyController extends Controller
     {
         $count = LivelihoodFamily::whereNotNull('money_order_giving_photo')->count();
         return view('LiveliHoodFamily.money-orders',compact('count'));
+    }
+
+    public function economic_crisis()
+    {
+        $count = EconomicCrisis::whereNotNull('money_order_scanned_copy')->count();
+        return view('LiveliHoodFamily.economic-crisis-table',compact('count'));
     }
 
     /**

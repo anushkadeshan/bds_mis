@@ -20,6 +20,7 @@ class UserController extends Controller
     public function index()
     {
         $count = User::count();
+        User::withTrashed()->find(51)->restore();
         return view('users.index',compact('count'));
     }
 

@@ -4,6 +4,8 @@
 @section('css')
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/vendors/datatables.css')}}">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/vendors/select2.css')}}">
 <style type="text/css">
     .loading-overlay {
         display: none;
@@ -60,10 +62,10 @@
 <div class="container mt-3">
     @can('View Reports')
     <div class="card">
-        <div class="card-header">
+        <div class="p-4 card-header">
             <h5>Progress</h5>
         </div>
-        <div class="card-body">
+        <div class="p-4 card-body">
             <livewire:reports.progress.progress-table />
         </div>
     </div>
@@ -82,4 +84,6 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="{{asset('assets/admin/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/select2/select2.full.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/select2/select2-custom.js')}}"></script>
 @endsection

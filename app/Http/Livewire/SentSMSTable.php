@@ -33,7 +33,7 @@ class SentSMSTable extends DataTableComponent
             Column::make('response_id'),
             Column::make('response_status')->selected(),
             Column::make('response_data'),
-            Column::make('created_at'),
+            Column::make('created_at')->selected(),
         ];
     }
 

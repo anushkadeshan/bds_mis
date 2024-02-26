@@ -58,7 +58,7 @@ class CompletionReportController extends Controller
      */
     public function edit($id)
     {
-        $completion_report = CompletionReport::with('partners', 'constructions', 'materialsupports', 'financialsupports', 'trainingData', 'participants', 'csoTrainings','attachments')
+        $completion_report = CompletionReport::with('partners', 'constructions', 'materialsupports', 'materialsupports.beneficiary', 'materialsupports.cso', 'financialsupports', 'financialsupports.beneficiary','trainingData', 'participants', 'csoTrainings','attachments','tracking')
             ->find($id);
        // dd($completion_report);
         return view('Program.edit-completion-report',compact('completion_report'));

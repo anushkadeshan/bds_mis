@@ -39,7 +39,7 @@
 
     <div class="content">
         <div class="card">
-            <section class="card-header">
+            <section class="card-header p-4">
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1>Completion Reports</h1>
@@ -57,7 +57,7 @@
                     </div>
                 </div>
             </section>
-            <div class="card-body">
+            <div class="card-body p-4">
                 <div class="content px-3">
                     @can('View BDS CR')
                     <livewire:log-frame.completion-report-table exportable/>

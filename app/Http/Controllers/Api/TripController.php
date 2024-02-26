@@ -8,6 +8,7 @@ use App\Models\Api\Trip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class TripController extends Controller
 {
@@ -41,9 +42,19 @@ class TripController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request){
-        $request->request->add(['user_id' => auth()->user()->id]); //add request
-
         try{
+            $start_image = $request->start_meter_image_file;
+            $start_image = str_replace('data:image/png;base64,', '', $start_image);
+            $start_image = str_replace(' ', '+', $start_image);
+            Storage::disk('public')->put('mobile-app/meter-readings/'.$request->start_meter_image, base64_decode($start_image));
+
+            $end_image = $request->end_meter_image_file;
+            $end_image = str_replace('data:image/png;base64,', '', $end_image);
+            $end_image = str_replace(' ', '+', $end_image);
+            Storage::disk('public')->put('mobile-app/meter-readings/'.$request->end_meter_image, base64_decode($end_image));
+            $request->request->add([
+                'user_id' => auth()->user()->id,
+            ]); //add request
             $data = Trip::create($request->all());
             if($data){
                 return response([

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Budget;
 
+use App\Jobs\Program\Budget\BudgetSentToReview;
 use DateTime;
 use DatePeriod;
 use DateInterval;
@@ -117,99 +118,186 @@ class CreateBudget extends Component
 
     public function updatedPreConditionId($id){
         $this->outcomes = Outcome::where('pre_condition_id',$id)->get();
-     }
+    }
 
-     public function updatedOutcomeId($id){
-        $this->outputs = Output::where('outcome_id',$id)->get();
-     }
+    public function updatedOutcomeId($id){
+    $this->outputs = Output::where('outcome_id',$id)->get();
+    }
 
-     public function updatedOutputId($id){
-        $this->activities = Activity::where('output_id',$id)->get();
-      //  dd($this->activities);
-     }
+    public function updatedOutputId($id){
+    $this->activities = Activity::where('output_id',$id)->get();
+    //  dd($this->activities);
+    }
 
-    public function store(){
-        //dd("ds");
+    public function save_draft(){
+
         $this->validate();
        // dd("d");
-       $sum = array_sum($this->physical_target);
-       if($sum != $this->no_of_units){
-            $this->alert('question', 'Total of monthly targets not equalled to no of units you already entered', [
-                'icon' => 'warning',
-                'position' => 'center',
-                'timer' => null,
-                'showCancelButton' => true,
-                'cancelButtonText' => 'I will Correct',
-                'toast' => false,
-            ]);
-       }
-       else{
-        $check_record = Budget::where('activity_id',$this->activity_id)->where('year',$this->financial_year)->first();
-        //dd($check_record);
-        if(is_null($check_record)){
-        $budget = Budget::create([
-            'activity_code' => $this->pre_condition_id.'.'. $this->outcome_id.'.'.$this->output_id.'.'.$this->activity_code,
-            'year' => $this->financial_year,
-            'boarder_activity' => $this->type_of_unit,
-            'type_of_unit' => $this->boarder_activity,
-            'no_of_units' => $this->no_of_units,
-            'cost_per_unit' => $this->cost_per_unit,
-            'budget_valid_from' => $this->budget_valid_from,
-            'budget_valid_to' => $this->budget_valid_to,
-            'project_id' => $this->project_id,
-            'pre_condition_id' => $this->pre_condition_id,
-            'outcome_id' => $this->outcome_id,
-            'output_id' => $this->output_id,
-            'activity_id' => $this->activity_id,
-            'district' => $this->selectedDistrict,
-            'dsd_id' => $this->selectedDsd,
-            'gn_id' => $this->selectedGnd,
-            'added_by' => auth()->user()->id,
-            'approved' => false,
-        ]);
-
-        foreach($this->months_long as $key => $value ){
-            MonthlyBudget::create([
-                'month' => $value,
-                'physical_target'=>  in_array($value, $this->months) ?$this->physical_target[key($this->months)]
-                : null,
-                'cost_per_unit' => in_array($value, $this->months) ? $this->cost_per_unit : null,
-                'budget_id' => $budget->id
-            ]);
-        }
-
-        foreach($this->months as $key => $month){
-            MonthlyBudget::where('budget_id',$budget->id)
-                ->where('month',$month)
-                ->update([
-                    'physical_target' => $this->physical_target[$key]
+        $sum = array_sum($this->physical_target);
+        if($sum != $this->no_of_units){
+                $this->alert('question', 'Total of monthly targets not equalled to no of units you already entered', [
+                    'icon' => 'warning',
+                    'position' => 'center',
+                    'timer' => null,
+                    'showCancelButton' => true,
+                    'cancelButtonText' => 'I will Correct',
+                    'toast' => false,
                 ]);
         }
+        else{
+            $check_record = Budget::where('activity_id',$this->activity_id)->where('year',$this->financial_year)->first();
+            //dd($check_record);
+            if(is_null($check_record)){
+                $budget = Budget::create([
+                    'activity_code' => $this->pre_condition_id.'.'. $this->outcome_id.'.'.$this->output_id.'.'.$this->activity_code,
+                    'year' => $this->financial_year,
+                    'boarder_activity' => $this->type_of_unit,
+                    'type_of_unit' => $this->boarder_activity,
+                    'no_of_units' => $this->no_of_units,
+                    'cost_per_unit' => $this->cost_per_unit,
+                    'budget_valid_from' => $this->budget_valid_from,
+                    'budget_valid_to' => $this->budget_valid_to,
+                    'project_id' => $this->project_id,
+                    'pre_condition_id' => $this->pre_condition_id,
+                    'outcome_id' => $this->outcome_id,
+                    'output_id' => $this->output_id,
+                    'activity_id' => $this->activity_id,
+                    'district' => $this->selectedDistrict,
+                    'dsd_id' => $this->selectedDsd,
+                    'gn_id' => $this->selectedGnd,
+                    'added_by' => auth()->user()->id,
+                    'is_draft' => true,
+                    'approved' => false,
+                ]);
+            foreach($this->months_long as $key => $value ){
+                MonthlyBudget::create([
+                    'month' => $value,
+                    'physical_target'=>  in_array($value, $this->months) ?$this->physical_target[key($this->months)]: null,
+                    'cost_per_unit' => in_array($value, $this->months) ? $this->cost_per_unit : null,
+                    'budget_id' => $budget->id
+                ]);
+            }
 
-        BudgetTracking::create([
-            'action' => 'Created',
-            'action_by' => auth()->user()->id,
-            'action_date' => now(),
-            'budget_id' => $budget->id
-        ]);
+            foreach($this->months as $key => $month){
+                MonthlyBudget::where('budget_id',$budget->id)
+                    ->where('month',$month)
+                    ->update([
+                        'physical_target' => $this->physical_target[$key]
+                    ]);
+            }
 
-        $this->emit('refreshLivewireDatatable');
-        //$this->clear();
-        $this->alert('success','Budget Created Successfully');
-        session()->flash('message', 'Budget Created Successfully.');
+            BudgetTracking::create([
+                'action' => 'Saved as a draft',
+                'action_by' => auth()->user()->id,
+                'action_date' => now(),
+                'budget_id' => $budget->id
+            ]);
+
+
+
+
+            $this->emit('refreshLivewireDatatable');
+            //$this->clear();
+            $this->alert('success','Budget saved as draft Successfully');
+            session()->flash('message', 'Budget saved as draft Successfully.');
+            }
+            else{
+                $this->alert('question', 'System found this activity already budgeted for '.$this->financial_year. ' year.', [
+                    'icon' => 'warning',
+                    'position' => 'center',
+                    'timer' => null,
+                    'showCancelButton' => true,
+                    'cancelButtonText' => 'Change Activity',
+                    'toast' => false,
+                ]);
+            }
+
+        }
+    }
+
+    public function store(){
+
+        $this->validate();
+       // dd("d");
+        $sum = array_sum($this->physical_target);
+        if($sum != $this->no_of_units){
+                $this->alert('question', 'Total of monthly targets not equalled to no of units you already entered', [
+                    'icon' => 'warning',
+                    'position' => 'center',
+                    'timer' => null,
+                    'showCancelButton' => true,
+                    'cancelButtonText' => 'I will Correct',
+                    'toast' => false,
+                ]);
         }
         else{
-            $this->alert('question', 'System found this activity already budgeted for '.$this->financial_year. ' year.', [
-                'icon' => 'warning',
-                'position' => 'center',
-                'timer' => null,
-                'showCancelButton' => true,
-                'cancelButtonText' => 'Change Activity',
-                'toast' => false,
-            ]);
-        }
+            $check_record = Budget::where('activity_id',$this->activity_id)->where('year',$this->financial_year)->whereJsonContains('gn_id',$this->selectedGnd)->first();
+            //dd($check_record);
+            if(is_null($check_record)){
+                $budget = Budget::create([
+                    'activity_code' => $this->pre_condition_id.'.'. $this->outcome_id.'.'.$this->output_id.'.'.$this->activity_id,
+                    'year' => $this->financial_year,
+                    'boarder_activity' => $this->type_of_unit,
+                    'type_of_unit' => $this->boarder_activity,
+                    'no_of_units' => $this->no_of_units,
+                    'cost_per_unit' => $this->cost_per_unit,
+                    'budget_valid_from' => $this->budget_valid_from,
+                    'budget_valid_to' => $this->budget_valid_to,
+                    'project_id' => $this->project_id,
+                    'pre_condition_id' => $this->pre_condition_id,
+                    'outcome_id' => $this->outcome_id,
+                    'output_id' => $this->output_id,
+                    'activity_id' => $this->activity_id,
+                    'district' => $this->selectedDistrict,
+                    'dsd_id' => $this->selectedDsd,
+                    'gn_id' => $this->selectedGnd,
+                    'is_draft' => false,
+                    'added_by' => auth()->user()->id,
+                    'approved' => false,
+                ]);
+            foreach($this->months_long as $key => $value ){
+                MonthlyBudget::create([
+                    'month' => $value,
+                    'physical_target'=>  in_array($value, $this->months) ?$this->physical_target[key($this->months)]: null,
+                    'cost_per_unit' => in_array($value, $this->months) ? $this->cost_per_unit : null,
+                    'budget_id' => $budget->id
+                ]);
+            }
 
-       }
+            foreach($this->months as $key => $month){
+                MonthlyBudget::where('budget_id',$budget->id)
+                    ->where('month',$month)
+                    ->update([
+                        'physical_target' => $this->physical_target[$key]
+                    ]);
+            }
+
+            BudgetTracking::create([
+                'action' => 'Sent to the Review',
+                'action_by' => auth()->user()->id,
+                'action_date' => now(),
+                'budget_id' => $budget->id
+            ]);
+
+            BudgetSentToReview::dispatch($budget,'Budget sent to the review');
+
+            $this->emit('refreshLivewireDatatable');
+            //$this->clear();
+            $this->alert('success','Budget sent to approval Successfully');
+            session()->flash('message', 'Budget sent to approval Successfully.');
+            }
+            else{
+                $this->alert('question', 'System found this activity already budgeted for '.$this->financial_year. ' year.', [
+                    'icon' => 'warning',
+                    'position' => 'center',
+                    'timer' => null,
+                    'showCancelButton' => true,
+                    'cancelButtonText' => 'Change Activity',
+                    'toast' => false,
+                ]);
+            }
+
+        }
 
     }
 

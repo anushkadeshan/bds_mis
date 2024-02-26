@@ -34,11 +34,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','active','phone','last_seen','reporting_to','subordinates', 'branch_id','branches', 'dsds', 'gnds', 'home_lattitudes', 'home_longitudes', 'office_lattitudes', 'office_longitudes', 'is_boarded', 'bike_number'
+        'name', 'email', 'password','active','phone','last_seen','reporting_to','subordinates', 'me_officers','branch_id','branches', 'dsds', 'gnds', 'home_lattitudes', 'home_longitudes', 'office_lattitudes', 'office_longitudes', 'is_boarded', 'bike_number'
     ];
 
     protected static $logAttributes = [
-        'name', 'email', 'password','active','phone','last_seen','reporting_to','subordinates', 'branch_id','branches', 'dsds', 'gnds', 'home_lattitudes', 'home_longitudes', 'office_lattitudes', 'office_longitudes', 'is_boarded', 'bike_number'
+        'name', 'email', 'password','active','phone','last_seen','reporting_to','subordinates', 'me_officers', 'branch_id','branches', 'dsds', 'gnds', 'home_lattitudes', 'home_longitudes', 'office_lattitudes', 'office_longitudes', 'is_boarded', 'bike_number'
     ];
 
     protected static $logOnlyDirty = true;
@@ -62,6 +62,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+
     ];
 
     /**
@@ -77,5 +78,19 @@ class User extends Authenticatable
 
     public function receivesBroadcastNotificationsOn() {
         return 'App.Models.User.'.$this->id;
+    }
+
+    public function getUserDsds(){
+        if($this->dsds){
+            $dsds = DsOffice::whereIn('id',json_decode($this->dsds))->pluck('name');
+            return $dsds;
+        }
+        return [];
+
+    }
+
+    public function getUserGnds(){
+        $gnds = GnOffice::whereIn('id',json_decode($this->gnds))->pluck('name');
+        return $gnds;
     }
 }

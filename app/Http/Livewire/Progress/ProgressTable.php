@@ -16,8 +16,8 @@ class ProgressTable extends Component
     }
 
     public function render(){
-        $gnds = Auth::user()->gnds;
-        $progreses = Progress::with('addedBy','activity','budget')->whereIn('gn_id',json_decode($gnds))->paginate(10);
+        $gnds = Auth::user()->gnds ? json_decode(Auth::user()->gnds) : [];
+        $progreses = Progress::with('addedBy','activity','budget')->whereIn('gn_id',$gnds)->paginate(10);
         //dd($this->progreses);
         return view('livewire.progress.progress-table',['progreses'=> $progreses]);
     }

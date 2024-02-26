@@ -22,14 +22,14 @@
     <div class="content">
         <div class="card">
             <section class="card-header">
-                <div class="row mb-2">
+                <div class="mb-2 row">
                     <div class="col-sm-6">
                         <h1>Pre - Conditions</h1>
                     </div>
                     <div class="col-sm-6">
                         @can('Create Logframe Activity')
                         <button
-                            class="bg-blue-600 float-right  text-white p-2 w-28 rounded-10 hover:bg-blue-700 focus:outline-none focus:ring shadow-lg hover:shadow-none transition-all duration-300 m-2"
+                            class="float-right p-2 m-2 text-white transition-all duration-300 bg-blue-600 shadow-lg w-28 rounded-10 hover:bg-blue-700 focus:outline-none focus:ring hover:shadow-none"
                             data-bs-toggle="modal" data-bs-target="#exampleModal"
                         >
                             Add New
@@ -39,11 +39,11 @@
                 </div>
             </section>
             <div class="card-body">
-                <div class="content px-3">
-                    @can('View Logframe Activity	')
+                <div class="px-3 content">
+                    @can('View Logframe Activity')
                     <livewire:log-frame.pre-conditions-table exportable/>
                     @else
-                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <div class="relative px-4 py-3 text-red-700 bg-red-100 border border-red-400 rounded" role="alert">
                         <strong class="font-bold">Opps!</strong>
                         <span class="block sm:inline">You don't have permisision to View Logframe Activity	</span>
                     </div>

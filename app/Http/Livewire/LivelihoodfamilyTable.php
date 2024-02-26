@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\LivelihoodFamily;
+use Illuminate\Support\Facades\Auth;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\DateColumn;
 use Mediconesystems\LivewireDatatables\NumberColumn;
@@ -12,7 +13,25 @@ use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 class LivelihoodfamilyTable extends LivewireDatatable
 {
 
-    public $model = LivelihoodFamily::class;
+
+    public function builder()
+    {
+        $user = Auth::user();
+        if($user->hasRole(['Community Development coordinator', 'Youth Development coordinator'])){
+            $gnds = Auth::user()->gnds;
+            return LivelihoodFamily::query()->whereIn('gn_id',json_decode($gnds));
+        }
+        elseif($user->hasRole(['Regional Manager', 'M&E Staff', 'District Represetnative'])){
+            $gnds = Auth::user()->gnds;
+            return LivelihoodFamily::query()->whereIn('gn_id',json_decode($gnds));
+        }
+        else{
+            return LivelihoodFamily::query();
+        }
+
+
+    }
+
     protected $listners = ['refreshLivewireDatatable' => 'columns'];
 
 

@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Support\Facades\Storage;
 
 class SessionController extends Controller
@@ -66,10 +67,10 @@ class SessionController extends Controller
 
             }
         }
-        catch(Throwable $e){
+        catch(Exception $e){
             return response([
                 'success' => false,
-                'message' => $e,
+                'message' => $e->getMessage(),
             ],402);
         }
 

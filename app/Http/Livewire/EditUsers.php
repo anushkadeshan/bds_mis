@@ -33,6 +33,7 @@ class EditUsers extends Component
     public $gnds = [];
 
     public $users = [];
+    public $me_officers = [];
 
     public function givePermission(){
 
@@ -75,10 +76,11 @@ class EditUsers extends Component
 
         if($this->isActive==1){
             //send sms
-            $to = $userCollection->phone;
-            $message = "Hi ".$userCollection->name. " Your account is activated. Please log in to continue. -BDS MIS-";
-            $textbiz = (new textbiz);
-            $textbiz->sendsms($message,$to);
+            //$to = $userCollection->phone;
+           // $message = "Hi ".$userCollection->name. " Your account is activated. Please log in to continue. -BDS MIS-";
+            //$textbiz = (new textbiz);
+           // $textbiz->sendsms($message,$to);
+
             $this->alert('success','User successfully Activated.');
         }
         else{
@@ -158,6 +160,8 @@ class EditUsers extends Component
         $currentPermissions = $userCollection->getAllPermissions()->pluck('name');
         $this->givenPermissions = $currentPermissions->toArray();
         $this->regional_branches = json_decode($userCollection->branches);
+        $me_officers = User::role('M&E Staff')->pluck('name','id');
+        $this->me_officers =$me_officers;
 
         return view('livewire.edit-users')->with(['user'=>$user ,'roles'=>$roles,'branches'=>$branches,'permissions'=>$permissions]);
     }

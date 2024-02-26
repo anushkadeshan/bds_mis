@@ -1,16 +1,34 @@
-<x-app-layout>
-    @section('title','BDS-MIS Dashboard')
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-9xl mx-auto sm:px-6 lg:px-8">
-            <div class="">
-                <x-jet-welcome />
-            </div>
-        </div>
+@extends('layouts.admin.master')
+@section('title', 'Dashboard')
+
+@section('css')
+@endsection
+
+@section('style')
+@endsection
+
+@section('breadcrumb-title')
+@endsection
+
+@section('breadcrumb-items')
+@endsection
+
+@section('content')
+<div class="container mt-3">
+
+    <div class="content">
+        @role('Regional Manager')
+            <livewire:dashboards.regional-manager />
+        @endrole
+
+        @hasanyrole('Youth Development coordinator|Community Development coordinator')
+        <livewire:dashboards.field-officer />
+        @endhasanyrole
     </div>
-</x-app-layout>
+</div>
+@endsection
+
+@section('script')
+
+@endsection

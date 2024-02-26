@@ -104,7 +104,14 @@
                         <td>{{$budget->type_of_unit}}</td>
                         <td>{{$budget->cost_per_unit}}</td>
                         <td>{{$budget->dsd->name}}</td>
-                        <td>{{$budget->gnd->name}}</td>
+                        @php
+                        $gnds = \DB::table('gn_office')->whereIn('id', $budget->gn_id)->select('name')->get();
+                        @endphp
+                        <td>
+                            @foreach($gnds as $gnd)
+                            {{$gnd->name}},
+                            @endforeach
+                        </td>
                         <td>{{$budget->addedBy->name}}</td>
 
                         @php

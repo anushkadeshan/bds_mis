@@ -21,13 +21,13 @@ class BudgetTable extends LivewireDatatable
     {
         $user = Auth::user();
         if($user->hasRole(['Community Development coordinator', 'Youth Development coordinator'])){
-            return Budget::query()->where('branch_id',Auth::user()->branch_id)->leftJoin('users','users.id', '=', 'budgets.added_by');
+            return Budget::query()->where('added_by',Auth::user()->id)->leftJoin('users','users.id', '=', 'budgets.added_by');
         }
         elseif($user->hasRole(['Regional Manager', 'M&E Staff'])){
-            return Budget::whereIn('branch_id',json_decode(Auth::user()->branches))->leftJoin('users','users.id' , '=', 'budgets.added_by');
+            return Budget::whereIn('added_by',json_decode(Auth::user()->subordinates))->where('is_draft',false)->leftJoin('users','users.id' , '=', 'budgets.added_by');
         }
         else{
-            return Budget::query()->leftJoin('users','users.id', '=', 'budgets.added_by');
+            return Budget::query()->where('is_draft',false)->leftJoin('users','users.id', '=', 'budgets.added_by');
         }
 
     }
@@ -43,6 +43,7 @@ class BudgetTable extends LivewireDatatable
             DateColumn::name('budget_valid_from'),
             DateColumn::name('budget_valid_to'),
             Column::name('users.name')->label('Added By'),
+            BooleanColumn::name('reviewed'),
             BooleanColumn::name('Approved'),
             Column::callback(['id'], function ($id) {
                 return view('livewire.budget.budget-table', ['id' => $id]);

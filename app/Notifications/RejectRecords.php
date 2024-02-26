@@ -61,8 +61,7 @@ class RejectRecords extends Notification
     {
         return [
             'causer' => auth()->user()->name,
-            'reason' => $this->reason,
-            'subject' => $this->subject,
+            'user_id' => auth()->user()->id,
             'message' => 'Record is rejected ',
             'photo' =>auth()->user()->profile_photo_url,
             'url' => '/my-activities'

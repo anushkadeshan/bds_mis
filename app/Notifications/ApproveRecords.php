@@ -61,7 +61,7 @@ class ApproveRecords extends Notification
 
         return [
             'causer' => auth()->user()->name,
-            'subject' => $this->subject,
+            'user_id' => auth()->user()->id,
             'message' => 'Record is approved',
             'photo' =>auth()->user()->profile_photo_url,
             'url' => '/my-activities'

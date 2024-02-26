@@ -29,7 +29,7 @@
                             class="sidebar-link sidebar-title link-nav {{ Route::currentRouteName() == 'dashboard-bss' ? 'active' : ''}}"
                             href="{{ route('dashboard-bss') }}"><i class="icon-crown"></i> </i><span> BSS
                                 Database</span></a></li>
-
+                    @if(auth()->user()->hasPermissionTo('Access Admin Settings'))
                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title {{request()->route()->getPrefix() == '/admin' ? 'active' : '' }}"
                             href="#"><i class="icon-lock"></i><span> Admin</span>
@@ -61,6 +61,15 @@
                                         Types</span></a></li>
                         </ul>
                     </li>
+                    @endif
+                    @if(auth()->user()->hasPermissionTo('View User Activities'))
+                    <li class="sidebar-list"><a
+                            class="sidebar-link sidebar-title link-nav {{ Route::currentRouteName() == 'activities.index' ? 'active' : ''}}"
+                            href="{{ route('activities.index') }}"><i class="icon-clipboard"></i> </i><span> User
+                                Activities</span></a>
+                    </li>
+                    @endif
+                    @if(auth()->user()->hasPermissionTo('View Logframe Activity'))
                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title {{request()->route()->getPrefix() == '/log-frame' ? 'active' : '' }}"
                             href="#"><i class="icon-target"></i><span> Log Frame</span>
@@ -92,6 +101,8 @@
                                         Activities</span></a></li>
                         </ul>
                     </li>
+                    @endif
+                    @if(auth()->user()->hasPermissionTo('View Budget'))
                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title {{request()->route()->getPrefix() == '/program' ? 'active' : '' }}"
                             href="#"><i class="icon-direction-alt"></i><span> Program</span>
@@ -115,11 +126,8 @@
                                         Progress</span></a></li>
                         </ul>
                     </li>
-                    <li class="sidebar-list"><a
-                            class="sidebar-link sidebar-title link-nav {{ Route::currentRouteName() == 'activities.index' ? 'active' : ''}}"
-                            href="{{ route('activities.index') }}"><i class="icon-clipboard"></i> </i><span> User
-                                Activities</span></a></li>
-
+                    @endif
+                    @if(auth()->user()->hasPermissionTo('View Location'))
                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title {{request()->route()->getPrefix() == '/working-areas' ? 'active' : '' }}"
                             href="#"><i class="icon-map"></i><span> Working Areas</span>
@@ -139,6 +147,8 @@
                                     </i><span> DSD Divisions</span></a></li>
                         </ul>
                     </li>
+                    @endif
+                    @if(auth()->user()->hasPermissionTo('View Families'))
                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title {{request()->route()->getPrefix() == '/families' ? 'active' : '' }}"
                             href="#"><i class="icon-home"></i><span> Families</span>
@@ -158,6 +168,8 @@
                                         Resourse People</span></a></li>
                         </ul>
                     </li>
+                    @endif
+                    @if(auth()->user()->hasPermissionTo('View Skill Development'))
                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title {{request()->route()->getPrefix() == '/skill-development' ? 'active' : '' }}"
                             href="#"><i class="icon-cup"></i><span> Skill Development</span>
@@ -189,14 +201,20 @@
                             </li>
                         </ul>
                     </li>
+                    @endif
+                    @if(auth()->user()->hasPermissionTo('View EIP Clients'))
                     <li class="sidebar-list"><a
                             class="sidebar-link sidebar-title link-nav {{ Route::currentRouteName() == 'eip-clients' ? 'active' : ''}}"
                             href="{{ route('eip-clients') }}"><i class="icon-wheelchair"></i> </i><span> EIP
                                 Clients</span></a></li>
+                    @endif
+                    @if(auth()->user()->hasPermissionTo('View CSOs'))
                     <li class="sidebar-list"><a
                             class="sidebar-link sidebar-title link-nav {{ Route::currentRouteName() == 'cso.index' ? 'active' : ''}}"
                             href="{{ route('cso.index') }}"><i class="icon-announcement"></i> </i><span> CSO
                                 Profiles</span></a></li>
+                    @endif
+                    @if(auth()->user()->hasPermissionTo('View Money Orders'))
                     <li class="sidebar-list"><a
                             class="sidebar-link sidebar-title link-nav {{ Route::currentRouteName() == 'money-orders' ? 'active' : ''}}"
                             href="{{ route('money-orders') }}"><i class="icon-money"></i> </i><span>Covid 19 Money Order
@@ -204,10 +222,12 @@
                     <li class="sidebar-list"><a
                         class="sidebar-link sidebar-title link-nav {{ Route::currentRouteName() == 'economic-crisis-table' ? 'active' : ''}}"
                         href="{{ route('economic-crisis-table') }}"><i class="icon-money"></i> </i><span>Economic Money Order</span></a></li>
+                    @endif
                     <li class="sidebar-list"><a
                             class="sidebar-link sidebar-title link-nav {{ Route::currentRouteName() == 'reports.index' ? 'active' : ''}}"
                             href="{{ route('reports.index') }}"><i class="icon-pie-chart"></i> </i><span>
                                 Reports</span></a></li>
+                    @if(auth()->user()->hasPermissionTo('View Mobile App Data'))
                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title {{request()->route()->getPrefix() == '/mobile-app' ? 'active' : '' }}"
                             href="#"><i class="icon-mobile"></i><span> Mobile App</span>
@@ -228,10 +248,13 @@
 
                         </ul>
                     </li>
+                    @endif
+                    @if(auth()->user()->hasPermissionTo('View Company Employees'))
                     <li class="sidebar-list"><a
                             class="sidebar-link sidebar-title link-nav {{ Route::currentRouteName() == 'employees.index' ? 'active' : ''}}"
                             href="{{ route('employees.index') }}"><i class="icon-clipboard"></i> </i><span>
                                 Employees</span></a></li>
+                    @endif
                 </ul>
             </div>
             <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>

@@ -13,17 +13,19 @@ use App\Models\LivelihoodFamily;
 use App\Models\Logframe\Outcome;
 use App\Models\Logframe\Project;
 use App\Models\LogFrame\Activity;
+use App\Models\Program\Attachment;
 use App\Models\Program\CsoTraining;
 use App\Models\Program\Participant;
 use App\Models\Program\Construction;
 use App\Models\Program\TrainingData;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Logframe\PreCondition;
-use App\Models\Program\Attachment;
 use App\Models\Program\MaterialSupport;
 use App\Models\Program\CompletionReport;
 use App\Models\Program\Financial\Budget;
 use App\Models\Program\FinancialSupport;
+use App\Models\Program\ProgressTracking;
+use App\Models\Program\TrainingBeneficiary;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class CreateCompletionReport extends Component
@@ -55,6 +57,7 @@ class CreateCompletionReport extends Component
     $totol_planned_cost,
     $totdal_actual_cost,
     $units_completed,
+    $unit_cost,
     $lessions_learned,
     $type_of_contribution,
     $financial_contribution,
@@ -81,6 +84,7 @@ class CreateCompletionReport extends Component
     public $family_id = '';
     public $activities = [];
     public $families = [];
+    public $csos = [];
     public $inputs = [];
     public $inputs2 = [];
     public $inputs3 = [];
@@ -106,18 +110,17 @@ class CreateCompletionReport extends Component
     public $target_group;
     public $select_target_group;
     public $query;
+    public $query2;
     public $current_status;
     public $remarks;
 
     //material support
-    public $beneficiary_meterial;
-    public $nic_or_reg_no;
+    public $beneficiary_id;
+    public $cso_id;
     public $meterial_provided;
     public $meterial_quantity;
 
     //fiancnial support
-    public $beneficiary_financial;
-    public $beneficiary_financial_nic;
     public $financial_purpose;
     public $approved_amount;
 
@@ -138,7 +141,13 @@ class CreateCompletionReport extends Component
 
     public $ages = ['15-18','19-24','25-29','30-35','36-60','61 & Over'];
 
-    public $activity_type ='Construction';
+    public $activity_type ='';
+    public $beneficiary_type = 'Beneficiary';
+    public $selected_cso_ids;
+    public $selected_beneficiry_ids;
+    public $training_type;
+    public $budget_id;
+
     public function getYears(){
         $currentYear=date('Y');
         $startyear=date('Y')-1;
@@ -149,7 +158,7 @@ class CreateCompletionReport extends Component
         $this->yearArray = range($startyear,$endYear);
     }
 
-    public function create(){
+    public function create($isDraft=false){
         $this->validate([
             'project_id' => 'required',
             'pre_condition_id' => 'required',
@@ -165,14 +174,28 @@ class CreateCompletionReport extends Component
             'date_of_end' => 'required',
             'partner_contribution' => 'required',
             'bds_contribution' => 'required',
-            'totol_planned_cost' => 'required',
-            'totdal_actual_cost' => 'required',
             'units_completed' => 'required',
+            'unit_cost' => 'required',
             'lessions_learned' => 'required',
         ]);
 
+        $isAlreadyAdded = CompletionReport::where('activity_id',$this->activity_id)->where('financial_year',$this->financial_year)->whereJsonContains('gnds',$this->selectedGnd)->exists();
+        if($isAlreadyAdded){
+            $this->alert('question', 'Completion Report Already Added!', [
+                'icon' => 'warning',
+                'position' => 'center',
+                'timer' => null,
+                'showConfirmButton' => false,
+                'showCancelButton' => true,
+                'cancelButtonText' => 'Change Activity',
+                'toast' => false,
+            ]);
+            return redirect()->back();
+        }
+
+
         $completion_report = CompletionReport::create([
-            'activity_code' => $this->pre_condition_id.'.'. $this->outcome_id.'.'.$this->output_id.'.'.$this->activity_code,
+            'activity_code' => $this->pre_condition_id.'.'. $this->outcome_id.'.'.$this->output_id.'.'.$this->activity_id,
             'project_id' => $this->project_id,
             'pre_condition_id' => $this->pre_condition_id,
             'outcome_id' => $this->outcome_id,
@@ -180,19 +203,33 @@ class CreateCompletionReport extends Component
             'activity_id' => $this->activity_id,
             'district' => $this->selectedDistrict,
             'dsd' => $this->selectedDsd,
-            'gnds' => json_encode($this->selectedGnd),
+            'gnds' => $this->selectedGnd,
             'responsible_officer' => $this->responsible_officer,
             'financial_year' => $this->financial_year,
             'date_of_start' => $this->date_of_start,
             'date_of_end' => $this->date_of_end,
             'partner_contribution' => $this->partner_contribution,
             'bds_contribution' => $this->bds_contribution,
-            'totol_planned_cost' => $this->totol_planned_cost,
-            'totdal_actual_cost' => $this->totdal_actual_cost,
+            'totdal_actual_cost' => ($this->units_completed*$this->unit_cost),
             'units_completed' => $this->units_completed,
+            'unit_cost' => $this->unit_cost,
             'lessions_learned' => $this->lessions_learned,
-            'added_by' => auth()->user()->id
+            'added_by' => auth()->user()->id,
+            'budget_id' => $this->budget_id,
+            'is_draft' => false
         ]);
+
+        ProgressTracking::create([
+            'action' => 'Created',
+            'action_by' => auth()->user()->id,
+            'action_date' => now(),
+            'progress_id' => $completion_report->id
+        ]);
+
+        if($isDraft){
+            $completion_report->is_draft = true;
+            $completion_report->save();
+        }
 
         $this->alert('success', 'General data is added!');
 
@@ -230,12 +267,11 @@ class CreateCompletionReport extends Component
 
         }
 
-        if(!is_null($this->cso_name)){
-            foreach ($this->cso_name as $key => $value) {
+        if(!is_null($this->selected_cso_ids)){
+            foreach ($this->selected_cso_ids as $key => $value) {
                 CsoTraining::create([
                     'completion_report_id' => $completion_report->id,
-                    'cso_name' => isset($this->cso_name[$key]) ?  $this->cso_name[$key] : null,
-                    'cso_reg_no' => isset($this->cso_reg_no[$key]) ?  $this->cso_reg_no[$key] : null,
+                    'cso_id' => isset($this->selected_cso_ids[$key]) ?  $this->selected_cso_ids[$key] : null,
                     'cso_male' => isset($this->cso_male[$key]) ?  $this->cso_male[$key] : null,
                     'cso_female' => isset($this->cso_female[$key]) ?  $this->cso_female[$key] : null,
                 ]);
@@ -257,13 +293,23 @@ class CreateCompletionReport extends Component
         }
 
         if($this->activity_type == 'Material support'){
-            if(!is_null($this->beneficiary_meterial)){
-                foreach ($this->beneficiary_meterial as $key => $value) {
+            if(!is_null($this->beneficiary_id)){
+                foreach ($this->beneficiary_id as $key => $value) {
                     MaterialSupport::create([
-                        'beneficiary_meterial' => isset($this->beneficiary_meterial[$key]) ?  $this->beneficiary_meterial[$key] : null,
-                        'nic_or_reg_no' => isset($this->nic_or_reg_no[$key]) ?  $this->nic_or_reg_no[$key] : null,
-                        'meterial_provided' => isset($this->beneficiary_meterial[$key]) ?  $this->meterial_provided[$key] : null,
-                        'meterial_quantity' => isset($this->beneficiary_meterial[$key]) ?  $this->meterial_quantity[$key] : null,
+                        'beneficiary_id' => isset($this->beneficiary_id[$key]) ?  $this->beneficiary_id[$key] : null,
+                        'meterial_provided' => isset($this->meterial_provided[$key]) ?  $this->meterial_provided[$key] : null,
+                        'meterial_quantity' => isset($this->meterial_quantity[$key]) ?  $this->meterial_quantity[$key] : null,
+                        'completion_report_id' => $completion_report->id,
+                    ]);
+                }
+
+            }
+            if(!is_null($this->cso_id)){
+                foreach ($this->cso_id as $key => $value) {
+                    MaterialSupport::create([
+                        'cso_id' => isset($this->cso_id[$key]) ?  $this->cso_id[$key] : null,
+                        'meterial_provided' => isset($this->meterial_provided[$key]) ?  $this->meterial_provided[$key] : null,
+                        'meterial_quantity' => isset($this->meterial_quantity[$key]) ?  $this->meterial_quantity[$key] : null,
                         'completion_report_id' => $completion_report->id,
                     ]);
                 }
@@ -274,11 +320,10 @@ class CreateCompletionReport extends Component
         }
 
         if($this->activity_type == 'Financial support'){
-            if(!is_null($this->beneficiary_financial)){
-                foreach ($this->beneficiary_financial as $key => $value) {
+            if(!is_null($this->beneficiary_id)){
+                foreach ($this->beneficiary_id as $key => $value) {
                     FinancialSupport::create([
-                        'beneficiary_financial' => isset($this->beneficiary_financial[$key]) ? $this->beneficiary_financial[$key] : null,
-                        'beneficiary_financial_nic' => isset($this->beneficiary_financial_nic[$key]) ? $this->beneficiary_financial_nic[$key] : null,
+                        'beneficiary_id' => isset($this->beneficiary_id[$key]) ? $this->beneficiary_id[$key] : null,
                         'financial_purpose' => isset($this->financial_purpose[$key]) ? $this->financial_purpose[$key] : null,
                         'approved_amount' => isset($this->approved_amount[$key]) ? $this->approved_amount[$key] : null,
                         'completion_report_id' => $completion_report->id,
@@ -298,17 +343,29 @@ class CreateCompletionReport extends Component
                 'completion_report_id' => $completion_report->id,
             ]);
 
+            if(!is_null($this->selected_beneficiry_ids)){
+                foreach ($this->selected_beneficiry_ids as $key => $value) {
+                    TrainingBeneficiary::create([
+                        'beneficiary_id' => isset($this->selected_beneficiry_ids[$key]) ? $this->selected_beneficiry_ids[$key] : null,
+                        'training_type' => isset($this->training_type[$key]) ? $this->training_type[$key] : null,
+                        'completion_report_id' => $completion_report->id,
+                    ]);
+                }
+            }
+
            $this->alert('success', 'Training/Excersie/Meeting data is added!');
 
         }
-
-        foreach($this->files as $file) {
-            $file_name = $file->storePublicly('completion_reports_attachements','public');
-            Attachment::create([
-                'file_name' => $file_name,
-                'completion_report_id' => $completion_report->id
-            ]);
+        if(!is_null($this->files)){
+            foreach($this->files as $file) {
+                $file_name = $file->storePublicly('completion_reports_attachements','public');
+                Attachment::create([
+                    'file_name' => $file_name,
+                    'completion_report_id' => $completion_report->id
+                ]);
+            }
         }
+
 
         $this->alert('success', 'All Data successfully added', [
             'icon' => 'success',
@@ -368,10 +425,10 @@ class CreateCompletionReport extends Component
         ]);
         $activity = Activity::where('id',$id)->select('type')->first();
         $this->activity_type = $activity->type;
-       // dd($this->activity_id,$this->financial_year);
-        $budget = Budget::where('activity_id',$this->activity_id)->where('year',$this->financial_year)->first();
+
+        $budget = Budget::where('activity_id',$this->activity_id)->where('year',$this->financial_year)->whereJsonContains('gn_id',$this->selectedGnd)->where('approved',true)->first();
         if(is_null($budget)){
-            $this->alert('question', 'System not found a Budget record to this activity', [
+            $this->alert('question', 'System not found a Budget record to this activity or not approved', [
                 'icon' => 'warning',
                 'position' => 'center',
                 'timer' => null,
@@ -384,6 +441,7 @@ class CreateCompletionReport extends Component
             ]);
         }
         else{
+            $this->budget_id = $budget->id;
             $this->totol_planned_cost = $budget->cost_per_unit*$budget->no_of_units;
         }
 
@@ -409,10 +467,13 @@ class CreateCompletionReport extends Component
     }
     public function updatedQuery2(){
         $gnds  = json_decode(Auth::user()->gnds);
+
         $this->csos = Cso::whereIn('gn_id',$gnds)
             ->where('name','like','%'.$this->query2. '%')
-            ->select('id','name','category')
+            ->orWhere('reg_no','like','%'.$this->query2. '%')
+            ->select('id','name','reg_no')
             ->get()->toArray();
+
     }
 
     public function clear(){
@@ -435,7 +496,7 @@ class CreateCompletionReport extends Component
         $family  = Cso::find($id);
         $this->cso_name = $family->name;
         $this->query2 = $family->name;
-        $this->cso_id = $id;
+        $this->selected_cso_id = $id;
         $this->csos = [];
     }
 

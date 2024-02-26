@@ -2,6 +2,10 @@
 
 namespace App\Http\Livewire\Budget;
 
+use App\Jobs\Program\Budget\BudgetApproved;
+use App\Jobs\Program\Budget\BudgetDisApproved;
+use App\Jobs\Program\Budget\BudgetSentToApproval;
+use App\Jobs\Program\Budget\BudgetSentToReview;
 use DateTime;
 use DatePeriod;
 use DateInterval;
@@ -49,6 +53,8 @@ class EditBudget extends Component
     public $selectedGnd = NULL;
 
     public $approved = false;
+    public $reviewed = false;
+    public $is_draft = false;
     public $yearArray = [];
     public $targetSum =0;
 
@@ -81,14 +87,18 @@ class EditBudget extends Component
         $this->no_of_units = $budget->no_of_units;
         $this->cost_per_unit = $budget->cost_per_unit;
         $this->approved = $budget->approved;
+        $this->reviewed = $budget->reviewed;
+        $this->is_draft = $budget->is_draft;
         $this->monthly_targets = MonthlyBudget::where('budget_id',$budget->id)->get();
         $this->selectedDistrict = $budget->district;
         $this->dsds = DsOffice::where('district',$budget->district)->get();
         $this->selectedDsd = $budget->dsd_id;
         $this->gnds = GnOffice::where('dsd_id',$budget->dsd_id)->get();
         $this->selectedGnd = $budget->gn_id;
+
        // $this->budgetMonths();
         $this->getYears();
+
 
         $this->trackings  = DB::table('budget_trackings')->join('users','users.id','=','budget_trackings.action_by')
             ->where('budget_id',$budget->id)->get();
@@ -188,8 +198,7 @@ class EditBudget extends Component
         $budget->output_id = $this->output_id;
         $budget->activity_id = $this->activity_id;
         $budget->save();
-
-        if (!is_null($this->month || $this->physical_target)){
+        if($this->physical_target){
             $delete = MonthlyBudget::where('budget_id',$budget->id)->delete();
             foreach($this->months_long as $key => $value ){
                 MonthlyBudget::create([
@@ -201,7 +210,6 @@ class EditBudget extends Component
                 ]);
             }
         }
-
         foreach($this->months as $key => $month){
             MonthlyBudget::where('budget_id',$budget->id)
                 ->where('month',$month)
@@ -210,15 +218,57 @@ class EditBudget extends Component
                 ]);
         }
         //dd($this->trackings);
+        if(count($budget->getChanges())>0){
+            BudgetTracking::create([
+                'action' => 'Data Updated',
+                'action_by' => auth()->user()->id,
+                'action_date' => now(),
+                'budget_id' => $budget->id
+            ]);
+        }
+
+
+        $this->mount($budget);
+        $this->alert('success', 'Budget Updated Successfully.');
+    }
+
+    public function sentToReview(){
+        $this->update();
+        $budget = $this->budget;
+        $budget->is_draft = false;
+        $budget->save();
+
         BudgetTracking::create([
-            'action' => 'Updated',
+            'action' => 'Sent to the Review',
             'action_by' => auth()->user()->id,
             'action_date' => now(),
             'budget_id' => $budget->id
         ]);
 
-        $this->mount($budget);
-        $this->alert('success', 'Budget Updated Successfully.');
+        BudgetSentToReview::dispatch($budget,'Budget item sent to the review');
+
+        session()->flash('message', 'Budget Sent to the Review Successfully.');
+
+    }
+
+    public function reviewAndSentToApproval(){
+        $this->update();
+        $budget = $this->budget;
+        $budget->reviewed = true;
+        $budget->reviewed_by = auth()->user()->id;
+        $budget->reviewed_at = now();
+        $budget->save();
+
+        BudgetTracking::create([
+            'action' => 'Sent to the Approval',
+            'action_by' => auth()->user()->id,
+            'action_date' => now(),
+            'budget_id' => $budget->id
+        ]);
+
+        BudgetSentToApproval::dispatch($this->budget,'Budget item sent to approval');
+
+        session()->flash('message', 'Budget Sent to the Approval Successfully.');
     }
 
     public function approve(){
@@ -235,7 +285,27 @@ class EditBudget extends Component
             'budget_id' => $budget->id
         ]);
 
-        session()->flash('message', 'Budget Approved Successfully.');
+        BudgetApproved::dispatch($this->budget,'Budget item approved');
+
+        session()->flash('message', 'Budget item Approved Successfully.');
+    }
+
+    public function disapprove(){
+        $budget = $this->budget;
+        $budget->approved = false;
+        $budget->reviewed = false;
+        $budget->approved_by = auth()->user()->id;
+        $budget->approved_on = now();
+        $budget->save();
+
+        BudgetTracking::create([
+            'action' => 'Disapproved',
+            'action_by' => auth()->user()->id,
+            'action_date' => now(),
+            'budget_id' => $budget->id
+        ]);
+        BudgetDisApproved::dispatch($this->budget,'Budget item disapproved');
+        session()->flash('message', 'Budget Dispproved Successfully.');
     }
 
 

@@ -13,12 +13,14 @@ use App\Models\Logframe\Project;
 use App\Models\LogFrame\Activity;
 use App\Models\Program\CsoTraining;
 use App\Models\Program\Participant;
+use App\Models\Program\Construction;
+use App\Models\Program\TrainingData;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Logframe\PreCondition;
+use App\Models\Program\MaterialSupport;
 use App\Models\Program\CompletionReport;
 use App\Models\Program\FinancialSupport;
-use App\Models\Program\MaterialSupport;
-use App\Models\Program\TrainingData;
+use App\Models\Program\ProgressTracking;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class EditCompletionReport extends Component
@@ -62,7 +64,7 @@ class EditCompletionReport extends Component
 
     public $completionReport = [];
 
-    public $responsible_officer, $financial_year, $date_of_start,$date_of_end,$partner_contribution,$bds_contribution,$totol_planned_cost,$totdal_actual_cost,$units_completed,$lessions_learned;
+    public $responsible_officer, $financial_year, $date_of_start,$date_of_end,$partner_contribution,$bds_contribution,$unit_cost,$totdal_actual_cost,$units_completed,$lessions_learned;
     public $type_of_contribution, $financial_contribution, $organization, $other, $other_amount;
     public $dsds =[];
     public $gnds =[];
@@ -107,7 +109,16 @@ class EditCompletionReport extends Component
     public $results;
     public $training_id;
 
-
+    public $beneficiary_type = 'Beneficiary';
+    public $cso_id;
+    public $beneficiary_id;
+    public $selected_cso_id;
+    public $isDraft;
+    public $isReviewed;
+    public $isApproved = false;
+    public $family_id;
+    public $attachments = [];
+    public $trackings= [];
     public function getYears(){
         $currentYear=date('Y');
         $startyear=date('Y')-1;
@@ -121,6 +132,9 @@ class EditCompletionReport extends Component
     public function mount($completionReport){
         $this->completionReport = $completionReport;
         $this->completionReportId = $completionReport->id;
+        $this->isDraft = $completionReport->is_draft;
+        $this->isReviewed = $completionReport->isReviewed;
+        $this->isApproved = $completionReport->isApproved;
         $this->projects = Project::get();
         $this->getYears();
         $this->project_id = $completionReport->project_id;
@@ -136,13 +150,13 @@ class EditCompletionReport extends Component
         $this->dsds = DsOffice::where('district',$completionReport->district)->get();
         $this->selectedDsd = $completionReport->dsd;
         $this->gnds = GnOffice::where('dsd_id',$completionReport->dsd)->get();
-        $this->selectedGnd = json_decode($completionReport->gnds);
+        $this->selectedGnd = $completionReport->gnds;
         $this->date_of_start = $completionReport->date_of_start;
         $this->date_of_end = $completionReport->date_of_end;
         $this->partner_contribution = $completionReport->partner_contribution;
         $this->bds_contribution = $completionReport->bds_contribution;
-        $this->totol_planned_cost = $completionReport->totol_planned_cost;
-        $this->totdal_actual_cost = $completionReport->totdal_actual_cost;
+        $this->unit_cost = $completionReport->unit_cost;
+        $this->responsible_officer = $completionReport->responsible_officer;
         $this->units_completed = $completionReport->units_completed;
         $this->lessions_learned = $completionReport->lessions_learned;
 
@@ -173,6 +187,7 @@ class EditCompletionReport extends Component
 
         if(count($completionReport->financialsupports)>0){
             $this->financialsupports = $completionReport->financialsupports;
+
         }
         //dd($completionReport->trainingData[0]);
         if(count($completionReport->trainingData)>0){
@@ -184,6 +199,139 @@ class EditCompletionReport extends Component
             $this->training_id = $completionReport->trainingData[0]->id;
         }
 
+        if(count($completionReport->attachments)>0){
+            $this->attachments = $completionReport->attachments;
+        }
+        if(count($completionReport->tracking)>0){
+            $this->trackings = $completionReport->tracking;
+        }
+
+    }
+
+    public function sendtoReview(){
+        $this->validate([
+            'date_of_start' => 'required',
+            'date_of_end' => 'required',
+            'partner_contribution' => 'required',
+            'bds_contribution' => 'required',
+            'units_completed' => 'required',
+            'unit_cost' => 'required',
+            'lessions_learned' => 'required',
+        ]);
+
+            $completionReport = CompletionReport::find($this->completionReportId);
+            $completionReport->date_of_start = $this->date_of_start;
+            $completionReport->date_of_end = $this->date_of_end;
+            $completionReport->partner_contribution = $this->partner_contribution;
+            $completionReport->bds_contribution = $this->bds_contribution;
+            $completionReport->totdal_actual_cost = ($this->units_completed*$this->unit_cost);
+            $completionReport->units_completed = $this->units_completed;
+            $completionReport->unit_cost = $this->unit_cost;
+            $completionReport->lessions_learned = $this->lessions_learned;
+            $completionReport->is_draft = false;
+            $completionReport->save();
+
+            if(count($completionReport->getChanges())>0){
+                ProgressTracking::create([
+                    'action' => 'Updated',
+                    'action_by' => auth()->user()->id,
+                    'action_date' => now(),
+                    'progress_id' => $this->completionReportId
+                ]);
+            }
+            ProgressTracking::create([
+                'action' => 'Sent to Review',
+                'action_by' => auth()->user()->id,
+                'action_date' => now(),
+                'progress_id' => $this->completionReportId
+            ]);
+
+            $this->alert('success','Completion report sent to review');
+    }
+
+    public function doRereview(){
+        $completionReport = CompletionReport::find($this->completionReportId);
+        $completionReport->is_draft = true;
+        $completionReport->isReviewed = false;
+        $completionReport->save();
+
+        ProgressTracking::create([
+            'action' => 'Review Failed',
+            'action_by' => auth()->user()->id,
+            'action_date' => now(),
+            'progress_id' => $this->completionReportId
+        ]);
+
+        $this->alert('success','Completion report is Reverted');
+    }
+
+    public function sendtoApproval(){
+        $this->validate([
+            'date_of_start' => 'required',
+            'date_of_end' => 'required',
+            'partner_contribution' => 'required',
+            'bds_contribution' => 'required',
+            'units_completed' => 'required',
+            'unit_cost' => 'required',
+            'lessions_learned' => 'required',
+        ]);
+
+        $completionReport = CompletionReport::find($this->completionReportId);
+        $completionReport->date_of_start = $this->date_of_start;
+        $completionReport->date_of_end = $this->date_of_end;
+        $completionReport->partner_contribution = $this->partner_contribution;
+        $completionReport->bds_contribution = $this->bds_contribution;
+        $completionReport->totdal_actual_cost = ($this->units_completed*$this->unit_cost);
+        $completionReport->units_completed = $this->units_completed;
+        $completionReport->unit_cost = $this->unit_cost;
+        $completionReport->lessions_learned = $this->lessions_learned;
+        $completionReport->isReviewed = true;
+        $completionReport->reviewedBy = auth()->user()->id;
+        $completionReport->reviewed_at = now();
+        $completionReport->save();
+
+        ProgressTracking::create([
+            'action' => 'Sent to Approval',
+            'action_by' => auth()->user()->id,
+            'action_date' => now(),
+            'progress_id' => $this->completionReportId
+        ]);
+
+        $this->alert('success','Completion report sent to approval');
+    }
+
+    public function Approved(){
+
+        $completionReport = CompletionReport::find($this->completionReportId);
+        $completionReport->isApproved = true;
+        $completionReport->approved_by = auth()->user()->id;
+        $completionReport->approved_at = now();
+        $completionReport->save();
+
+        ProgressTracking::create([
+            'action' => 'Approved',
+            'action_by' => auth()->user()->id,
+            'action_date' => now(),
+            'progress_id' => $this->completionReportId
+        ]);
+
+        $this->alert('success','Completion report approved');
+    }
+
+    public function disApprove(){
+
+        $completionReport = CompletionReport::find($this->completionReportId);
+        $completionReport->isReviewed = false;
+        $completionReport->save();
+
+        ProgressTracking::create([
+            'action' => 'Disapproved',
+            'action_by' => auth()->user()->id,
+            'action_date' => now(),
+            'progress_id' => $this->completionReportId
+        ]);
+
+        $this->alert('success','Completion report disapproved');
     }
 
     public function addPartner(){
@@ -266,8 +414,7 @@ class EditCompletionReport extends Component
     public function addCso(){
         CsoTraining::create([
             'completion_report_id' => $this->completionReportId,
-            'cso_name' => $this->cso_name,
-            'cso_reg_no' => $this->cso_reg_no,
+            'cso_id' => $this->selected_cso_id,
             'cso_male' => $this->cso_male,
             'cso_female' => $this->cso_female,
         ]);
@@ -298,6 +445,19 @@ class EditCompletionReport extends Component
         $this->families = [];
     }
 
+    public function updateConstruction(){
+        $construction = Construction::where('completion_report_id',$this->completionReportId)->first();
+        $construction->type_of_construction = $this->type_of_construction;
+        $construction->target_group = $this->target_group;
+        $construction->selected_target_group = $this->select_target_group;
+        $construction->individual_id = $this->family_id;
+        $construction->current_status = $this->current_status;
+        $construction->remarks = $this->remarks;
+        $construction->save();
+
+        $this->alert('success','Construction details added successfully');
+    }
+
     public function deleteMaterialId($id){
         //dd($id);
         $this->deleteMaterialId = $id;
@@ -316,8 +476,8 @@ class EditCompletionReport extends Component
     public function addmaterialsupports(){
         MaterialSupport::create([
             'completion_report_id' => $this->completionReportId,
-            'beneficiary_meterial' => $this->beneficiary_meterial,
-            'nic_or_reg_no' => $this->nic_or_reg_no,
+            'beneficiary_id' => $this->beneficiary_id,
+            'cso_id' => $this->cso_id,
             'meterial_provided' => $this->meterial_provided ,
             'meterial_quantity' => $this->meterial_quantity
         ]);
@@ -346,8 +506,7 @@ class EditCompletionReport extends Component
     public function addFinancialsupports(){
         FinancialSupport::create([
             'completion_report_id' => $this->completionReportId,
-            'beneficiary_financial' => $this->beneficiary_financial,
-            'beneficiary_financial_nic' => $this->beneficiary_financial_nic ,
+            'beneficiary_id' => $this->beneficiary_id,
             'financial_purpose' => $this->financial_purpose,
             'approved_amount' => $this->approved_amount
         ]);

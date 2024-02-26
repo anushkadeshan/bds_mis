@@ -47,14 +47,15 @@ class RunningChart extends Component
             $this->user = $user;
         }
         elseif($user->hasRole(['Regional Manager', 'M&E Staff', 'District Represetnative'])){
-            $gnds = auth()->user()->gnds;
-            $users = DB::table('users')->where(function ($query) use ($gnds) {
-                foreach (json_decode($gnds) as $id) {
-                    $query->orWhereJsonContains('gnds', $id);
+            $subordinates = auth()->user()->subordinates;
+            $users = DB::table('users')->where(function ($query) use ($subordinates) {
+                foreach (json_decode($subordinates) as $id) {
+                    $query->orWhereJsonContains('subordinates', $id);
                 }
              })->where('id', '!=',1)->get();
 
              $this->users = $users;
+
         }
         else{
             $this->users = User::get();
@@ -86,10 +87,10 @@ class RunningChart extends Component
             $this->user_id = $user->id;
         }
         elseif($user->hasRole(['Regional Manager', 'M&E Staff', 'District Represetnative'])){
-            $gnds = auth()->user()->gnds;
-            $users = DB::table('users')->where(function ($query) use ($gnds) {
-                foreach (json_decode($gnds) as $id) {
-                    $query->orWhereJsonContains('gnds', $id);
+            $subordinates = auth()->user()->subordinates;
+            $users = DB::table('users')->where(function ($query) use ($subordinates) {
+                foreach (json_decode($subordinates) as $id) {
+                    $query->orWhereJsonContains('subordinates', $id);
                 }
              })->where('id', '!=',1)->get();
 

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\EconomicCrisis;
 use App\Models\LivelihoodFamily;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LivelihoodFamilyController extends Controller
 {
@@ -15,7 +16,19 @@ class LivelihoodFamilyController extends Controller
      */
     public function index()
     {
-        $count = LivelihoodFamily::count();
+        $user = Auth::user();
+        if($user->hasRole(['Community Development coordinator', 'Youth Development coordinator'])){
+            $gnds = Auth::user()->gnds;
+            $count = LivelihoodFamily::whereIn('gn_id',json_decode($gnds))->count();
+        }
+        elseif($user->hasRole(['Regional Manager', 'M&E Staff', 'District Represetnative'])){
+            $gnds = Auth::user()->gnds;
+            $count = LivelihoodFamily::whereIn('gn_id',json_decode($gnds))->count();
+        }
+        else{
+            $count = LivelihoodFamily::count();
+        }
+
         return view('LiveliHoodFamily.index',compact('count'));
     }
 
